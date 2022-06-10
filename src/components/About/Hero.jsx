@@ -78,12 +78,12 @@ export default class Hero extends React.Component {
               <h1>About Data Portal</h1>
               <div className="descriptionContent">
                 <p>
-                  The KSA Data Portal is a tool for the handling and management
+                  The OSL Data Portal is a tool for the handling and management
                   of geospatial data. It facilitates the dissemination and
                   sharing of geospatial data and maps across stakeholders
                   promoting the ease of access to geospatial resources.
                   <br />
-                  The KSA Data Portal provides a framework for updating and
+                  The OSL Data Portal provides a framework for updating and
                   sharing information in real-time for planning and management
                   purposes. The Data Portal supports a range of users such as
                   education institutions, research firms, and government
