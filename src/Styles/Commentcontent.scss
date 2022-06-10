@@ -1,0 +1,81 @@
+@import "./0_mediaquery";
+@import "./1_variables";
+
+.messageContent {
+  box-shadow: 1px 1px 5px #60606030;
+  margin: 5px auto 0 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2em;
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+
+  .symbol {
+    border-radius: 100px;
+    //display: block;
+    height: 44px;
+    line-height: 44px;
+    background-color: $secondary;
+    text-align: center;
+    font-weight: bolder;
+    color: white;
+    //left: 0;
+    width: 44px;
+    font-size: larger;
+    text-align: center;
+    margin-left: 0.4em;
+  }
+
+  .user {
+    //font-weight: bold;
+    color: #000000;
+    //padding-left: 10px;
+    margin-right: 0.4em;
+    width: 100%;
+
+    h4 {
+      margin-top: 0.4em;
+    }
+
+    p {
+      padding: 10px 2px 8px 0;
+      font-size: medium;
+      font-family: "Montserrat", "Arial";
+      line-height: 1.3;
+   
+      a {
+        font-size: 14px;
+        line-height: 14px;
+        text-transform: lowercase;
+         margin: 0 10px 0 10px;
+
+
+
+        span {
+          i {
+            font-size: 14px;
+            line-height: 14px;
+            margin: 0 0 0 5px;
+          }
+        }
+      }
+    }
+
+    button {
+      border: 0;
+      padding-bottom: 10px;
+      font-weight: bold;
+      background-color: transparent;
+    }
+
+    button:hover {
+      cursor: pointer;
+      color: $primary;
+    }
+  }
+}
+
+.unread {
+  background-color: rgba($color: rgb(87, 87, 87), $alpha: 0.1);
+}
