@@ -37,15 +37,13 @@ function NavLink(props) {
 }
 
 export default function Header(props) {
-  
-  const [firstRenderDone,setFirstRender]= useState(false)
-  useEffect(()=>{
-    if(firstRenderDone)
-    changeToggle("register")
-  },[props.toggleRegisterfromLanding])
-  useEffect(()=>{
-    setFirstRender(true)
-  })
+  const [firstRenderDone, setFirstRender] = useState(false);
+  useEffect(() => {
+    if (firstRenderDone) changeToggle("register");
+  }, [props.toggleRegisterfromLanding]);
+  useEffect(() => {
+    setFirstRender(true);
+  });
 
   const [clicked, setClicked] = useState(false);
   const [toggleLogin, setToggleLogin] = useState(false);
@@ -61,7 +59,6 @@ export default function Header(props) {
     setClicked(!clicked);
   };
 
-
   const logout = () => {
     fetch("/api/users/logout", {
       method: "get",
@@ -73,7 +70,7 @@ export default function Header(props) {
       .then((data) => {
         localStorage.clear();
         props.setIsAuthenticated(false);
-        props.setCurrentUser(null)
+        props.setCurrentUser(null);
       })
       .catch((err) => {
         console.log(err);
@@ -92,17 +89,15 @@ export default function Header(props) {
   };
 
   // console.log(props.isAuthenticated)
-  const headerRef = useRef(null)
+  const headerRef = useRef(null);
   // console.log(headerRef)
 
-  if(headerRef.current){
-    if(props.parent=='landing'){
-      if(props.changeHeaderTheme)
-        headerRef.current.style.background='#112D55'
-      else
-        headerRef.current.style.background='none'
-    } else
-    headerRef.current.style.background='#112D55'
+  if (headerRef.current) {
+    if (props.parent == "landing") {
+      if (props.changeHeaderTheme)
+        headerRef.current.style.background = "#112D55";
+      else headerRef.current.style.background = "none";
+    } else headerRef.current.style.background = "#112D55";
   }
 
   return (
@@ -153,8 +148,8 @@ export default function Header(props) {
             }}
             className="logo"
           >
-            <img src={logo2} className="lg" alt="Kenya Space Agency Logo" />
-            <h2>Data Portal</h2>
+            <img src={logo2} className="lg" alt="Oakar Services Ltd. Logo" />
+            <h2>Geospatial Portal</h2>
           </div>
 
           <div className="nav">
@@ -241,7 +236,10 @@ export default function Header(props) {
                   )}
                 </div>
               ) : (
-                <button className="loginOut" onClick={() => changeToggle("login")}>
+                <button
+                  className="loginOut"
+                  onClick={() => changeToggle("login")}
+                >
                   Login
                 </button>
               )}

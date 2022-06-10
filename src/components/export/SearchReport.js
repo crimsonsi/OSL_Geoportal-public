@@ -45,8 +45,8 @@ const Item = styled.View`
   flex-direction: row;
   flex-wrap: nowrap;
   padding: 0px 2px 0 2px;
-  min-width:120px;
-  
+  min-width: 120px;
+
   margin: 2px 2px 2px 2px;
 `;
 
@@ -92,7 +92,7 @@ const SearchReport = ({ blob, body }) => {
       <Body>
         <View style={styles.section}>
           <Header>
-            <Text style={styles.subtitle}>KSA DATA PORTAL</Text>
+            <Text style={styles.subtitle}>OSL Geospatial Portal</Text>
           </Header>
           <TextAreaGrey>
             <Text style={styles.fMd}>Title : {body["attributes"].Title}</Text>

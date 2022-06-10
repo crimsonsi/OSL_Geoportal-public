@@ -11,7 +11,7 @@ export default class Hero extends React.Component {
   constructor(props) {
     super(props);
 
-    const images = [bg0, bg1, bg2,bg3,bg4,bg5];
+    const images = [bg0, bg1, bg2, bg3, bg4, bg5];
 
     this.state = {
       images,
@@ -65,7 +65,7 @@ export default class Hero extends React.Component {
               </h1>
               <br></br>
               <h3>
-                <i className="fa  fa-angle-right"></i> Data Portal
+                <i className="fa  fa-angle-right"></i> Geospatial Portal
               </h3>
               <h3>
                 <i className="fa  fa-angle-right"></i> Open Data Cube
@@ -73,8 +73,9 @@ export default class Hero extends React.Component {
             </div>
             <div>
               <p>
-                KSA Data Portal creates and maintains a range of significant
-                spatial datasets that are useful to a number of stakeholders.
+                OSL Geospatial Portal creates and maintains a range of
+                significant spatial datasets that are useful to a number of
+                stakeholders.
               </p>
               <p>
                 These datasets are now being made available to the public

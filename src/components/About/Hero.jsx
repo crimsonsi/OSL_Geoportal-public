@@ -59,35 +59,40 @@ export default class Hero extends React.Component {
             <div className="contentSection">
               <div className="aboutUs">
                 <div>
-                  <h1>About KSA</h1>
+                  <h1>About OSL</h1>
                   <div className="descriptionContent">
                     <p>
-                      KSA is mandated to promote, coordinate and regulate space
-                      related activities in the country. This will be achieved
-                      through promotion of research and innovations in space
-                      science, technology and respective applications as well as
-                      enhancing the regulatory framework. It will also spur
-                      Kenya’s competitiveness and positioning in playing a
-                      critical role in the regional and global space agenda
+                      Oakar Services is a geospatial consulting firm focused on
+                      delivering trusted and comprehensive solutions and
+                      training through our deep expertise and leveraging of
+                      geospatial technology. At the heart of our service
+                      provision is the empowerment of our clients to optimize
+                      their business efficiency and realize tangible impact in
+                      their industry. Through our innovative geospatial
+                      solutions allied with technical support and training we
+                      aim to expand the utilization of geospatial technology to
+                      become an integral part of business operations and
+                      evolution.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
             <div>
-              <h1>About Data Portal</h1>
+              <h1>About Geospatial Portal</h1>
               <div className="descriptionContent">
                 <p>
-                  The OSL Data Portal is a tool for the handling and management
-                  of geospatial data. It facilitates the dissemination and
-                  sharing of geospatial data and maps across stakeholders
-                  promoting the ease of access to geospatial resources.
+                  The OSL Geospatial Portal is a tool for the handling and
+                  management of geospatial data. It facilitates the
+                  dissemination and sharing of geospatial data and maps across
+                  stakeholders promoting the ease of access to geospatial
+                  resources.
                   <br />
-                  The OSL Data Portal provides a framework for updating and
-                  sharing information in real-time for planning and management
-                  purposes. The Data Portal supports a range of users such as
-                  education institutions, research firms, and government
-                  agencies.
+                  The OSL Geospatial Portal provides a framework for updating
+                  and sharing information in real-time for planning and
+                  management purposes. The Geospatial Portal supports a range of
+                  users such as education institutions, research firms, and
+                  government agencies.
                 </p>
               </div>
             </div>

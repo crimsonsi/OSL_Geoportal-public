@@ -12,7 +12,7 @@ export default function ContactUsPage(props) {
   var jwt = require("jsonwebtoken");
 
   useEffect(() => {
-    const token = localStorage.getItem("cilbup_ksa");
+    const token = localStorage.getItem("cilbup_OSL");
     if (token) {
       try {
         var decoded = jwt.decode(token);
@@ -130,18 +130,19 @@ export default function ContactUsPage(props) {
               {!props?.isAuthenticated ? (
                 <h5>
                   Kindly login or create an account before sending us a message.
-                  <br/>Thank you, for your understanding. We look
-                  forward to hearing from you!
+                  <br />
+                  Thank you, for your understanding. We look forward to hearing
+                  from you!
                 </h5>
               ) : (
                 <h5>Welcome {props?.currentUser?.Name}</h5>
               )}
               <br />
               <p>
-                Thank you for visiting our data portal. Might you be having any
-                trouble and need our assistance? Well, we are eager to help!
-                Just log a message to us and our customer service team will
-                respond to your needs as soon as possible.{" "}
+                Thank you for visiting our Geospatial Portal. Might you be
+                having any trouble and need our assistance? Well, we are eager
+                to help! Just log a message to us and our customer service team
+                will respond to your needs as soon as possible.{" "}
               </p>
             </div>
             <div className="form">

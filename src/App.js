@@ -1,12 +1,17 @@
 import { React, useEffect, useState } from "react";
-import { BrowserRouter as Router, Switch, Route, useHistory} from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from "react-router-dom";
 import "./App.scss";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import NotFound from "./Pages/404";
 import LandingPage from "./Pages/LandingNew";
 import Map from "./Pages/Map";
-import NewMap from "./Pages/NewMap"
+import NewMap from "./Pages/NewMap";
 import DataPage from "./Pages/DataPage";
 import SingleInstancePage from "./Pages/SingleInstancePage";
 import AboutPage from "./Pages/AboutPage";
@@ -23,7 +28,7 @@ function App() {
   var jwt = require("jsonwebtoken");
 
   const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [currentUser, setCurrentUser] = useState(null)
+  const [currentUser, setCurrentUser] = useState(null);
   const history = useHistory();
   const [page, setPage] = useState();
   const [instancePage, setInstancePage] = useState();
@@ -35,15 +40,14 @@ function App() {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("cilbup_ksa");
+    const token = localStorage.getItem("cilbup_OSL");
     if (token) {
       try {
         var decoded = jwt.decode(token);
         //window.location.reload(false)
-        setCurrentUser(decoded)
-        
-        if (Date.now() >= decoded.exp * 1000) {
+        setCurrentUser(decoded);
 
+        if (Date.now() >= decoded.exp * 1000) {
           setIsAuthenticated(false);
         } else {
           //window.location.reload(false)
@@ -58,49 +62,46 @@ function App() {
       setIsAuthenticated(false);
     }
   }, [isAuthenticated]);
-  
+
   useEffect(() => {
     trackPageView(); // To track the first pageview upon load
   }, []);
 
   function trackPageView() {
-    const pathDirectories = window.location.pathname.split("/")
-    if (pathDirectories.length > 2){
-      if (pathDirectories.includes("instances")){
-        setPage("Instances")
-        setInstancePage(pathDirectories[3])
+    const pathDirectories = window.location.pathname.split("/");
+    if (pathDirectories.length > 2) {
+      if (pathDirectories.includes("instances")) {
+        setPage("Instances");
+        setInstancePage(pathDirectories[3]);
       }
-
-    }else{
-      if (pathDirectories.length === 2){
-        switch (pathDirectories[1]){
-          case(""):
-            setPage("Home")
+    } else {
+      if (pathDirectories.length === 2) {
+        switch (pathDirectories[1]) {
+          case "":
+            setPage("Home");
             break;
-          case("contact"):
-            setPage("Contact Us")
+          case "contact":
+            setPage("Contact Us");
             break;
-          case("about"):
-            setPage("About Us")
+          case "about":
+            setPage("About Us");
             break;
-          case("data"):
-            setPage("Data")
+          case "data":
+            setPage("Data");
             break;
         }
+      } else {
+        setPage(pathDirectories[1]);
       }
-      else{
-        setPage(pathDirectories[1])
-      }
-      
     }
   }
 
   useEffect(() => {
     let d = body;
-    d.Page = page
-    d.Keywords = instancePage ? instancePage : null
-    d.OtherInfo = window.location.pathname
-    updateBody(d) 
+    d.Page = page;
+    d.Keywords = instancePage ? instancePage : null;
+    d.OtherInfo = window.location.pathname;
+    updateBody(d);
     page &&
       fetch("/api/stats/create", {
         method: "POST",

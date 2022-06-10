@@ -41,19 +41,19 @@ export default function ModalHeader(props) {
             }}
             className="logo"
           >
-            <img src={logo2} alt="Kenya Space Agency Logo" />
-            <h2>Data Portal</h2>
+            <img src={logo2} alt="Oakar Services Ltd. Logo" />
+            <h2>Geospatial Portal</h2>
           </div>
           <i
-              onClick={() => {
-                props.toggleMenu();
-              }}
-              className="fa fa-close"
-            >
-              &#xf00d;
+            onClick={() => {
+              props.toggleMenu();
+            }}
+            className="fa fa-close"
+          >
+            &#xf00d;
           </i>
         </div>
-        
+
         <h3>Menus</h3>
         <div className="nav">
           <NavLink className="navlink" txt="Home" url="/" />

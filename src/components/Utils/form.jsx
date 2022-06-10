@@ -12,7 +12,6 @@ const Form = (props) => {
   const [password, setPassword] = useState("");
   //const [Name, setName] = useState("")
 
-
   const createUser = (e) => {
     e.preventDefault();
     //const data = new FormData(form.current)
@@ -165,7 +164,7 @@ const Form = (props) => {
         </form>
       ) : (
         <form className="form" ref={form} onSubmit={login}>
-          <h3>Login to KSA Data-portal</h3>
+          <h3>Login to OSL Data-portal</h3>
           <p className="disclaimer">{disclaimer}</p>
           <label htmlFor="input">
             Email <span>*</span>
