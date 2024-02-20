@@ -16,14 +16,6 @@ const Form = (props) => {
     e.preventDefault();
     //const data = new FormData(form.current)
 
-    //setApiLoading(true);
-    //console.log(form.current.Name)
-    //console.log(data);
-    //console.log(JSON.stringify(data));
-
-    console.log(name);
-    console.log(password);
-
     fetch("/api/auth/register", {
       method: "POST",
       credentials: "include",
@@ -40,25 +32,20 @@ const Form = (props) => {
       }),
     })
       .then((response) => {
-        console.log(response);
-        //console.log(response.message)
         if (response.ok) {
           return response.json();
         } else throw Error("User creation failed");
       })
       .then((data) => {
         if (data.message) {
-          console.log(data.message);
           setDisclaimer(data.message);
         } else {
-          console.log(data.error);
           setDisclaimer(data.error);
         }
       })
       .then()
       .catch((err) => {
         setApiMessage("failed");
-        console.log(err);
       });
   };
 
@@ -67,12 +54,6 @@ const Form = (props) => {
     //const data = new FormData(form.current)
 
     //setApiLoading(true);
-    //console.log(form.current.Name)
-    //console.log(data);
-    //console.log(JSON.stringify(data));
-
-    console.log(name);
-    console.log(password);
 
     fetch("/api/auth/login", {
       method: "POST",
@@ -87,31 +68,24 @@ const Form = (props) => {
       }),
     })
       .then((response) => {
-        console.log(response);
         return response.json();
-        //console.log(response.message)
         // if(response.ok){
         //   return response.json()}
         //else throw Error("Login Failed")
       })
       .then((data) => {
         if (data.message) {
-          console.log(data);
-          //console.log(data.message)
-          //console.log(data.token)
           //setDisclaimer(data.message)
           if (data.message === "Login successful") {
             window.location.href = "/portal/statistics";
           }
         } else {
-          console.log(data.error);
           setDisclaimer(data.error);
         }
       })
       .then()
       .catch((err) => {
         setApiMessage("failed");
-        console.log(err);
       });
   };
 

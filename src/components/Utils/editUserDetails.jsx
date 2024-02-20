@@ -16,7 +16,6 @@ export default function EditUserDetails(props) {
         let d = body;
         d.Phone = rfPhone.current.value;
         updateBody(d);
-        console.log(body)
         setIsError("");
 
         fetch(`/api/users/${props.currentUser.UserID}`, {
@@ -40,7 +39,6 @@ export default function EditUserDetails(props) {
               localStorage.clear();
               props.setIsAuthenticated(false);
             } else {
-              console.log(data.error);
             }
           })
           .catch((err) => {

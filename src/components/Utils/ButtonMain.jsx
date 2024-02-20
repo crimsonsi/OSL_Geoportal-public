@@ -1,8 +1,7 @@
 export default function ButtonMain(props) {
   return (
-    <div className="btn">
+    <div className="button">
       <button
-        className="button"
         onClick={() => {
           props.handleClick();
         }}

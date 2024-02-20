@@ -49,7 +49,6 @@ export default function Navbar(props) {
         window.location.href = "/login";
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 

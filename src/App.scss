@@ -1,17 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,300&family=Montserrat:wght@200;400&family=Playfair+Display:ital,wght@0,400;0,800;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
 @import "./Styles/variables";
 @import "./Styles/0_mediaquery";
 @import "./Styles/header";
 @import "./Styles/footer";
-@import "./Styles/button.scss";
 @import "./Styles/InstancesPage";
 @import "./Styles/SingleInstancePage";
 @import "./Styles/ContactUs.scss";
 @import "./Styles/Aboutpage.scss";
+@import "./Styles/faqs.scss";
+@import "./Styles/timeseries.scss";
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  overflow: hidden;
   width: 100%;
   height: 100%;
 }
@@ -35,14 +37,154 @@ a,
 textarea,
 button,
 li {
-  font-family: "Montserrat";
+  font-family: "Inter";
 }
 
 body {
   width: 100% !important;
   position: relative;
   height: 100%;
-  // padding-top: 64px;
+}
+
+.err {
+  color: red;
+}
+
+
+
+.pagination {
+  display: grid;
+  gap: 10px;
+  width: fit-content;
+  margin: 10px auto 10px auto;
+
+  p {
+    display: block;
+    font-size: medium;
+    width: 24px !important;
+    height: 24px;
+    margin: auto;
+    background-color: $primary;
+    text-align: center;
+    line-height: 24px;
+    color: white !important;
+    border-radius: 5px;
+    font-size: small;
+    cursor: pointer;
+  }
+
+  p:hover {
+    background-color: $accent;
+  }
+
+  .active {
+    background-color: $accent;
+  }
+
+  .fa-arrow-right,
+  .fa-arrow-left {
+    background-color: $secondary;
+    cursor: pointer !important;
+    font-size: small;
+    border-radius: 6px;
+    color: white;
+    width: 24px;
+    text-align: center;
+    height: 24px !important;
+    line-height: 24px !important;
+  }
+
+  .fa-arrow-right:hover,
+  .fa-arrow-left:hover {
+    background-color: $accent;
+  }
+}
+
+.cpagination {
+  display: flex;
+  gap: 10px;
+  width: fit-content;
+  margin: 10px auto 10px auto;
+
+  p {
+    display: block;
+    font-size: medium !important;
+    min-width: 24px;
+
+    width: fit-content !important;
+    margin: 0 10px 0 10px;
+    font-weight: 400;
+    background-color: $secondary;
+    text-align: center;
+    height: 24px !important;
+    line-height: 24px;
+    color: white !important;
+    border-radius: 5px;
+    font-size: small;
+    cursor: pointer;
+  }
+
+  h5 {
+    display: block;
+    font-size: medium !important;
+    min-width: 24px;
+    padding: 0 4px;
+    width: fit-content !important;
+    margin: auto;
+    font-weight: 400;
+    background-color: $primary;
+    text-align: center;
+    line-height: 24px !important;
+    color: white !important;
+    border-radius: 5px;
+    font-size: small;
+    cursor: pointer;
+  }
+
+  h5:hover {
+    background-color: $accent;
+  }
+
+  .active {
+    background-color: $accent;
+  }
+
+  .fa-arrow-right,
+  .fa-arrow-left {
+    background-color: $secondary;
+    cursor: pointer !important;
+    font-size: small;
+    border-radius: 6px;
+    color: white;
+    width: 24px;
+    text-align: center;
+    height: 24px !important;
+    line-height: 24px !important;
+  }
+
+  .fa-arrow-right:hover,
+  .fa-arrow-left:hover {
+    background-color: $accent;
+  }
+}
+
+.button {
+  button {
+    min-width: 200px;
+    width: fit-content;
+    margin: 16px auto 16px auto;
+    border: none;
+    background-color: $primary;
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+  }
+
+  button:hover {
+    background-color: rgba($color: $primary, $alpha: 0.6);
+  }
 }
 
 .land {
@@ -71,95 +213,102 @@ body {
   }
 }
 
-.pagination {
-  margin: 2em 0 2em 0;
+.ripple {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  background-color: rgba($color: #000000, $alpha: 0.2);
+  display: flex;
+  align-items: center;
 
   .container {
-    max-width: 85vw;
     width: fit-content;
-    height: 24px;
     margin: auto;
-    display: flex;
-    gap: 10px;
+  }
 
-    .fa {
-      height: 24px;
-      width: 24px;
-      font-size: medium;
-      line-height: 24px;
-      color: $secondary;
-      cursor: pointer;
-      display: block;
-      margin: 0 8px 0 8px;
+  .lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+
+  .lds-ripple div {
+    position: absolute;
+    border: 4px solid #fff;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+
+  .lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+
+  @keyframes lds-ripple {
+    0% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 0;
     }
 
-    .fa:hover {
-      color: $accent;
+    4.9% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 0;
     }
 
-    .pages {
-      display: flex;
-      width: fit-content;
-      height: fit-content;
-
-      h5 {
-        width: 24px;
-        height: 24px;
-        color: $primary;
-        line-height: 24px;
-        text-align: center;
-        cursor: pointer;
-        border-radius: 2px;
-        font-size: small;
-        display: inline-block;
-      }
+    5% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 1;
     }
 
-    .page {
-      width: 24px;
-      height: 24px;
-      background-color: $secondary;
-      color: white;
-      line-height: 24px;
-      text-align: center;
-      cursor: pointer;
-      border-radius: 3px;
-      font-size: small;
-      display: inline-block;
-      margin: 0 8px 0 8px;
-    }
-
-    .page-active {
-      width: 24px;
-      height: 24px;
-      background-color: $primary;
-      color: white;
-      line-height: 24px;
-      text-align: center;
-      cursor: pointer;
-      border-radius: 3px;
-      font-size: small;
-      margin: 0 8px 0 8px;
-    }
-
-    .page:hover {
-      background-color: $secondary;
-    }
-
-    .active {
-      background-color: $dark;
+    100% {
+      top: 0px;
+      left: 0px;
+      width: 72px;
+      height: 72px;
+      opacity: 0;
     }
   }
 }
 
 .div2equal {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
 }
 
 .div3equal {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $dark;
+  border-radius: 10px;
 }

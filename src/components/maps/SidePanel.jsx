@@ -47,7 +47,14 @@ export default function SidePanel(props) {
 
                 {showing === 1 &&
                   props.body.attributes.Theme !== "Topo Map" && (
-                    <Charts body={props.body} updateBody={props.updateBody} />
+                    <Charts
+                      body={props.body}
+                      updateBody={props.updateBody}
+                      pChartImgUrl={props.pChartImgUrl}
+                      setPChartImgUrl={props.setPChartImgUrl}
+                      bChartImgUrl={props.bChartImgUrl}
+                      setBChartImgUrl={props.setBChartImgUrl}
+                    />
                   )}
                 {showing === 2 && (
                   <>

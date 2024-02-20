@@ -10,7 +10,6 @@ const Item = (props) => {
 
   const changePosition = (v) => {
     let newIndex = props.index + v;
-    console.log(props.index, newIndex);
     let d = props.body;
     d.data.url = movePos(d.data.url, props.index, newIndex);
     props.updateBody(d);

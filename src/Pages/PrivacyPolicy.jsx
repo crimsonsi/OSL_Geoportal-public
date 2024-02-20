@@ -19,23 +19,22 @@ export default function PrivacyPolicy(props) {
       <div className="vision2030">
         <h1>Privacy Policy</h1>
         <p>
-          <b>Oakar Services Ltd. Privacy Policy</b>
+          <b>Oakar Services Privacy Policy</b>
           <br></br> <br></br>
           <a href="#">Download PDF Version</a>
           <br></br> <br></br>
           <b>1.0 Introduction</b>
           <br></br> <br></br>
           Your privacy is important to us. This privacy statement explains the
-          personal data Oakar Services Ltd. Plc (“Oakar Services Ltd.”)
-          collects, how Oakar Services Ltd. processes it, and for what purposes.
+          personal data Oakar Services Plc (“Oakar Services”) collects, how
+          Oakar Services processes it, and for what purposes.
           <br></br> <br></br>
           This statement should be read together with the Terms and Conditions
-          of Use for other Oakar Services Ltd. products and services. Where
-          there is a conflict, this statement will prevail.
+          of Use for other Oakar Services products and services. Where there is
+          a conflict, this statement will prevail.
           <br></br> <br></br>
           This statement applies to all customers, suppliers, agents, merchants,
-          dealers and all visitors frequenting any of Oakar Services Ltd.
-          premises.
+          dealers and all visitors frequenting any of Oakar Services premises.
           <br></br> <br></br>
           <b>2.0 Definitions</b>
           <br></br> <br></br>
@@ -53,13 +52,13 @@ export default function PrivacyPolicy(props) {
           <br></br> <br></br>
           iii) Any visitor that is a person (including
           contractors/subcontractors or any third parties) who gains access to
-          any Oakar Services Ltd. premises.
+          any Oakar Services premises.
           <br></br> <br></br>
-          iv)Any supplier who has been contracted by Oakar Services Ltd. and
-          executed a supplier contract.
+          iv)Any supplier who has been contracted by Oakar Services and executed
+          a supplier contract.
           <br></br> <br></br>
-          2.2 “Oakar Services Ltd.”, “we” or “us”, “our” and “ours” means Kenya
-          Space Agency Plc The word “includes” means that what follows is not
+          2.2 “Oakar Services”, “we” or “us”, “our” and “ours” means Kenya Space
+          Agency Plc The word “includes” means that what follows is not
           necessarily exhaustive and therefore the examples given are not the
           only things/situations included in the meaning or explanation of that
           text.
@@ -76,21 +75,20 @@ export default function PrivacyPolicy(props) {
           limited to SIM-card registration, PostPay subscriptions, e-commerce
           platforms, M-PESA and M-PESA-powered services;
           <br></br> <br></br>
-          b) Buy, subscribe to or use a Oakar Services Ltd. product or service
+          b) Buy, subscribe to or use a Oakar Services product or service
           online, on the cloud, on a mobile or other device, in a Kenya Space
           Agency Shop or other retail outlet;
           <br></br> <br></br>
-          c) Subscribe to Oakar Services Ltd. or third-party premium rates
-          services, Short Message Service (SMS), email or social media
-          platforms;
+          c) Subscribe to Oakar Services or third-party premium rates services,
+          Short Message Service (SMS), email or social media platforms;
           <br></br> <br></br>
-          d) Ask Oakar Services Ltd. for more information about a product or
-          service or contact Oakar Services Ltd. with a query or complaint;
+          d) Ask Oakar Services for more information about a product or service
+          or contact Oakar Services with a query or complaint;
           <br></br> <br></br>
           e) Respond to or participate in a survey, marketing promotion, prize
           competition or special offer;
           <br></br> <br></br>
-          f) Visit, access or use Oakar Services Ltd. or third-party websites;
+          f) Visit, access or use Oakar Services or third-party websites;
           <br></br> <br></br>
           g) We may also collect your information from other organisations
           including credit-reference bureaus, fraud prevention agencies and
@@ -123,19 +121,19 @@ export default function PrivacyPolicy(props) {
           3.2.3 Your transaction information when you use our MPESA service.
           <br></br> <br></br>
           3.2.4 Your preferences for particular products and services, based on
-          information provided by you or from your use of Oakar Services Ltd.’s
-          (or third party) network, products and services.
+          information provided by you or from your use of Oakar Services’s (or
+          third party) network, products and services.
           <br></br> <br></br>
           3.2.5 Name, family details, age, profiling information such as level
           of education, bank account status, income brackets, etc. collected as
-          part of surveys conducted by Oakar Services Ltd. and their agents on
-          behalf of Oakar Services Ltd..
+          part of surveys conducted by Oakar Services and their agents on behalf
+          of Oakar Services.
           <br></br> <br></br>
           3.2.6 Your contact with us, such as when you: call us or interact with
           us through social media, our chatbot Zuri, ‘snail mail’, email (we may
           record your conversations, social media or other interactions with
           us), register your biometric information such as your voice, finger
-          prints etc, visit a Oakar Services Ltd. Shop or other retail outlet.
+          prints etc, visit a Oakar Services Shop or other retail outlet.
           <br></br> <br></br>
           3.2.7 Your account information, such as your handset type/model,
           tariff, top-ups; subscriptions (including third party subscriptions),
@@ -144,18 +142,18 @@ export default function PrivacyPolicy(props) {
           <br></br> <br></br>
           3.2.8 Your call data records: phone numbers that you call or send
           messages to (or receive calls and messages from), log of calls,
-          messages or data sessions on the Oakar Services Ltd. network and your
+          messages or data sessions on the Oakar Services network and your
           approximate location (save for customer service interactions as noted
           above we do not record or store message or call contents).
           <br></br> <br></br>
           3.2.9 We use Closed Circuit Television (CCTV) surveillance recordings.
           CCTV Devices are installed at strategic locations to provide a safe
-          and secure environment in all Oakar Services Ltd. premises as a part
-          of our commitment to community safety, security and crime prevention.
+          and secure environment in all Oakar Services premises as a part of our
+          commitment to community safety, security and crime prevention.
           <br></br> <br></br>
           3.2.10 When you request us to reserve parking for you, we will collect
           and retain your personal data (name, telephone number, and vehicle
-          registration details) when you request Oakar Services Ltd. to reserve
+          registration details) when you request Oakar Services to reserve
           parking space for you and where you use any of our parking facilities
           as a contractor. We use the data you provide to ensure effective
           visitor, contractor and car park management, Health and Safety
@@ -168,10 +166,10 @@ export default function PrivacyPolicy(props) {
           This information is collected for health, safety and security
           purposes.
           <br></br> <br></br>
-          3.2.12 When you use Oakar Services Ltd. WIFI for guest and visitors,
-          we collect email IDs and will provide user name and password. We
-          record the device address and also log traffic information in the form
-          of sites visited, duration and date sent/received.
+          3.2.12 When you use Oakar Services WIFI for guest and visitors, we
+          collect email IDs and will provide user name and password. We record
+          the device address and also log traffic information in the form of
+          sites visited, duration and date sent/received.
           <br></br> <br></br>
           3.2.13 We may use your medical information to manage our services and
           products to you e.g. when you use our services designed for persons
@@ -181,14 +179,14 @@ export default function PrivacyPolicy(props) {
           collect and process your voice biometrics.
           <br></br> <br></br>
           3.2.15 We collect your personal information when you visit us for
-          purposes of accident and incident reporting. Oakar Services Ltd. will
+          purposes of accident and incident reporting. Oakar Services will
           collect personal data from the injured party or person suffering from
           ill health, such as, Name, Address, Age, next of kin, details of the
           incident to include any relevant medical history. The data is
-          collected as Oakar Services Ltd. has a legal duty to document
-          workplace incidents/accidents and to report certain types of
-          accidents, injuries and dangerous occurrences arising out of its work
-          activity to the relevant enforcing authority.
+          collected as Oakar Services has a legal duty to document workplace
+          incidents/accidents and to report certain types of accidents, injuries
+          and dangerous occurrences arising out of its work activity to the
+          relevant enforcing authority.
           <br></br> <br></br>
           3.2.16 Incidents and accidents will be investigated to establish what
           lessons can be learned to prevent such incidents/accidents reoccurring
@@ -218,8 +216,8 @@ export default function PrivacyPolicy(props) {
           3.3.6 Keeping you informed generally about new products and services
           and contacting you with offers or promotions based on how you use our
           or third-party products and services unless you opt out of receiving
-          such marketing messages (you may contact Oakar Services Ltd. at any
-          time to opt out of receiving marketing messages);
+          such marketing messages (you may contact Oakar Services at any time to
+          opt out of receiving marketing messages);
           <br></br> <br></br>
           3.3.7 to comply with any legal, governmental or regulatory requirement
           or for use by our lawyers in connection with any legal proceedings;
@@ -279,7 +277,7 @@ export default function PrivacyPolicy(props) {
           4.1 Any disclosure of your information shall be in accordance with
           applicable law and regulations.
           <br></br>
-          Oakar Services Ltd. shall assess and review each application for
+          Oakar Services shall assess and review each application for
           information and may decline to grant such information to the
           requesting party.
           <br></br> <br></br>
@@ -291,7 +289,7 @@ export default function PrivacyPolicy(props) {
           is compliant with the law.
           <br></br> <br></br>
           b) Our subsidiaries, associates, partners, software developers or
-          agents who are involved in delivering Oakar Services Ltd. products and
+          agents who are involved in delivering Oakar Services products and
           services you order or use;
           <br></br> <br></br>
           c) Fraud prevention and Anti money laundering agencies,
@@ -375,7 +373,7 @@ export default function PrivacyPolicy(props) {
           parties unless otherwise disclosed. We are not in any way responsible
           for the content of any externally linked website or webpage.
           <br></br> <br></br>
-          6.3 By clicking on a hyperlink, you will leave the Oakar Services Ltd.
+          6.3 By clicking on a hyperlink, you will leave the Oakar Services
           webpage and accordingly you shall be subject to the terms of use,
           privacy and cookie policies of the other website that you choose to
           visit.
@@ -383,17 +381,16 @@ export default function PrivacyPolicy(props) {
           <b>7.0 Access to and Updating your Information</b>
           <br></br> <br></br>
           To update your information, go to https://selfcare.Kenya Space
-          Agency.co.ke/and sign in to my Oakar Services Ltd. self-care to look
-          at your personal information. You can change how we get in touch with
-          you and your account details whenever you like.
+          Agency.co.ke/and sign in to my Oakar Services self-care to look at
+          your personal information. You can change how we get in touch with you
+          and your account details whenever you like.
           <br></br> <br></br>
           <b>8.0 Safeguarding and Protection of Information</b>
           <br></br> <br></br>
-          Oakar Services Ltd. has put in place technical and operational
-          measures to ensure integrity and confidentiality of your data via
-          controls around: information classification, access control,
-          cryptography, physical and environmental security and monitoring and
-          compliance.
+          Oakar Services has put in place technical and operational measures to
+          ensure integrity and confidentiality of your data via controls around:
+          information classification, access control, cryptography, physical and
+          environmental security and monitoring and compliance.
           <br></br> <br></br>
           <b>9.0 International Data Transfers</b>
           <br></br> <br></br>
@@ -432,13 +429,13 @@ export default function PrivacyPolicy(props) {
           <br></br> <br></br>
           g) Right to request transfer of your personal data in [an electronic
           format]. If you wish to exercise any of the rights set out above,
-          please contact us on dpo@Oakar Services Ltd..co.ke. We may need to
-          request specific information from you to help us confirm your identity
-          and ensure your right to access your personal data (or to exercise any
-          of your other rights). This is a security measure to ensure that
-          personal data is not disclosed to any person who has no right to
-          receive it. We may also contact you to ask you for further information
-          in relation to your request to speed up our response.
+          please contact us on dpo@Oakar Services.co.ke. We may need to request
+          specific information from you to help us confirm your identity and
+          ensure your right to access your personal data (or to exercise any of
+          your other rights). This is a security measure to ensure that personal
+          data is not disclosed to any person who has no right to receive it. We
+          may also contact you to ask you for further information in relation to
+          your request to speed up our response.
           <br></br> <br></br>
           We try to respond to all legitimate requests within reasonable time.
           Occasionally it could take us longer if your request is particularly

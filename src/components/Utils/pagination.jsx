@@ -1,112 +1,79 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 
-const Page = (props) => {
+const Pagination = ({ totalItems, currentPage, onPageChange }) => {
+  const totalPages = Math.ceil(totalItems / 12);
+  const maxVisiblePages = 5;
+  const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+  let startPage = Math.max(currentPage - halfVisiblePages, 1);
+  let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+  if (endPage - startPage < maxVisiblePages - 1) {
+    startPage = Math.max(endPage - maxVisiblePages + 1, 1);
+  }
+
+  let pageNumbers = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index
+  );
+
+  if (pageNumbers.length === 0) {
+    pageNumbers = [1]
+  }
+
+  const handlePageChange = (pageNumber) => {
+    onPageChange(pageNumber);
+  };
+
   return (
-    <>
-      {props.offset === props.number && (
-        <p
-          onClick={() => props.handlePages(props.number)}
-          className="page-active"
+    <div className="cpagination">
+      <i
+        onClick={() => {
+          if (currentPage > 1) {
+            onPageChange(currentPage - 1);
+          }
+        }}
+        className="fa fa-arrow-left"
+      ></i>
+      {currentPage > 5 && (
+        <h5
+          onClick={() => {
+            handlePageChange(1);
+          }}
         >
-          {props.number}
-        </p>
+          {1}
+        </h5>
       )}
-      {props.offset !== props.number && (
-        <p onClick={() => props.handlePages(props.number)} className="page">
-          {props.number}
-        </p>
+      {currentPage > 5 && <p>...</p>}
+      {pageNumbers.map((pageNumber) => (
+        <h5
+          key={pageNumber}
+          onClick={() => handlePageChange(pageNumber)}
+          className={`page-item ${pageNumber === currentPage ? "active" : ""}`}
+        >
+          {pageNumber}
+        </h5>
+      ))}
+      {pageNumbers.length === 5 && <p>...</p>}
+      {pageNumbers.length === 5 && (
+        <h5
+          onClick={() => {
+            handlePageChange(totalPages);
+          }}
+        >
+          {totalPages}
+        </h5>
       )}
-    </>
+      <i
+        onClick={() => {
+          if (currentPage < pageNumbers.length) {
+            onPageChange(currentPage + 1);
+          }
+        }}
+        className="fa fa-arrow-right"
+      ></i>
+    </div>
   );
 };
 
-export default function Pagination(props) {
-  const [array, setArray] = useState([]);
-  const [isPrev, setIsPrev] = useState(false);
-  const [isNext, setIsNext] = useState(false);
-  const pages = Math.ceil(parseInt(props.count) / 12);
-
-  useEffect(() => {
-    const lower = parseInt(props.page) + 1;
-    const upper = lower + 5 > pages ? pages : lower + 5;
-    let d = [];
-    let diff = pages - lower;
-
-    if (pages > 5 && diff > 5) {
-      for (let i = lower; i < upper; i++) {
-        d.push(i);
-      }
-    } else if (pages > 5 && diff <= 5) {
-      let lw = pages - 5;
-      for (let i = lw; i < upper; i++) {
-        d.push(i);
-      }
-    } else {
-      for (let i = 0; i < pages; i++) {
-        d.push(i + 1);
-      }
-    }
-    setArray(d);
-    setIsNext(props.page < upper);
-    setIsPrev(props.page > 0);
-  }, [props.page]);
-
-  function handlePages(index) {
-    props.scrollPages(index - 1);
-  }
-
-  function handleNextPage() {
-    props.scrollPages(props.page + 1);
-  }
-
-  function handlePreviousPage() {
-    props.scrollPages(props.page - 1);
-  }
-
-  return (
-    <div className="pagination">
-      <div className="container">
-        {isPrev && (
-          <i
-            className="fa fa-arrow-left"
-            onClick={() => {
-              handlePreviousPage(props.page);
-            }}
-          ></i>
-        )}
-        <div className="pages">
-          {array.map((item) => {
-            return (
-              <Page
-                key={item}
-                handlePages={handlePages}
-                offset={props.page + 1}
-                number={item}
-                count={props.count}
-              />
-            )
-          })}
-          {pages > 5 && (
-            <>
-              <h5>...</h5>
-              <Page
-                number={pages}
-                handlePages={handlePages}
-                offset={props.page + 1}
-                count={props.count}
-              />
-            </>
-          )}
-        </div>
-        {isNext && (
-          <i
-            className="fa fa-arrow-right"
-            onClick={() => {
-              handleNextPage(props.page);
-            }}
-          ></i>
-        )}
-      </div>
-    </div>
-  )
-}
+export default Pagination;

@@ -34,23 +34,77 @@
     margin-right: 0.4em;
     width: 100%;
 
+    .nameRoleDate {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 4fr 4fr 1.4fr;
+
+      .role {
+        text-align: right !important;
+        padding: 0;
+
+        @include maxwidth(mobile) {
+          text-align: left !important;
+        }
+      }
+
+      .date {
+        p {
+          float: right;
+          padding: 0;
+          margin: 0;
+        }
+        height: fit-content;
+        padding: 0;
+
+        @include maxwidth(mobile) {
+          text-align: left !important;
+        }
+      }
+      @include maxwidth(mobile) {
+        display: inline !important;
+      }
+    }
+
+    .nameDate {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 5fr 2fr;
+
+      .date {
+        p {
+          float: right;
+          padding: 0;
+          margin: 0;
+        }
+        height: fit-content;
+        padding: 0;
+
+        @include maxwidth(mobile) {
+          text-align: left !important;
+        }
+      }
+      @include maxwidth(mobile) {
+        display: inline !important;
+      }
+    }
+
     h4 {
       margin-top: 0.4em;
+      margin-right: 8em;
     }
 
     p {
       padding: 10px 2px 8px 0;
       font-size: medium;
-      font-family: "Montserrat", "Arial";
+      font-family: "Inter", "Arial";
       line-height: 1.3;
-   
+
       a {
         font-size: 14px;
         line-height: 14px;
         text-transform: lowercase;
-         margin: 0 10px 0 10px;
-
-
+        margin: 0 10px 0 10px;
 
         span {
           i {

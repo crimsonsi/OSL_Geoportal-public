@@ -4,29 +4,31 @@
 .InstancesPage {
   overflow-y: auto;
   position: relative;
-  min-height: 70vh;
-  padding-top: 60px;
-  
+  height: 100vh;
+  padding-top: 52px;
+
+  .catdata {
+    max-width: 85%;
+    width: 100%;
+    margin: 1em auto 1em auto;
+    min-height: 50vh;
+  }
+
   .cat {
     h1 {
       font-size: xx-large;
-      margin: 2em auto 1em auto;
+      margin: 0 auto 1em auto;
       color: $primary;
       text-align: center;
       padding-bottom: 10px;
       border-bottom: 4px solid $accent;
       width: fit-content;
       display: block;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-image: linear-gradient(120deg, #a20c0c 0%, #0e0e80 100%);
     }
 
     p {
       text-align: center;
       font-size: medium;
-      max-width: 85%;
-      margin: 0 auto 2em auto;
       display: block;
       color: rgb(38, 38, 38);
       text-align: center;
@@ -35,12 +37,10 @@
     }
 
     .mapcategory {
-      max-width: 85vw;
-      width: 100%;
-      margin: auto;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
+      gap: 1em;
+      margin-bottom: 2em;
 
       .thumbnail {
         border-radius: 8px;
@@ -104,7 +104,7 @@
       }
 
       @include maxwidth(tablet) {
-        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-columns: repeat(1, 1fr) !important;
         img {
           height: calc(50vw * 0.6) !important;
         }

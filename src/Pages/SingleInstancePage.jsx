@@ -9,6 +9,7 @@ import { useState } from "react";
 import Button from "../components/Utils/ButtonMain";
 import CommentsSection from "../components/Utils/CommentsSection";
 import TopoMapPreview from "../components/Topo/TopoMapPreview";
+import TimeSeriesPreview from "../components/TimeSeries/TimeSeriesPreview";
 
 export default function SingleInstancePage(props) {
   const pathname = window.location.pathname.split("/");
@@ -16,7 +17,7 @@ export default function SingleInstancePage(props) {
   const [prompt, setPrompt] = useState();
   const [isErr, setIsErr] = useState("");
   const [isLoading, setIsLoading] = useState(null);
-  const instanceId = window.location.pathname.split("/")[5];
+  const instanceId = window.location.pathname.split("/")[3];
   const [refresh, setRefresh] = useState(true);
   //
   const [successMsg, setSuccessMsg] = useState();
@@ -30,10 +31,37 @@ export default function SingleInstancePage(props) {
     Content: "",
     UserID: "",
   });
+  const [choice, setChoice] = useState(null);
+  const opts = [
+    "Agriculture",
+    "Climate and Weather",
+    "Natural Resources",
+    "Spatial Planning",
+    "Disaster",
+  ];
 
   useEffect(() => {
     if (props.currentUser) {
       setPrompt("");
+    }
+    const i = opts
+      .map((e) => {
+        return e;
+      })
+      .indexOf(pathname[2].replaceAll("%20", " "));
+
+    if (i !== -1) {
+      setChoice("thematic");
+    } else {
+      if (pathname[2].includes("Raster")) {
+        setChoice("raster");
+      } else if (pathname[2].includes("General")) {
+        setChoice("general");
+      }
+      else if (pathname[2].includes("Time")) {
+        setChoice("timeseries")
+      }
+      else window.location.href = "/portal/maps";
     }
   });
 
@@ -43,42 +71,58 @@ export default function SingleInstancePage(props) {
       setPrompt("");
       let d = body;
       d.Content = rfContent.current.value;
-      d.To = instanceId;
+      d.To = pathname[3];
+      d.Subject = pathname[3];
       d.UserID = props.currentUser?.UserID;
       d.From = props.currentUser?.Name;
       updateBody(d);
-      fetch("/api/comments/post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(body),
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else throw Error("");
+
+      if (!body.Content) {
+        setIsErr("Enter some text!");
+      } else {
+        fetch("/api/comments/post", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(body),
         })
-        .then((data) => {
-          setIsLoading(false);
-          setChanged(!changed);
-          if (data.success) {
-            setSuccessMsg("comment successful");
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else throw Error("");
+          })
+          .then((data) => {
+            setIsLoading(false);
+            setChanged(!changed);
+            if (data.success) {
+              setIsErr("comment successful");
+              setTimeout(() => {
+                setIsErr("");
+              }, 2000);
+              rfContent.current.value = "";
+              setRefresh(!refresh);
+            } else if (data.comment) {
+              setIsErr(data.comment);
+              setTimeout(() => {
+                setIsErr("");
+              }, 2000);
+            } else {
+              setIsErr(data.error);
+              setTimeout(() => {
+                setIsErr("");
+              }, 2000);
+            }
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            setIsErr("Please login or register to send a comment!");
             setTimeout(() => {
-              setSuccessMsg("");
-            }, 6000);
-            setIsErr(data.success);
-            rfContent.current.value = "";
-            setRefresh(!refresh);
-          } else if (data.error) {
-            setIsErr(data.error);
-          } else setIsErr("Oops! Something went wrong!");
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          setIsErr("Oops! Something went wrong!");
-        });
+              setIsErr("");
+            }, 2000);
+          });
+      }
     } else {
       setPrompt("Please login first");
     }
@@ -93,43 +137,22 @@ export default function SingleInstancePage(props) {
             setIsAuthenticated={props.setIsAuthenticated}
             currentUser={props.currentUser}
             setCurrentUser={props.setCurrentUser}
+            parent="singleinstance"
           />
         </div>
         <div className="SingleInstancePage">
           <div>
-            {pathname[3] === "thematic" && (
-              <>
-                <ThematicPreview instanceId={instanceId} />
-              </>
-            )}
-            {pathname[3] === "world" && (
-              <>
-                <WorldDataPreview instanceId={instanceId} />
-              </>
-            )}
-            {pathname[3] === "basemap" && (
-              <>
-                <BaseMapPreview instanceId={instanceId} />
-              </>
-            )}
-            {pathname[3] === "topo" && (
-              <>
-                <TopoMapPreview instanceId={instanceId} />
-              </>
-            )}
+            {choice && choice === "thematic" && <ThematicPreview />}
+            {choice && choice === "raster" && <BaseMapPreview />}
+            {choice && choice === "general" && <WorldDataPreview />}
+            {choice && choice === "timeseries" && <TimeSeriesPreview />}
           </div>
 
           <div className="addComment">
-            <h3>Leave a Comment</h3>
-            <br />
-            <p>{prompt}</p>
             <p>{successMsg}</p>
-            <div className="comment">
-              {props.currentUser?.Name ? (
-                <div className="symbol">{props.currentUser.Name.charAt(0)}</div>
-              ) : (
-                <div className="symbol">A</div>
-              )}
+            <span className="err">{isErr}</span>
+            <div className="input">
+              <label htmlFor="">Leave a Comment</label>
               <textarea
                 onClick={() =>
                   !props.isAuthenticated &&
@@ -142,14 +165,13 @@ export default function SingleInstancePage(props) {
                 rows="5"
               ></textarea>
             </div>
-            <div className="btn">
-              <Button
-                label="Submit"
-                handleClick={() => {
-                  postComment();
-                }}
-              />
-            </div>
+            <button
+              onClick={() => {
+                postComment();
+              }}
+            >
+              Submit
+            </button>
           </div>
           <div className="comments">
             <CommentsSection

@@ -1,21 +1,19 @@
 @import "./_1_variables";
 .header {
-  padding-top: 8px;
-  padding-bottom: 8px;
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 999999;
-  transition: 300ms ease;
+  margin-top: 1.5em;
+  background-color: transparent;
 
   .container {
-    max-width: 85vw;
+    max-width: 85%;
     width: 100%;
     height: fit-content;
     margin: auto;
     display: grid;
-    padding: 5px 0 5px 0;
     grid-template-columns: 1fr auto auto;
 
     .logo {
@@ -24,12 +22,12 @@
       grid-template-columns: auto 1fr;
       cursor: pointer;
 
-      .lg {
-        max-height: 40px;
+      img {
+        max-height: 32px;
         height: 100%;
         object-fit: contain;
       }
-      
+
       h2 {
         color: white;
         font-size: large;
@@ -41,33 +39,34 @@
 
     .nav {
       display: grid;
-      grid-template-columns: repeat(5, auto);
+      grid-template-columns: repeat(6, auto);
       gap: 10px;
       color: white;
       align-items: center;
 
-      h4 {
-        font-weight: 400;
+      a {
         font-size: small;
         text-align: center;
         cursor: pointer;
-        padding-bottom: 5px;
-        transition: 300ms;
-        min-width: 100px;
+        padding: 10px 1em 0 10px;
+        width: 130px;
+
+        height: 40px;
+        border-radius: 5px;
+        border: transparent solid 1px;
       }
 
-      h4:hover {
-        color: $accent;
+      .underline {
+        border-bottom: #fff solid 1px;
+      }
+
+      a:hover {
+        border: #fff solid 1px;
       }
 
       .navlink {
         color: #ffffff;
         cursor: pointer;
-      }
-
-      .underline {
-        padding-bottom: 10px;
-        border-bottom: 1px solid $accent;
       }
     }
 
@@ -200,7 +199,6 @@
       margin: auto;
       // background: black;
       backdrop-filter: blur(4px) saturate(150%);
-  
     }
 
     .fa-bars:hover {
@@ -226,7 +224,7 @@
     min-width: 50vw;
     width: 100%;
 
-    .itemsLogo{
+    .itemsLogo {
       display: flex;
       flex-direction: row;
 
@@ -234,7 +232,7 @@
         display: grid;
         grid-template-columns: auto 1fr auto;
         margin: 2em 0 2em 0;
-  
+
         img {
           height: 44px;
           width: fit-content;
@@ -259,9 +257,8 @@
       i:hover {
         color: red;
       }
-
     }
-    
+
     h3 {
       color: $tertiarylight;
       margin-top: 10px;
@@ -269,51 +266,46 @@
       font-size: 16pt;
     }
 
-    .nav {
-      gap: 1em;
-      margin-top: auto;
-      margin-bottom: auto;
-      color: white;
+    // .nav {
+    //   gap: 1em;
+    //   margin-top: auto;
+    //   margin-bottom: auto;
+    //   color: white;
 
-      h4 {
-        padding: 10px 10px 10px 50px;
-        font-weight: 400;
-        font-size: 14px;
-        text-align: left;
-        cursor: pointer;
-        margin: 1em 0 1em 0;
-      }
+    //   h4 {
+    //     padding: 10px 10px 10px 50px;
+    //     font-weight: 400;
+    //     font-size: 14px;
+    //     text-align: left;
+    //     cursor: pointer;
+    //     margin: 1em 0 1em 0;
+    //   }
 
-      h4:hover {
-        color: $secondarylight;
-      }
+    //   h4:hover {
+    //     color: $secondarylight;
+    //   }
 
-      .underline {
-        padding-bottom: 10px;
-        border-bottom: 1px solid $accent;
-      }
+    //   button {
+    //     background: none;
+    //     color: $tertiarylight;
+    //     line-height: 32px;
+    //     border-radius: 5px;
+    //     height: 32px;
+    //     outline: none;
+    //     border: none;
+    //     max-width: 85%;
+    //     width: 100%;
+    //     margin: 10px auto 10px auto;
+    //     display: block;
+    //     border: 1px solid $tertiarylight;
+    //     cursor: pointer;
+    //   }
 
-      button {
-        background: none;
-        color: $tertiarylight;
-        line-height: 32px;
-        border-radius: 5px;
-        height: 32px;
-        outline: none;
-        border: none;
-        max-width: 85%;
-        width: 100%;
-        margin: 10px auto 10px auto;
-        display: block;
-        border: 1px solid $tertiarylight;
-        cursor: pointer;
-      }
-
-      button:hover {
-        color: $accent;
-        border: 1px solid $accent;
-      }
-    }
+    //   button:hover {
+    //     color: $accent;
+    //     border: 1px solid $accent;
+    //   }
+    // }
 
     .nav2 {
       height: fit-content;
@@ -376,7 +368,7 @@
     overflow-y: auto;
     width: 100%;
 
-        /* width */
+    /* width */
     &::-webkit-scrollbar {
       width: 10px;
       border-radius: 8px;
@@ -384,22 +376,21 @@
 
     /* Track */
     &::-webkit-scrollbar-track {
-      background: #f1f1f1; 
+      background: #f1f1f1;
       border-radius: 8px;
     }
-    
+
     /* Handle */
     &::-webkit-scrollbar-thumb {
-      background: #888; 
+      background: #888;
       border-radius: 8px;
     }
 
     /* Handle on hover */
     &::-webkit-scrollbar-thumb:hover {
-      background: #555; 
+      background: #555;
       border-radius: 8px;
     }
-
 
     h3 {
       font-size: large;

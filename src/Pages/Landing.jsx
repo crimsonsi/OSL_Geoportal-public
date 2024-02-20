@@ -67,21 +67,13 @@ export default function LandingPage(props) {
   const [toggleRegister, setToggleRegister] = useState(false);
   const [toggleHeaderTheme, changeHeaderTheme] = useState(false);
 
-  // useEffect(() => {
-
-  //   changeHeaderTheme(true)
-  // }, [])
-
-  // document.addEventListener('wheel', (e)=>handleScroll(e.pageY-e.clientY))
   useEffect(() => {
-    // window.addEventListener('scroll', (e)=>console.log(window.scrollY))
     trackScroll();
   }, []);
 
   function trackScroll() {
     requestAnimationFrame(trackScroll);
     const target = window.scrollY;
-    // console.log(target)
     if (target >= 500) changeHeaderTheme(true);
     else changeHeaderTheme(false);
   }
@@ -106,8 +98,8 @@ export default function LandingPage(props) {
           <img className="landing_shape" src={landingShape} alt="Shape" />
         </div>
         <div className="heroAbout">
-          <h1>Oakar Services Ltd.</h1>
-          <h2>DataPortal</h2>
+          <h1>Oakar Services</h1>
+          <h2>Geoportal</h2>
           {/* registration page or explore */}
           {props.isAuthenticated ? (
             <a href="#explore">Explore</a>

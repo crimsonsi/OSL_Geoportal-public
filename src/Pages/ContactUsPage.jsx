@@ -62,7 +62,6 @@ export default function ContactUsPage(props) {
       return setIsErr("Please enter a valid email address!");
     if (!validateMessage(body.Content))
       return setIsErr("Message can not be blank!");
-    console.log(body);
 
     if (validateEmail(body.To) && validateMessage(body.Content)) {
       fetch("/api/messages/post", {
@@ -81,7 +80,6 @@ export default function ContactUsPage(props) {
         })
         .then((data) => {
           setIsLoading(false);
-          console.log(data);
           if (data.success) {
             setIsErr(data.success);
             rfName.current.value = "";
@@ -120,6 +118,7 @@ export default function ContactUsPage(props) {
             setIsAuthenticated={props.setIsAuthenticated}
             currentUser={props.currentUser}
             setCurrentUser={props.setCurrentUser}
+            parent="Contact Us"
           />
         </div>
         <div className="contactsContent">
@@ -139,27 +138,46 @@ export default function ContactUsPage(props) {
               )}
               <br />
               <p>
-                Thank you for visiting our Geospatial Portal. Might you be
-                having any trouble and need our assistance? Well, we are eager
-                to help! Just log a message to us and our customer service team
-                will respond to your needs as soon as possible.{" "}
+                Thank you for visiting our Geoportal. Might you be having any
+                trouble and need our assistance? Well, we are eager to help!
+                Just log a message to us and our customer service team will
+                respond to your needs as soon as possible.{" "}
               </p>
             </div>
             <div className="form">
-              <input label="Name" placeholder="Full Name" ref={rfName} />
-              <input label="Email" placeholder="Email" ref={rfEmail} />
-
-              <input label="Subject" placeholder="Subject" ref={rfSubject} />
-              <textarea
-                className="content"
-                placeholder="Write your Message here"
-                label="Content"
-                ref={rfContent}
-                name="Content"
-                id=""
-              ></textarea>
               <p>{isErr}</p>
-              <Button label="Send Message" handleClick={postMessage} />
+              <div className="input">
+                <label htmlFor="">Full Name *</label>
+                <input label="Name" placeholder="Full Name" ref={rfName} />
+              </div>
+              <div className="input">
+                <label htmlFor="">Email Address</label>
+                <input label="Email" placeholder="Email" ref={rfEmail} />
+              </div>
+
+              <div className="input">
+                <label htmlFor="">Subject</label>
+                <input label="Subject" placeholder="Subject" ref={rfSubject} />
+              </div>
+
+              <div className="input">
+                <label htmlFor="">Message</label>
+                <textarea
+                  className="content"
+                  placeholder="Write your Message here"
+                  label="Content"
+                  ref={rfContent}
+                  name="Content"
+                  id=""
+                ></textarea>
+              </div>
+              <button
+                onClick={() => {
+                  postMessage();
+                }}
+              >
+                Submit
+              </button>
             </div>
           </div>
         </div>

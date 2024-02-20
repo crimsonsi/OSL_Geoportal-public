@@ -12,7 +12,6 @@ const useFetch = (url) => {
         credentials: "include",
       })
         .then((res) => {
-          console.log(res);
           if (!res.ok) {
             throw Error("Could not fetch data!!!");
           }

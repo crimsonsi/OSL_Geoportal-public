@@ -10,7 +10,6 @@ const useWFS = (typename) => {
         typename.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${typename}&outputFormat=json`,
       dataType: "json",
-      success: console.log("County data successfully loaded."),
       error: function (xhr) {
         setData(null);
       },

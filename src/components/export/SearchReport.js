@@ -1,148 +1,186 @@
-import React, { useState, useEffect } from "react";
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  Image,
-} from "@react-pdf/renderer";
-import styled from "@react-pdf/styled-components";
-import { defaultProps } from "react-lines-ellipsis";
-
-const Body = styled.Page`
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  padding: 0.5in;
-`;
-
-const Header = styled.View`
-  width: 100%;
-`;
-
-const TextAreaGrey = styled.View`
-  width: 100%;
-  background-color: #f9fafc;
-  margin: 8px 0 8px 0;
-  padding: 8px;
-  border-radius: 5px;
-`;
-
-const TextList = styled.View`
-  width: 100%;
-  background-color: #f9fafc;
-  margin: 8px 0 8px 0;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-
-const Item = styled.View`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  padding: 0px 2px 0 2px;
-  min-width: 120px;
-
-  margin: 2px 2px 2px 2px;
-`;
-
-const styles = StyleSheet.create({
-  section: {
-    flexGrow: 1,
-  },
-  subtitle: {
-    fontSize: 12,
-    margin: "5px 0 5px 0",
-    textAlign: "center",
-  },
-  textArea: {
-    backgroundColor: "#f6f6f5",
-    width: "100%",
-  },
-  title: {
-    fontSize: 12,
-    margin: "5px 0 5px 0",
-  },
-  fMd: {
-    fontSize: 11,
-    margin: "5px 0 5px 0",
-  },
-  rightAligned: {
-    justifyContent: "flex-end",
-  },
-  line: {
-    width: "100%",
-    line: "1px solid pink",
-  },
-  paddingTop: {
-    paddingTop: 6,
-  },
-});
+import React from "react";
+import northarrow from "../../assets/imgs/north-arrow.png";
 
 const SearchReport = ({ blob, body }) => {
-  var todayDate = new Date().toISOString().slice(0, 10);
-  console.log(body);
+  const doc = {
+    backgroundColor: "white",
+    padding: "12px",
+    width: "890px",
+    height: "fit-content",
+    margin: "auto",
+  };
+
+  const border = {
+    border: "1px solid black",
+    padding: "6px",
+    width: "100%",
+    height: "100%",
+  };
+
+  const header = {
+    borderBottom: "1px solid black",
+    textAlign: "center",
+    margin: "0 0 12px 0",
+    padding: "6px",
+  };
 
   return (
-    <Document>
-      <Body>
-        <View style={styles.section}>
-          <Header>
-            <Text style={styles.subtitle}>OSL Geospatial Portal</Text>
-          </Header>
-          <TextAreaGrey>
-            <Text style={styles.fMd}>Title : {body["attributes"].Title}</Text>
-            <Text style={styles.fMd}>Date {todayDate}</Text>
-          </TextAreaGrey>
+    <div style={doc}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr",
+          padding: "12px",
+          gap: "10px",
+          width: "100%",
+          height: "100%",
+          border: "1px solid black",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateRows: "auto 1fr auto",
+            gap: "10px",
+          }}
+        >
+          <h3
+            style={{
+              textAlign: "center",
+              fontWeight: "700",
+              fontSize: "medium",
+            }}
+          >
+            {body.Title}
+          </h3>
 
-          <TextAreaGrey>
-            <Text style={styles.title}>MAP SECTION</Text>
-            <View style={styles.title}>
-              <Image src={blob} />
-            </View>
-            <Text style={styles.fMd}>
-              Description. {body["attributes"].Description}
-            </Text>
-            <Text style={styles.fMd}>Theme : {body["attributes"].Theme}</Text>
-            <Text style={styles.fMd}>
-              Type of Data. {body["attributes"].Type}
-            </Text>
-          </TextAreaGrey>
+          <div style={border}>
+            <img
+              style={{
+                width: "100%",
+                height: "fit-content",
+                objectFit: "contain",
+                display: "block",
+                margin: "auto",
+              }}
+              src={blob}
+            />
+          </div>
 
-          <TextAreaGrey>
-            <Text style={styles.title}>Legend</Text>
-            <TextList>
-              {body?.style?.classes ? (
-                body?.style?.classes?.length > 0 &&
-                body?.style?.classes?.map((item, index) => {
-                  return (
-                    <Item>
-                      <View
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr auto",
+              padding: "0px",
+              gap: "10px",
+            }}
+          >
+            <div style={{ border: "1px solid black", padding: "10px" }}>
+              <h4
+                style={{
+                  fontSize: "small",
+                  fontWeight: "600",
+                  marginBottom: "6px",
+                }}
+              >
+                Legend
+              </h4>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                }}
+              >
+                {body?.Data[0]?.style?.classes ? (
+                  body?.Data[0].style.classes.length > 0 &&
+                  body?.Data[0].style.classes.map((item, index) => {
+                    return (
+                      <div
                         style={{
-                          width: "24px",
-                          height: "24px",
-                          backgroundColor: item.color,
-                          margin: "2px",
+                          display: "flex",
+                          flexWrap: "nowrap",
+                          margin: "3px",
                         }}
-                      ></View>
-                      <Text key={index} style={styles.fMd}>
-                        {item.name}
-                      </Text>
-                    </Item>
-                  );
-                })
-              ) : (
-                <Text>This data has no legend</Text>
-              )}
-            </TextList>
-          </TextAreaGrey>
-        </View>
-      </Body>
-    </Document>
+                      >
+                        <div
+                          style={{
+                            width: "10px",
+                            height: "10px",
+                            backgroundColor: item.color,
+                            margin: "2px",
+                          }}
+                        ></div>
+                        <p
+                          style={{
+                            marginLeft: "10px",
+                            fontSize: "x-small",
+                            textTransform: "capitalize",
+                          }}
+                          key={index}
+                        >
+                          {item.name}
+                        </p>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <p>This data has no legend</p>
+                )}
+              </div>
+            </div>
+            <div>
+              <p
+                style={{
+                  fontSize: "small",
+                  textAlign: "center",
+                }}
+              >
+                1:10000
+              </p>
+              <br></br>
+              <div>
+                <img
+                  style={{
+                    width: "24px",
+                    objectFit: "contain",
+                    margin: "auto",
+                    display: "block",
+                  }}
+                  src={northarrow}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p
+            style={{
+              fontSize: "x-small",
+              textAlign: "center",
+              padding: "0px",
+            }}
+          >
+            Oakar Services Geoportal
+          </p>
+          <p>
+            <pre
+              style={{
+                fontSize: "x-small",
+                textAlign: "center",
+                display: "block",
+                padding: "0px",
+                color: "blue",
+                whiteSpace: "nowrap",
+              }}
+            >
+              https://osl.co.ke
+            </pre>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

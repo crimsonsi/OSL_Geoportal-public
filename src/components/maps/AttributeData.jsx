@@ -65,7 +65,7 @@ export default function AttributeData(props) {
           <InputMap
             ref={type}
             label="Data Type"
-            value={props.body.attributes.Type}
+            value={props.body.attributes?.Type}
             v="Type"
             style={{ fontSize: "12pt", color: "#74465C" }}
           />

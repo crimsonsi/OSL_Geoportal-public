@@ -13,11 +13,9 @@ const Form = (props) => {
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      //console.log(event.target.files[0]);
       let reader = new FileReader();
       reader.onload = (e) => {
         setImage(e.target.result); //This represents the image URL
-        console.log(e.target.result);
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -34,12 +32,9 @@ const Form = (props) => {
     const data = new FormData(form.current);
 
     //setApiLoading(true);
-    console.log(data);
-    console.log(JSON.stringify(data));
-    console.log(props.target);
 
     if (props.target === "gis") {
-      fetch("/api/gis/create", {
+      fetch("/api/data/create", {
         method: "POST",
         credentials: "include",
         body: data,

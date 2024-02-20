@@ -72,27 +72,28 @@ export default class Hero extends React.Component {
                       solutions allied with technical support and training we
                       aim to expand the utilization of geospatial technology to
                       become an integral part of business operations and
-                      evolution.
+                      evolution. In doing so, we will make a significant
+                      contribution to the modernization of Eastern Africa, and
+                      the advancement of both the public and private sector.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
             <div>
-              <h1>About Geospatial Portal</h1>
+              <h1>About Geoportal</h1>
               <div className="descriptionContent">
                 <p>
-                  The OSL Geospatial Portal is a tool for the handling and
-                  management of geospatial data. It facilitates the
-                  dissemination and sharing of geospatial data and maps across
-                  stakeholders promoting the ease of access to geospatial
-                  resources.
+                  The OSL Geoportal is a tool for the handling and management of
+                  geospatial data. It facilitates the dissemination and sharing
+                  of geospatial data and maps across stakeholders promoting the
+                  ease of access to geospatial resources.
                   <br />
-                  The OSL Geospatial Portal provides a framework for updating
-                  and sharing information in real-time for planning and
-                  management purposes. The Geospatial Portal supports a range of
-                  users such as education institutions, research firms, and
-                  government agencies.
+                  The OSL Geoportal provides a framework for updating and
+                  sharing information in real-time for planning and management
+                  purposes. The Geoportal supports a range of users such as
+                  education institutions, research firms, and government
+                  agencies.
                 </p>
               </div>
             </div>
@@ -103,7 +104,7 @@ export default class Hero extends React.Component {
               <i className="fa  fa-angle-right"></i> Thematic Maps
             </h4>
             <h4>
-              <i className="fa  fa-angle-right"></i>Topegraphic Maps
+              <i className="fa  fa-angle-right"></i>Topographic Maps
             </h4>
             <h4>
               <i className="fa  fa-angle-right"></i>Basemaps and

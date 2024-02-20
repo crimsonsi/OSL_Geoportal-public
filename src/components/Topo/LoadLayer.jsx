@@ -94,7 +94,6 @@ export default function LoadLayer(props) {
         },
       });
       $.when(response).done(function (data) {
-        console.log(data);
 
         if (data.features.length !== 0) {
           const bbx = bbox(response.responseJSON);

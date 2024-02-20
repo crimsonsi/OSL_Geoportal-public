@@ -6,12 +6,10 @@ export default function DataSection(props) {
     <div
       className="dataSection"
       onClick={() =>
-        (window.location.href = `/portal/instances/${props.item.Category.split(
-          " "
-        )[0].toLowerCase()}/preview/${props.item.ID}`)
+        (window.location.href = `/maps/${props.item.Category}/${props.item.ID}`)
       }
     >
-      <img src={props.item.Thumbnail} alt=""></img>
+      <img src={`/api/${props.item.Thumbnail}`} alt=""></img>
       <div className="description">
         <h3>{props.item.Title}</h3>
         <p>{props.item.Category}</p>

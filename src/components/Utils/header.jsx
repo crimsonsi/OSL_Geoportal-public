@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import logo2 from "../../assets/imgs/Logo-accent.png";
+import logo2 from "../../assets/imgs/osllogo.png";
 import ModalHeader from "./modal_header";
 import { useLocation } from "react-router-dom";
 import Login from "./loginPopUp";
@@ -10,30 +10,17 @@ import ChangePassword from "./ChangePassword";
 
 function NavLink(props) {
   const location = useLocation();
-  let link;
-  if (props.url === location.pathname) {
-    link = (
-      <h4
-        className="underline"
-        onClick={() => {
-          window.location.href = props.url;
-        }}
-      >
-        {props.txt}
-      </h4>
-    );
-  } else {
-    link = (
-      <h4
-        onClick={() => {
-          window.location.href = props.url;
-        }}
-      >
-        {props.txt}
-      </h4>
-    );
-  }
-  return link;
+
+  return (
+    <a
+      className={props.url === location.pathname ? "underline" : ""}
+      onClick={() => {
+        window.location.href = props.url;
+      }}
+    >
+      {props.txt}
+    </a>
+  );
 }
 
 export default function Header(props) {
@@ -54,10 +41,37 @@ export default function Header(props) {
   const [toggleAccount, setToggleAccount] = useState(false);
   const [toggleEditDetails, setToggleEditDetails] = useState(false);
   const [toggleChangePass, setToggleChangePass] = useState(false);
-
+  const headerRef = useRef(null);
   const toggleMenu = () => {
     setClicked(!clicked);
   };
+
+  useEffect(() => {
+    if (!props.landing) {
+      headerRef.current.style.paddingTop = "10px";
+      headerRef.current.style.marginTop = "0px";
+      headerRef.current.style.paddingBottom = "10px";
+      headerRef.current.style.background = "#2254AA";
+    }
+    window.addEventListener("scroll", changeCss, false);
+  }, []);
+
+  function changeCss() {
+    if (props.landing) {
+      if (this.scrollY > 500) {
+        headerRef.current.style.paddingTop = "10px";
+        headerRef.current.style.paddingBottom = "10px";
+        headerRef.current.style.backgroundColor = "#011B46";
+      } else {
+        headerRef.current.style.paddingTop = "2em";
+        headerRef.current.style.backgroundColor = "transparent";
+      }
+    } else {
+      headerRef.current.style.paddingTop = "10px";
+      headerRef.current.style.paddingBottom = "10px";
+      headerRef.current.style.backgroundColor = "#011B46";
+    }
+  }
 
   const logout = () => {
     fetch("/api/users/logout", {
@@ -72,9 +86,7 @@ export default function Header(props) {
         props.setIsAuthenticated(false);
         props.setCurrentUser(null);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   const changeToggle = (e) => {
@@ -87,18 +99,6 @@ export default function Header(props) {
       setToggleRegister(true);
     }
   };
-
-  // console.log(props.isAuthenticated)
-  const headerRef = useRef(null);
-  // console.log(headerRef)
-
-  if (headerRef.current) {
-    if (props.parent == "landing") {
-      if (props.changeHeaderTheme)
-        headerRef.current.style.background = "#112D55";
-      else headerRef.current.style.background = "none";
-    } else headerRef.current.style.background = "#112D55";
-  }
 
   return (
     <div>
@@ -140,7 +140,7 @@ export default function Header(props) {
         />
       )}
 
-      <div className="header" id="header" ref={headerRef}>
+      <div className="header" ref={headerRef}>
         <div className="container">
           <div
             onClick={() => {
@@ -148,15 +148,25 @@ export default function Header(props) {
             }}
             className="logo"
           >
-            <img src={logo2} className="lg" alt="Oakar Services Ltd. Logo" />
-            <h2>Geospatial Portal</h2>
+            <img src={logo2} className="lg" alt="Oakar Services Logo" />
+            <h2>Geoportal</h2>
           </div>
 
           <div className="nav">
-            <NavLink className="navlink" txt="Home" url="/" />
-            <NavLink txt="Data" url="/data" />
-            <NavLink txt="About" url="/about" />
-            <NavLink txt="Contact Us" url="/contact" />
+            <NavLink
+              className="navlink"
+              txt="Home"
+              url="/"
+              active={props.parent}
+            />
+            <NavLink txt="Browse Data" url="/data" active={props.parent} />
+            <NavLink
+              txt="Knowledge Hub"
+              url="/publications"
+              active={props.parent}
+            />
+            <NavLink txt="About" url="/about" active={props.parent} />
+            <NavLink txt="Contact Us" url="/contact" active={props.parent} />
             <div
               className="nav2"
               onMouseOver={() => setShowSettings(true)}
@@ -186,7 +196,6 @@ export default function Header(props) {
                       <h5
                         onClick={() => {
                           setToggleEditDetails(true);
-                          console.log(toggleEditDetails);
                         }}
                       >
                         Edit Details

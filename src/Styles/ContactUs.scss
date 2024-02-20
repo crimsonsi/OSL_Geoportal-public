@@ -1,6 +1,7 @@
 .ContactUsPage {
-  font-family: monteserrat;
-  padding-top: 60px;
+  height: 100vh;
+  overflow-y: auto;
+  padding-top: 52px;
 
   .c_hero {
     width: 100%;
@@ -75,49 +76,61 @@
         margin: auto;
         text-align: center;
 
-        input {
-          width: 100%;
-          margin: 1em auto 0;
-          height: 30px;
-          padding-left: 6px;
-          border-radius: 5px;
-          border: none;
-          box-shadow: 0px 1px 7px black;
-        }
-        textarea {
-          margin: 1em auto 0;
-          padding-left: 6px;
-          border-radius: 5px;
-          border: none;
-          box-shadow: 0px 1px 7px black;
+        .input {
+          margin: 10px 0 10px 0;
+
+          label {
+            display: block;
+            margin: 10px 0 10px 0;
+            font-weight: 400;
+            text-align: left;
+          }
+          input {
+            margin: 0px 0 10px 0;
+            padding: 10px;
+            width: 100%;
+            background-color: #60606030;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            outline: none;
+            border-bottom: 2px solid #60606070;
+          }
+          input:focus {
+            border-bottom: 2px solid $primary;
+          }
+          textarea {
+            margin: 0px 0 10px 0;
+            padding: 10px;
+            width: 100%;
+            background-color: #60606030;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            outline: none;
+            border-bottom: 2px solid #60606070;
+          }
+          textarea:focus {
+            border-bottom: 2px solid $primary;
+          }
         }
         button {
-          border: none;
-          border-radius: 5px;
-          color: white;
-          background: $primary;
-          transition: 300ms ease;
-          padding: 10px 20px;
-          width: fit-content;
-          font-weight: bold;
-          margin: 0 0 0 auto !important;
           display: block;
+          margin: 1em auto 1em auto;
+          padding: 12px;
+          min-width: 250px;
+          width: fit-content;
+          background-color: $primary;
+          color: white;
+          border-top: none;
+          border-right: none;
+          border-left: none;
+          border-bottom: 2px solid #60606070;
+          border-top: 2px solid #60606070;
+          cursor: pointer;
         }
         button:hover {
-          background-color: $green;
-        }
-        textarea {
-          resize: none;
-          width: 100%;
-          height: 120px;
-          margin: 1em auto;
-          padding-top: 6px;
-          padding-left: 6px;
-          border-radius: 5px;
-        }
-        p {
-          margin-bottom: 1em;
-          color: red;
+          background-color: rgba($color: $primary, $alpha: 0.8);
         }
       }
 

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Social from "./SocialMain";
+import FeedBackForm from "./FeedBackForm";
 
 export default function FooterItem(props) {
   const [show, setShow] = useState(true);
+  const [showFeedBackForm, setShowFeedBackForm] = useState(false);
 
   const handleClick = () => {
     setShow(!show);
@@ -41,9 +43,12 @@ export default function FooterItem(props) {
           <p className="info" onClick={() => window.location.href=props.link2}>{props.i2}</p>
           <p className="info" onClick={() => window.location.href=props.link3}>{props.i3}</p>
           <p className="info" onClick={() => window.location.href=props.link4}>{props.i4}</p>
+          <p className="info" onClick={() => {setShowFeedBackForm(true)}}>{props.ff}</p>
+          <p className="info"><a className="info" href={props.link5} target="_blank">{props.i5}</a></p>
           {props.social && <Social/>}
         </>
       )}
+      {showFeedBackForm && <FeedBackForm setShowFeedBackForm={setShowFeedBackForm}/>}
     </div>
   );
 }

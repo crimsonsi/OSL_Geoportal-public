@@ -3,8 +3,9 @@
 @import "./0_mediaquery";
 
 .data {
-  min-height: 100vh;
-  padding-top: 100px;
+  height: 100vh;
+  overflow-y: auto;
+  padding-top: 52px;
 
   .search {
     margin: 2em auto 2em auto;
@@ -24,12 +25,12 @@
       color: whitesmoke;
       font-size: 1rem;
       cursor: pointer;
-      option{
+      option {
         color: black;
       }
     }
     input {
-      width: 30vw;
+      width: fit-content;
       border-radius: 2px;
       border: none;
       padding-left: 5px;
@@ -44,20 +45,23 @@
       margin: 5px;
       cursor: pointer;
       transition: 300ms;
-      i{
+      i {
         color: whitesmoke;
         transform: scale(1.4);
         transition: 300ms ease;
       }
     }
-    button:hover i{
+    button:hover i {
       transform: scale(1.8);
     }
   }
 
   .conten {
-    width: 85%;
+    max-width: 85%;
+    width: 100%;
     margin: auto;
+    min-height: 60vh;
+    padding: 0 0 2em 0;
 
     .dataSection {
       background-color: white;

@@ -57,7 +57,6 @@ export default function RegisterPopUp(props) {
         })
         .then((data) => {
           setIsLoading(false);
-          console.log(data);
           if (data.success) {
             setIsError(data.success);
             localStorage.setItem("cilbup_OSL", data.token);
@@ -70,7 +69,7 @@ export default function RegisterPopUp(props) {
         })
         .catch((err) => {
           setIsLoading(false);
-          console.log(err);
+
           setIsError("Registration failed!");
         });
     }

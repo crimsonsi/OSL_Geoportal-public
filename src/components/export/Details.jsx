@@ -28,27 +28,27 @@ export default function Details(props) {
   const baseLayer = useRef(null);
   const [data, setData] = useState(null);
   const [geom, setGeom] = useState(null);
-  const [myMap, setMyMap] = useState(null);
+  const [map, setmap] = useState(null);
   const [pdfData, setPdfData] = useState(null);
   const [bounds, setBounds] = useState(null);
   const [parcel, setParcel] = useState(null);
 
   useEffect(() => {
-    if (myMap) {
-      leafletImage(myMap, function (err, canvas) {
+    if (map) {
+      leafletImage(map, function (err, canvas) {
         // setImage(canvas.toDataURL());
       });
     }
-  }, [myMap]);
+  }, [map]);
 
   useEffect(() => {
-    fetch(`/valuation/combined/${props.detail}`)
+    fetch(`/api/valuation/combined/${props.detail}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
       .then((data) => {
         if (data.rows.length > 0) {
-          setPdfData(data.rows[0])
+          setPdfData(data.rows[0]);
           let cols = Object.keys(data.rows[0]);
           let d = [];
           cols.forEach((item) => {
@@ -67,20 +67,19 @@ export default function Details(props) {
         }
       })
       .catch((e) => {
-        console.log(e);
+    
       });
   }, []);
 
   useEffect(() => {
     if (geom) {
-      fetch(`/valuation/geom/${props.detail}`)
+      fetch(`/api/valuation/geom/${props.detail}`)
         .then((response) => {
           if (response.ok) return response.json();
         })
         .then((data) => {
           if (data.length != 0) {
             let d = JSON.parse(data[0].st_asgeojson);
-            console.log(d);
             const bbx = bbox(d);
             const c1 = [bbx[1], bbx[0]];
             const c2 = [bbx[3], bbx[2]];
@@ -131,8 +130,8 @@ export default function Details(props) {
             if (bounds) {
               map.fitBounds(bounds);
             }
-            if (!myMap) {
-              setMyMap(map);
+            if (!map) {
+              setmap(map);
             }
             return null;
           }}

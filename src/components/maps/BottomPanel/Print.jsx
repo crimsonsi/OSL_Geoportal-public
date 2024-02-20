@@ -14,7 +14,7 @@ export default function Print(props) {
   }, [])
 
   const printMap = () => {
-    let file
+    let file;
     let format = "blob";
     let overridedPluginOptions = {
       mimeType: "image/jpeg",
@@ -22,11 +22,9 @@ export default function Print(props) {
     props.simpleMapScreenshoter
       ?.takeScreen(format, overridedPluginOptions)
       .then((blob) => {
-        setBlob(window.URL.createObjectURL(blob))
+        setBlob(window.URL.createObjectURL(blob));
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => {});
   };
 
   return (
@@ -38,7 +36,14 @@ export default function Print(props) {
         <br />
         {props.body && (
           <BlobProvider
-            document={<SearchReport body={props.body} blob={blob} />}
+            document={
+              <SearchReport
+                body={props.body}
+                blob={blob}
+                pChartImgUrl={props.pChartImgUrl}
+                bChartImgUrl={props.bChartImgUrl}
+              />
+            }
             fileName={props.body["attributes"].Title}
           >
             {({ blob, url, loading, error }) =>
@@ -57,7 +62,14 @@ export default function Print(props) {
 
         {props.body && (
           <PDFDownloadLink
-            document={<SearchReport body={props.body} blob={blob} />}
+            document={
+              <SearchReport
+                body={props.body}
+                pChartImgUrl={props.pChartImgUrl}
+                blob={blob}
+                bChartImgUrl={props.bChartImgUrl}
+              />
+            }
             fileName={props.body["attributes"].Title}
           >
             {({ blob, url, loading, error }) =>

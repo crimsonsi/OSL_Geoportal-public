@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Item from "./Item";
 import BuildQuery from "./BottomPanel/BuildQuery";
 import Search from "./BottomPanel/Search";
@@ -40,6 +40,10 @@ export default function BottomPanel(props) {
               printMap={props.printMap}
               updateBody={props.updateBody}
               simpleMapScreenshoter={props.simpleMapScreenshoter}
+              pChartImgUrl={props.pChartImgUrl}
+              setPChartImgUrl={props.setPChartImgUrl}
+              bChartImgUrl={props.bChartImgUrl}
+              setBChartImgUrl={props.setBChartImgUrl}
             />
           )}
         </div>

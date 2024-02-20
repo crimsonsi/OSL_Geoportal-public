@@ -1,12 +1,15 @@
 .aboutPage {
-  &.section-1 {
+  height: 100vh;
+  overflow-y: auto;
+
+  .section-1 {
     position: relative;
     width: 92.5%;
     margin: 0 0 0 auto;
     height: 80vh;
     display: flex;
     flex-direction: row;
-    padding-top: 60px;
+    padding-top: 52px;
 
     .text-main {
       display: flex;
@@ -43,32 +46,32 @@
         text-align: center;
         justify-content: center;
         // * hover-border-2 */
-        &::before,
-        &::after {
+        ::before,
+        ::after {
           position: absolute;
           content: "";
           width: 10%;
           height: 25%;
           transition: 0.35s;
         }
-        &::before {
+        ::before {
           bottom: 0;
           left: 0;
           border-left: 1px solid rgb(0, 0, 61);
           border-bottom: 1px solid rgb(0, 0, 61);
         }
-        &::after {
+        ::after {
           top: 0;
           right: 0;
           border-right: 1px solid rgb(0, 0, 61);
           border-top: 1px solid rgb(0, 0, 61);
         }
-        &:hover::before,
-        &:hover::after {
+        :hover::before,
+        :hover::after {
           width: 99%;
           height: 99%;
         }
-        &:hover {
+        :hover {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-image: linear-gradient(120deg, #a20c0c 0%, #0e0e80 100%);
@@ -84,7 +87,7 @@
     }
   }
 
-  &.section-2 {
+  .section-2 {
     position: relative;
     max-width: 92.5%;
     width: 100%;
@@ -124,7 +127,7 @@
       background-size: cover;
       background-position: center;
 
-      &::before {
+      ::before {
         content: "";
         position: absolute;
         top: 10px;
@@ -147,7 +150,8 @@
       }
     }
   }
-  &.section-3 {
+
+  .section-3 {
     position: relative;
     width: 100%;
     height: auto;
@@ -187,15 +191,11 @@
           font-size: medium;
           line-height: 1.5;
         }
-        &:hover h4 {
+        :hover h4 {
           color: rgb(162, 12, 12);
         }
-        &:nth-child(2),
-        &:nth-child(3) {
-          border: 1px solid rgb(40, 40, 255);
-        }
-        &:nth-child(2):hover h4,
-        &:nth-child(3):hover h4 {
+        :nth-child(2):hover h4,
+        :nth-child(3):hover h4 {
           color: rgb(18, 18, 182);
         }
       }
@@ -214,7 +214,7 @@
       }
     }
   }
-  &.section-4 {
+  .section-4 {
     position: relative;
     width: 100%;
     height: auto;
@@ -263,7 +263,7 @@
 
 @include maxwidth(mobile) {
   .aboutPage {
-    &.section-1 {
+    .section-1 {
       flex-direction: column;
       .img-hero {
         display: none;
@@ -276,11 +276,11 @@
         }
       }
     }
-    &.section-2 {
+    .section-2 {
       padding-top: 0;
       flex-direction: column;
     }
-    &.section-3 {
+    .section-3 {
       h2 {
         font-size: 1.5rem;
       }
@@ -292,7 +292,7 @@
         }
       }
     }
-    &.section-4 {
+    .section-4 {
       .vision {
         h2 {
           font-size: large;
@@ -305,19 +305,19 @@
 
 @include maxwidth(tablet) {
   .aboutPage {
-     &.section-1 {
+    .section-1 {
       height: 50vh;
       margin-bottom: 5em;
     }
-    &.section-2 {
+    .section-2 {
       height: 40vh;
       margin-bottom: 5em;
 
-      .img-hero{
-          height: 40vh;
+      .img-hero {
+        height: 40vh;
       }
     }
-    &.section-3 {
+    .section-3 {
       h2 {
         font-size: 1.5rem;
       }
@@ -329,7 +329,7 @@
         }
       }
     }
-    &.section-4 {
+    .section-4 {
       .vision {
         h2 {
           font-size: large;

@@ -33,7 +33,7 @@ export default function AddData(props) {
         }
       })
       .catch((e) => {
-        console.log(e);
+       
       });
   }, []);
 
@@ -63,7 +63,7 @@ export default function AddData(props) {
           }
         })
         .catch((e) => {
-          console.log(e);
+        
         });
     }
   }, [selected]);

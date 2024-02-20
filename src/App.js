@@ -10,15 +10,17 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import NotFound from "./Pages/404";
 import LandingPage from "./Pages/LandingNew";
-import Map from "./Pages/Map";
-import NewMap from "./Pages/NewMap";
 import DataPage from "./Pages/DataPage";
 import SingleInstancePage from "./Pages/SingleInstancePage";
+import SingleCollection from "./Pages/SingleCollection";
 import AboutPage from "./Pages/AboutPage";
 import ContactUsPage from "./Pages/ContactUsPage";
 import Terms from "./Pages/Terms";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import Category from "./Pages/Category";
+import PublicationsPage from "./Pages/Publications";
+import StoryMapsPage from "./Pages/StoryMapPage";
+import FAQs from "./Pages/FAQs";
 
 function App() {
   useEffect(() => {
@@ -70,9 +72,9 @@ function App() {
   function trackPageView() {
     const pathDirectories = window.location.pathname.split("/");
     if (pathDirectories.length > 2) {
-      if (pathDirectories.includes("instances")) {
-        setPage("Instances");
-        setInstancePage(pathDirectories[3]);
+      if (pathDirectories.includes("maps")) {
+        setPage(pathDirectories[2].replaceAll("%20", " "));
+        setInstancePage(pathDirectories[2].replaceAll("%20", " "));
       }
     } else {
       if (pathDirectories.length === 2) {
@@ -131,7 +133,7 @@ function App() {
             setCurrentUser={setCurrentUser}
           />
         </Route>
-        <Route exact path="/category/*">
+        <Route exact path="/Categories/*">
           <Category
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
@@ -139,14 +141,7 @@ function App() {
             setCurrentUser={setCurrentUser}
           />
         </Route>
-        <Route exact path="/nmap">
-          <Map
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
+
         <Route exact path="/data">
           <DataPage
             isAuthenticated={isAuthenticated}
@@ -155,16 +150,17 @@ function App() {
             setCurrentUser={setCurrentUser}
           />
         </Route>
-        <Route exact path="/map">
-          <NewMap
+
+        <Route exact path="/maps/*">
+          <SingleInstancePage
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
           />
         </Route>
-        <Route exact path="/portal/instances/*">
-          <SingleInstancePage
+        <Route exact path="/collections/*">
+          <SingleCollection
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             currentUser={currentUser}
@@ -173,6 +169,30 @@ function App() {
         </Route>
         <Route exact path="/about">
           <AboutPage
+            isAuthenticated={isAuthenticated}
+            setIsAuthenticated={setIsAuthenticated}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
+        </Route>
+        <Route exact path="/publications">
+          <PublicationsPage
+            isAuthenticated={isAuthenticated}
+            setIsAuthenticated={setIsAuthenticated}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
+        </Route>
+        <Route exact path="/knowledgehub/storymap/*">
+          <StoryMapsPage
+            isAuthenticated={isAuthenticated}
+            setIsAuthenticated={setIsAuthenticated}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
+        </Route>
+        <Route exact path="/faqs">
+          <FAQs
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             currentUser={currentUser}

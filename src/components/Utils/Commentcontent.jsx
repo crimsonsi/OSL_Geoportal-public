@@ -94,61 +94,12 @@ export default function Commentcontent(props) {
           <Prompt setReplyComment={setReplyComment} />
         ))}
       <div className="messageContet">
-        <div
-          className={cl}
-          onClick={() => {
-            moreOrLess();
-            updateToRead();
-          }}
-        >
-          <div className="symbol">{props.message.From.charAt(0)}</div>
-          <div className="user">
-            {props.message.Content.length < 250 ? (
-              <>
-                <h4>{props.message.From}</h4>
-                <p>{props.message.Content}</p>
-              </>
-            ) : (
-              <>
-                <h4>{props.message.From}</h4>
-                <p>
-                  {text}
-                  <a
-                    style={{ color: "blue", cursor: "pointer" }}
-                    onClick={() => moreOrLess()}
-                  >
-                    {showLess ? (
-                      <span>
-                        Less <i className="fa fa-angle-up"></i>
-                      </span>
-                    ) : (
-                      <span>
-                        More <i className="fa fa-angle-down"></i>
-                      </span>
-                    )}
-                  </a>
-                </p>
-              </>
-            )}
-
-            <button
-              onClick={() => setReplyComment(true)}
-              style={{ "margin-right": "20px" }}
-            >
-              Reply
-            </button>
-            <button onClick={() => setViewReplies(!viewReplies)}>
-              View Replies
-            </button>
-            {viewReplies &&
-              replies &&
-              replies.map((reply) => {
-                return (
-                  <div>
-                    <Reply reply={reply} />
-                  </div>
-                );
-              })}
+        <div className="accordion-body">
+          <h4>{props.message.From}</h4>
+          <p>{props.message.Content}</p>
+          <div className="accordion-footer">
+            <div></div>
+            <p className="date">{props.message.createdAt.split("T")[0]}</p>
           </div>
         </div>
       </div>

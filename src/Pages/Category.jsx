@@ -1,18 +1,17 @@
 import "../Styles/landing.scss";
 import React, { useState } from "react";
 import Header from "../components/Utils/header";
-import "leaflet/dist/leaflet.css";
 import { useEffect } from "react";
 
 import Footer from "../components/Utils/footer";
 import MapCategory from "../components/maps/MapCategory";
 
 export default function Category(props) {
-  const [data, setData] = useState();
-  const instanceId = window.location.pathname.split("/")[2].replace("%20", " ");
+  const [data, setData] = useState(null);
+  const instanceId = window.location.pathname.split("/")[2].replaceAll("%20", " ");
 
   useEffect(() => {
-    fetch(`/api/gis/category/${props.category}/0`, {
+    fetch(`/api/data/category/${instanceId}/0`, {
       method: "get",
       credentials: "include",
     })
@@ -22,23 +21,20 @@ export default function Category(props) {
       })
       .then((data) => {
         setData(data);
-        console.log(data);
       })
       .catch((e) => {});
   }, []);
 
   return (
-    <div>
-      <div className="headings">
-        <Header
-          isAuthenticated={props.isAuthenticated}
-          setIsAuthenticated={props.setIsAuthenticated}
-          currentUser={props.currentUser}
-          setCurrentUser={props.setCurrentUser}
-        />
-      </div>
+    <div className="InstancesPage">
+      <Header
+        isAuthenticated={props.isAuthenticated}
+        setIsAuthenticated={props.setIsAuthenticated}
+        currentUser={props.currentUser}
+        setCurrentUser={props.setCurrentUser}
+      />
 
-      <div className="InstancesPage">
+      <div className="catdata">
         <MapCategory category={instanceId} />
       </div>
       <Footer />

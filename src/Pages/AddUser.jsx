@@ -54,13 +54,9 @@ export default class RegisterPage extends React.Component {
       },
     })
       .then((response) => {
-        console.log(response);
-        //console.log(response.message)
         return response.json();
       })
       .then((data) => {
-        console.log(data);
-        console.log(data.message);
         if (data.message == "User Created successfully") {
           window.location.href = "/login";
         } else {
@@ -68,7 +64,6 @@ export default class RegisterPage extends React.Component {
         }
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 
