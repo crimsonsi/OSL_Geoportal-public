@@ -1,11 +1,11 @@
 FROM node:14-alpine3.14 as build
 
 WORKDIR /usr/src/app
-COPY package*.json ./
-COPY . ./
-RUN npm install
-RUN npm rebuild node-sass
-RUN npm run-script build
+# COPY package*.json ./
+COPY build ./
+# RUN npm install
+# RUN npm rebuild node-sass
+# RUN npm run-script build
 
 FROM nginx:1.21.3-alpine
 
