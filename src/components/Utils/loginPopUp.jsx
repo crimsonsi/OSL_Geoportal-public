@@ -125,7 +125,7 @@ export default function LoginPopUp(props) {
               props.setToggleRegister(false);
             }}
           >
-            Cancel
+            Close
           </h4>
           {isLoading && <Loading />}
         </div>
