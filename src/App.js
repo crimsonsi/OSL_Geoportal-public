@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
   useHistory,
 } from "react-router-dom";
@@ -31,7 +31,7 @@ function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
-  const history = useHistory();
+  // const history = useHistory();
   const [page, setPage] = useState();
   const [instancePage, setInstancePage] = useState();
   const [body, updateBody] = useState({
@@ -124,109 +124,129 @@ function App() {
 
   return (
     <Router>
-      <Switch>
-        <Route exact path="/">
-          <LandingPage
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route exact path="/Categories/*">
-          <Category
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <LandingPage
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        ></Route>
+        <Route
+          path="/Categories/*"
+          element={
+            <Category
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        ></Route>
+
+        <Route path="/data"
+          element=
+          {
+            <DataPage
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }>
         </Route>
 
-        <Route exact path="/data">
-          <DataPage
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
+        <Route path="/maps/*"
+          element=
+          {
+            <SingleInstancePage
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }>
         </Route>
-
-        <Route exact path="/maps/*">
-          <SingleInstancePage
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
+        <Route path="/collections/*"
+          element=
+        {<SingleCollection
+          isAuthenticated={isAuthenticated}
+          setIsAuthenticated={setIsAuthenticated}
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+        />}>
         </Route>
-        <Route exact path="/collections/*">
-          <SingleCollection
+        <Route path="/about"
+        element=
+          {<AboutPage
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
-          />
+          />}>
         </Route>
-        <Route exact path="/about">
-          <AboutPage
+        <Route path="/publications"
+        element=
+         { <PublicationsPage
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
-          />
+          />}>
         </Route>
-        <Route exact path="/publications">
-          <PublicationsPage
+        <Route path="/knowledgehub/storymap/*"
+        element=
+         { <StoryMapsPage
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
-          />
+          />}>
         </Route>
-        <Route exact path="/knowledgehub/storymap/*">
-          <StoryMapsPage
+        <Route path="/faqs"
+        element=
+         { <FAQs
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
-          />
+          />}>
         </Route>
-        <Route exact path="/faqs">
-          <FAQs
+        <Route path="/contact"
+        element=
+         { <ContactUsPage
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
-          />
+          />}>
         </Route>
-        <Route exact path="/contact">
-          <ContactUsPage
+        <Route path="/terms"
+          element=
+         { <Terms
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
-          />
+          />}>
         </Route>
-        <Route exact path="/terms">
-          <Terms
+        <Route path="/privacypolicy"
+        element=
+         { <PrivacyPolicy
             isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route exact path="/privacypolicy">
-          <PrivacyPolicy
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
+          />}>
         </Route>
         <Route path="*">
-          <NotFound />
+          {/* <NotFound /> */}
         </Route>
-      </Switch>
+      </Routes>
     </Router>
   );
 }
