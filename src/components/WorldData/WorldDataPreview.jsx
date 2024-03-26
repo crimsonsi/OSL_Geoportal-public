@@ -130,7 +130,7 @@ export default function WorldDataPreview(props) {
       .then((text) => {
         const result = parser.read(text);
         const options = optionsFromCapabilities(result, {
-          layer: `OSL_Rasters:Kenya_Counties`,
+          layer: `KSA_Rasters:Kenya_Counties`,
           matrixSet: "EPSG:4326",
         });
 
@@ -525,7 +525,8 @@ export default function WorldDataPreview(props) {
         if (res.ok) return res.json();
         else throw Error("Download not created");
       })
-      .then((data) => {})
+      .then((data) => {
+      })
       .catch((err) => {
         console.log(err);
       });

@@ -53,7 +53,7 @@ export default function ThematicPreview(props) {
     Data: [],
     Status: "",
   };
-
+  
   const pathname = window.location.pathname.split("/")[3];
   const [body, setBody] = useState(template);
   const [msg, setMsg] = useState(null);
@@ -131,7 +131,7 @@ export default function ThematicPreview(props) {
       .then((text) => {
         const result = parser.read(text);
         const options = optionsFromCapabilities(result, {
-          layer: `OSL_Rasters:Kenya_Counties`,
+          layer: `KSA_Rasters:Kenya_Counties`,
           matrixSet: "EPSG:4326",
         });
 
@@ -164,6 +164,7 @@ export default function ThematicPreview(props) {
 
     initialMap.on("click", function (ev) {
       initialMap.forEachFeatureAtPixel(ev.pixel, function (feature) {
+    
         setPopup(feature.values_);
         return true;
       });
@@ -199,7 +200,7 @@ export default function ThematicPreview(props) {
         }
       }
     }
-
+  
     loadAllData();
   }, [body?.Data?.length]);
 
@@ -521,15 +522,13 @@ export default function ThematicPreview(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(d),
-    })
-      .then((res) => {
-        if (res.ok) return res.json();
-        else throw Error("Download not created");
-      })
-      .then((data) => {})
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => {
+      if (res.ok) return res.json();
+      else throw Error ("Download not created");
+    }).then((data) => {
+    }).catch((err) => {
+      console.log(err)
+    });
   };
 
   return (

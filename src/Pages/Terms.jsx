@@ -45,7 +45,7 @@ export default function Terms(props) {
           <br></br> <br></br>
           In this Agreement:
           <br></br> <br></br>
-          "Service" or “Services” means myOakar Services Application and any
+          "Service" or “Services” means myKenya Space Agency Application and any
           applications, websites, WAP, software, services, Single Sign On
           module, and any marketing programs run under the name of myKenya Space
           Agency, and other related services provided by any third party
@@ -435,9 +435,9 @@ export default function Terms(props) {
           holding the respective account.
           <br></br> <br></br>
           12.6. You will notify Oakar Services immediately by email to
-          support@myOakar Services.asia upon becoming aware of any unauthorized
-          use of any of Your Registration Data or Account Data or any other
-          breach of security.
+          support@myKenya Space Agency.asia upon becoming aware of any
+          unauthorized use of any of Your Registration Data or Account Data or
+          any other breach of security.
           <br></br> <br></br>
           12.7. PLEASE NOTE THAT You will not be able to change Your
           Registration Data or Account Data after registration. If you have any

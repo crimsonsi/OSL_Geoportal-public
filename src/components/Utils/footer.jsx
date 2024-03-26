@@ -2,9 +2,7 @@ import React from "react";
 import FooterItem from "./footerItem";
 import pdf from "../../assets/Doc/Public Portal Documentation.pdf";
 
-
 class Footer extends React.Component {
-
   render() {
     return (
       <div className="footer" id="footer">
@@ -12,7 +10,7 @@ class Footer extends React.Component {
         <div className="container">
           <FooterItem
             title="Oakar Services"
-            info="Think Geospatial Solutions"
+            info="Promote, coordinate and regulate space related activities in kenya"
           />
           <FooterItem
             title="Sitemap"
@@ -39,10 +37,10 @@ class Footer extends React.Component {
             i1="FAQs"
             link1="/faqs"
             ff="Give feedback"
-          />   
+          />
           <FooterItem
             title="CONTACTS"
-            mail="sales@osl.co.ke"
+            mail="gisimagery@ksa.go.ke"
             num1="+254 709 298 200"
             num2="+254 733 000 000"
             social={true}

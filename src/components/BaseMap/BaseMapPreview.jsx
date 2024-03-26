@@ -127,7 +127,7 @@ export default function ThematicPreview(props) {
       .then((text) => {
         const result = parser.read(text);
         const options = optionsFromCapabilities(result, {
-          layer: `OSL_Rasters:Kenya_Counties`,
+          layer: `KSA_Rasters:Kenya_Counties`,
           matrixSet: "EPSG:4326",
         });
 

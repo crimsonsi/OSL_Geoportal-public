@@ -162,7 +162,7 @@ const SearchReport = ({ blob, body }) => {
               padding: "0px",
             }}
           >
-            Oakar Services Geoportal
+            Oakar Services Data Portal
           </p>
           <p>
             <pre
@@ -175,7 +175,7 @@ const SearchReport = ({ blob, body }) => {
                 whiteSpace: "nowrap",
               }}
             >
-              https://osl.co.ke
+              https:// datahub.ksa.go.ke
             </pre>
           </p>
         </div>

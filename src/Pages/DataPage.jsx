@@ -274,7 +274,7 @@ const MyDocument = (props) => {
   return (
     <div
       title={props.item.Collection ? `Collection: ${props.item.Collection}` : `Map Description: \n\n ${props.item.Description}`}
-      className="stk"
+      className={props.item.Collection ? "stk col":"stk"}
       onClick={() => {
         if (props.item.Collection) {
           window.location.href = `/collections/${props.item.Collection}`;

@@ -5,7 +5,7 @@ export default function CoolText(props) {
   const txt1 = useRef();
   const txt2 = useRef();
 
-  const texts = ["OSL", "Data", "Hub"];
+  const texts = ["Data", "Hub"];
 
   useEffect(() => {
     const morphTime = 1;

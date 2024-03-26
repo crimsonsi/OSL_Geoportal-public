@@ -1,5 +1,5 @@
 import React from "react";
-import logo2 from "../../assets/imgs/osllogo.png";
+import logo2 from "../../assets/imgs/Logo-accent.png";
 import { useLocation } from "react-router-dom";
 
 function NavLink(props) {
@@ -41,8 +41,8 @@ export default function ModalHeader(props) {
             }}
             className="logo"
           >
-            <img src={logo2} alt="Oakar Services" />
-            <h2>Geoportal</h2>
+            <img src={logo2} alt="Oakar Services Logo" />
+            <h2>Data Hub</h2>
           </div>
           <i
             onClick={() => {

@@ -25,13 +25,13 @@ export default function AboutPage(props) {
             }}
             style={{ cursor: "pointer" }}
           >
-            The Geoportal
+            The Data Hub
           </h2>
           {showFeedBackForm && (
             <FeedBackForm setShowFeedBackForm={setShowFeedBackForm} />
           )}
           <p>
-            The Geoportal is our one stop platform that allows you to access,
+            The data hub is our one stop platform that allows you to access,
             visualize and analyze our collections of data. The portal helps our
             users save time by availing useful, relevant and easy to understand
             sets of data. It also provides spatial data analysis and
@@ -59,25 +59,25 @@ export default function AboutPage(props) {
           }}
         ></div>
         <div className="text">
-          <h2>The Oakar Services</h2>
+          <h2>The Geoportal</h2>
           <p>
-            OSL is mandated to promote, coordinate and regulate space related
-            activities in the country. This will be achieved through promotion
-            of research and innovations in space science, technology and
-            respective applications as well as enhancing the regulatory
+            The Geoportal is mandated to promote, coordinate and regulate space
+            related activities in the country. This will be achieved through
+            promotion of research and innovations in space science, technology
+            and respective applications as well as enhancing the regulatory
             framework. It will also spur Kenya’s competitiveness and positioning
             in playing a critical role in the regional and global space agenda
           </p>
         </div>
       </section>
       <section className="section-3">
-        <h2>Geoportal purpose and functionality</h2>
+        <h2>Data hub purpose and functionality</h2>
 
         <div className="container">
           <div>
             <h4>Disseminating Spatial Data</h4>
             <p>
-              The OSL Data platform enables the agency share spatial data and
+              The Geoportal platform enables the agency share spatial data and
               maps in diverse formats such as PDF, Shapefiles, KML, GeoJSON, and
               Web Services.
             </p>
@@ -116,7 +116,7 @@ export default function AboutPage(props) {
         <div className="vision">
           <h2>Oakar Services Geoplatform </h2>
           <p>
-            The OSL Geoportal is a platform created for the purpose of sharing
+            The Data Hub is a platform created for the purpose of sharing
             spatial data with the public. The public who are the major
             stakeholders targeted by the portal consists of companies and
             organizations dealing with spatial data in their business
@@ -126,15 +126,15 @@ export default function AboutPage(props) {
             needing spatial data for their projects and researches.
           </p>
           <p>
-            The Geoportal is an easy to use application. Public users register
-            on the portal by creating an account. The account consists of an
-            email address and password which a user uses to sign-in into the
-            portal. On successful login, a user is able to access
-            functionalities of the Geo-platform, beginning with a list of
-            published instances organized categorically.
+            The Data hub is an easy to use application. Public users register on
+            the portal by creating an account. The account consists of an email
+            address and password which a user uses to sign-in into the portal.
+            On successful login, a user is able to access functionalities of the
+            Geo-platform, beginning with a list of published instances organized
+            categorically.
           </p>
           <p>
-            The Geoportal consists of a data page showing all data in the public
+            The Data Hub consists of a data page showing all data in the public
             portal published by the administrator via the admin portal. Users
             can categorize the data and also search based on the titles and
             keywords in the data.
@@ -149,13 +149,13 @@ export default function AboutPage(props) {
             the user to communicate with the system administrator.
           </p>
           <h3>
-            The Geoportal has got several special functionalities for its users.
+            The Data Hub has got several special functionalities for its users.
           </h3>
           <ul>
             <li>
               It allows users access data for different thematic layers and base
               maps(high-resolution satellite images, topographical and hybrid
-              maps) which are disseminated by OSL.
+              maps) which are disseminated by The Geoportal.
             </li>
             <li>
               It allow users perform spatial analysis of thematic data layers

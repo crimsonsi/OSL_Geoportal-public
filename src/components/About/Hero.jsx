@@ -59,41 +59,35 @@ export default class Hero extends React.Component {
             <div className="contentSection">
               <div className="aboutUs">
                 <div>
-                  <h1>About OSL</h1>
+                  <h1>About Geoportal</h1>
                   <div className="descriptionContent">
                     <p>
-                      Oakar Services is a geospatial consulting firm focused on
-                      delivering trusted and comprehensive solutions and
-                      training through our deep expertise and leveraging of
-                      geospatial technology. At the heart of our service
-                      provision is the empowerment of our clients to optimize
-                      their business efficiency and realize tangible impact in
-                      their industry. Through our innovative geospatial
-                      solutions allied with technical support and training we
-                      aim to expand the utilization of geospatial technology to
-                      become an integral part of business operations and
-                      evolution. In doing so, we will make a significant
-                      contribution to the modernization of Eastern Africa, and
-                      the advancement of both the public and private sector.
+                      The Geoportal is mandated to promote, coordinate and
+                      regulate space related activities in the country. This
+                      will be achieved through promotion of research and
+                      innovations in space science, technology and respective
+                      applications as well as enhancing the regulatory
+                      framework. It will also spur Kenya’s competitiveness and
+                      positioning in playing a critical role in the regional and
+                      global space agenda
                     </p>
                   </div>
                 </div>
               </div>
             </div>
             <div>
-              <h1>About Geoportal</h1>
+              <h1>About Data Hub</h1>
               <div className="descriptionContent">
                 <p>
-                  The OSL Geoportal is a tool for the handling and management of
+                  The Data Hub is a tool for the handling and management of
                   geospatial data. It facilitates the dissemination and sharing
                   of geospatial data and maps across stakeholders promoting the
                   ease of access to geospatial resources.
                   <br />
-                  The OSL Geoportal provides a framework for updating and
-                  sharing information in real-time for planning and management
-                  purposes. The Geoportal supports a range of users such as
-                  education institutions, research firms, and government
-                  agencies.
+                  The Data Hub provides a framework for updating and sharing
+                  information in real-time for planning and management purposes.
+                  The Data Hub supports a range of users such as education
+                  institutions, research firms, and government agencies.
                 </p>
               </div>
             </div>
@@ -104,7 +98,7 @@ export default class Hero extends React.Component {
               <i className="fa  fa-angle-right"></i> Thematic Maps
             </h4>
             <h4>
-              <i className="fa  fa-angle-right"></i>Topographic Maps
+              <i className="fa  fa-angle-right"></i>Topegraphic Maps
             </h4>
             <h4>
               <i className="fa  fa-angle-right"></i>Basemaps and

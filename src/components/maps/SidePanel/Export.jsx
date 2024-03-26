@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import downloadImg from "../../../assets/imgs/download.png";
 import MyError from "../../Utils/MyError";
-import jsPDF from "jspdf";
+import jsPDF from 'jspdf';
 import SearchReport from "../../export/SearchReport";
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderToStaticMarkup } from "react-dom/server"
 
 const Item = (props) => {
   return (
@@ -18,7 +18,7 @@ export default function Export(props) {
   const [service, setService] = useState("");
   const [error, setError] = useState("");
   const [blob, setBlob] = useState(null);
-  const base_url = "https://geoserver-service-OSL.OSL.go.ke";
+  const base_url = "https://geoserver-service-ksa.ksa.go.ke";
   const headers = {
     Authorization: `Basic ${Buffer.from("admin:geoserver", "utf-8").toString(
       "base64"
@@ -36,7 +36,7 @@ export default function Export(props) {
 
     // Adding the fonts.
     doc.setFont("Inter-Regular", "normal");
-    const output = document.createElement("p");
+     const output = document.createElement("p");
     const staticElement = renderToStaticMarkup(
       <SearchReport body={props.body} blob={blob} />
     );
@@ -105,7 +105,7 @@ export default function Export(props) {
     props.map.renderSync();
   }, []);
 
-  const downLoadData = (ext) => {
+  const downLoadData = (ext) => { 
     setError("");
     if (Array.isArray(props.body.Data)) {
       props.body.Data.forEach(async (item) => {
@@ -159,7 +159,7 @@ export default function Export(props) {
             }
           })
           .catch((e) => {});
-        populateDownload(ext);
+          populateDownload(ext);
       });
     } else {
       fetch(
@@ -245,19 +245,19 @@ export default function Export(props) {
       method: "get",
       credentials: "include",
     })
-      .then((res) => {
-        return res.blob();
-      })
-      .then((blob) => {
-        var url = window.URL.createObjectURL(blob);
-        var a = document.createElement("a");
-        a.href = url;
-        a.download = s_url.split(":")[1];
-        document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-        a.click();
-        a.remove(); //afterwards we remove the element again
-      })
-      .catch((err) => {});
+    .then((res) => {
+      return res.blob();
+    })
+    .then((blob) => {
+      var url = window.URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = s_url.split(":")[1];
+      document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+      a.click();
+      a.remove(); //afterwards we remove the element again
+    })
+    .catch((err) => {});
   };
 
   function getWms(url, ext) {
@@ -289,15 +289,13 @@ export default function Export(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(d),
-    })
-      .then((res) => {
-        if (res.ok) return res.json();
-        else throw Error("Download not created");
-      })
-      .then((data) => {})
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => {
+      if (res.ok) return res.json();
+      else throw Error ("Download not created");
+    }).then((data) => {
+    }).catch((err) => {
+      console.log(err)
+    });
   };
 
   return (
@@ -340,6 +338,7 @@ export default function Export(props) {
             <div>
               <h5>Reports</h5>
               <Item ext="pdf" handleClick={handleGeneratePdf} txt="PDF" />
+                 
             </div>
           </div>
           {service && (

@@ -12,11 +12,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // import "swiper/modules/pagination/pagination.scss"; // Pagination module
 // import "swiper/css";
 // import "swiper/css/pagination";
-// import SwiperCore, { Autoplay, Pagination } from "swiper";
+import SwiperCore, { Autoplay, Pagination } from "swiper";
 import Header from "../Utils/header";
 import Cards from "../Landing/Cards";
 import CoolText from "./CoolText";
-// SwiperCore.use([Autoplay, Pagination]);
+SwiperCore.use([Autoplay, Pagination]);
 
 export default function Background(params) {
   const [index, setIndex] = useState(0);
@@ -74,15 +74,15 @@ export default function Background(params) {
     <div style={{ backgroundImage: imgs[index + 1] }} className="bg">
       <img className={cls} src={imgs[index]} alt="" />
       <div className="nhero">
-        {/* <Swiper
+        <Swiper
           autoplay={{
             delay: 10000,
             disableOnInteraction: false,
           }}
           loop={true}
           grabCursor={true}
-          // pagination={true}
-          // modules={[Pagination]}
+          pagination={true}
+          modules={[Pagination]}
           className="mySwiper"
         >
           {content.map((item, i) => {
@@ -92,7 +92,7 @@ export default function Background(params) {
               </SwiperSlide>
             );
           })}
-        </Swiper> */}
+        </Swiper>
         <div className="themes">
           {content.map((item, index) => {
             return (
@@ -126,7 +126,7 @@ const MySlider = (props) => {
         <h1>{props.item.title}</h1>
         <div>
           <h4>
-            Explore the Oakar Services <br></br> Geoportal
+            Explore the Geoportal <br></br> Data Hub
           </h4>
         </div>
 

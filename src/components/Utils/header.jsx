@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import logo2 from "../../assets/imgs/osllogo.png";
+import logo2 from "../../assets/imgs/Logo-accent.png";
 import ModalHeader from "./modal_header";
 import { useLocation } from "react-router-dom";
 import Login from "./loginPopUp";
@@ -149,7 +149,7 @@ export default function Header(props) {
             className="logo"
           >
             <img src={logo2} className="lg" alt="Oakar Services Logo" />
-            <h2>Geoportal</h2>
+            <h2>Data Hub</h2>
           </div>
 
           <div className="nav">

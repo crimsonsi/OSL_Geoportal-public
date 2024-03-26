@@ -99,7 +99,7 @@ export default function LandingPage(props) {
         </div>
         <div className="heroAbout">
           <h1>Oakar Services</h1>
-          <h2>Geoportal</h2>
+          <h2>DataPortal</h2>
           {/* registration page or explore */}
           {props.isAuthenticated ? (
             <a href="#explore">Explore</a>
