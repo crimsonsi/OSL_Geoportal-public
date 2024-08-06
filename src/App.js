@@ -118,13 +118,6 @@ function App() {
   }, [page]);
 
   return (
-    // <Router>
-    //   <Routes>
-    //     <Route path="/login" element={<Login />} />
-    //     <Route path="/*" element={<ProtectedRoute component={Home} />} />
-    //     <Route path="*" element={<NotFound />} />
-    //   </Routes>
-    // </Router>
     <Router>
       <Routes>
         <Route
@@ -242,7 +235,6 @@ function App() {
             />
           }
         />
-
         <Route
           exact
           path="/contact"
