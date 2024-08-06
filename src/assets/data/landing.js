@@ -32,9 +32,9 @@ import topoMap from "../imgs/tp3.jpg";
 const myData = [
   {
     title: "Oakar Services",
-    subtitle: "Data Hub",
+    subtitle: "Geoportal",
     cat: "data",
-    p: `Data Hub creates and maintains a range of significant spatial datasets that are useful to a number of stakeholders.
+    p: `Geoportal creates and maintains a range of significant spatial datasets that are useful to a number of stakeholders.
                 `,
     label: "View Data",
     imgs: [
@@ -46,7 +46,7 @@ const myData = [
     ],
   },
   {
-    title: "Geo-Data Hub",
+    title: "Geo-Geoportal",
     subtitle: "Thematic Maps",
     cat: "Thematic Map",
     p: `These types of maps portray the geographic pattern of a particular subject matter in a geographic area.`,
@@ -59,7 +59,7 @@ const myData = [
     ],
   },
   {
-    title: "Geo-Data Hub",
+    title: "Geo-Geoportal",
     subtitle: "Topographic Maps",
     cat: "Topo Map",
     p: `These types of map characterized by large-scale detail and quantitative representation of landmark features.`,
@@ -72,7 +72,7 @@ const myData = [
     ],
   },
   {
-    title: "Geo-Data Hub",
+    title: "Geo-Geoportal",
     subtitle: "Raster Data",
     cat: "Basemap",
     p: `Earth observation involves gathering information about the Earth through remote sensing technologies`,
@@ -85,7 +85,7 @@ const myData = [
     ],
   },
   {
-    title: "Geo-Data Hub",
+    title: "Geo-Geoportal",
     subtitle: "Vector Data",
     cat: "World Data",
     p: `Vector data structures represent specific features on the Earth's surface, and assign attributes to those features`,

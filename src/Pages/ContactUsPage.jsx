@@ -118,7 +118,7 @@ export default function ContactUsPage(props) {
             setIsAuthenticated={props.setIsAuthenticated}
             currentUser={props.currentUser}
             setCurrentUser={props.setCurrentUser}
-            parent='Contact Us'
+            parent="Contact Us"
           />
         </div>
         <div className="contactsContent">
@@ -138,7 +138,7 @@ export default function ContactUsPage(props) {
               )}
               <br />
               <p>
-                Thank you for visiting our data hub. Might you be having any
+                Thank you for visiting our Geoportal. Might you be having any
                 trouble and need our assistance? Well, we are eager to help!
                 Just log a message to us and our customer service team will
                 respond to your needs as soon as possible.{" "}

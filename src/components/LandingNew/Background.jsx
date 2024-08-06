@@ -126,7 +126,7 @@ const MySlider = (props) => {
         <h1>{props.item.title}</h1>
         <div>
           <h4>
-            Explore the Geoportal <br></br> Data Hub
+            Explore the Geoportal <br></br> Geoportal
           </h4>
         </div>
 

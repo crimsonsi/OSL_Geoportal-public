@@ -1,194 +1,261 @@
-import { useEffect, useState } from "react";
-import Pagination from "../Utils/pagination";
-import "../../Styles/documents.scss";
-import WaveLoading from "../Utils/WaveLoading";
-import SelectMain from "../Utils/SelectMain";
-import { useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import {
+  Button,
+  Typography,
+  Box,
+  TextField,
+  MenuItem,
+  CircularProgress,
+} from "@mui/material";
+import Pagination from "../Utils/pagination"; // Assuming Pagination is already implemented
+import { makeStyles } from "@mui/styles";
 
 const criteria = ["Title", "Description", "Owner", "Keywords"];
+
+const useStyles = makeStyles({
+  container: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  sidebar: {
+    width: 200,
+    backgroundColor: "#f4f4f4",
+    padding: "1rem",
+    display: "flex",
+    flexDirection: "column",
+    borderRight: "1px solid #ddd",
+  },
+  mainContent: {
+    flex: 1,
+    padding: "1rem",
+  },
+  category: {
+    padding: "0.5rem",
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: "#e0e0e0",
+    },
+    borderRadius: "4px",
+    marginBottom: "0.5rem",
+  },
+  activeCategory: {
+    backgroundColor: "#d0d0d0",
+  },
+  top: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: "1rem",
+  },
+  searchInput: {
+    marginRight: "1rem",
+  },
+  document: {
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+    marginBottom: "1rem",
+    border: "1px solid #ddd",
+    borderRadius: "4px",
+    padding: "1rem",
+    "&:hover": {
+      backgroundColor: "#f0f0f0",
+    },
+  },
+  thumbnail: {
+    width: 100,
+    height: 100,
+    objectFit: "cover",
+    marginRight: "1rem",
+  },
+  description: {
+    flex: 1,
+  },
+});
 
 export default function MapCategory(props) {
   const [data, setData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [crit, setCrit] = useState(criteria[0]);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("All");
   const [refresh, setRefresh] = useState(false);
   const srch = useRef();
+  const classes = useStyles();
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   useEffect(() => {
-    if (filter == "All") {
+    const fetchData = async () => {
       setLoading(true);
-      fetch(`/api/data/category/${props.category}/${(currentPage - 1) * 12}`)
-        .then((res) => {
-          if (res.ok) return res.json();
-          else throw Error("");
-        })
-        .then((data) => {
-          setLoading(false);
-          setData(data);
-        })
-        .catch((e) => {
-          setLoading(false);
-        });
-    } else {
-      setLoading(true);
-      fetch(
-        `/api/data/tpaginated/${props.category}/${filter}/${
-          (currentPage - 1) * 12
-        }`
-      )
-        .then((res) => {
-          if (res.ok) return res.json();
-          else throw Error("");
-        })
-        .then((data) => {
-          setLoading(false);
-     
-          setData(data);
-        })
-        .catch((e) => {
-          setLoading(false);
-        });
-    }
+      try {
+        const res = await fetch(
+          filter === "All"
+            ? `/api/data/category/${props.category}/${(currentPage - 1) * 12}`
+            : `/api/data/tpaginated/${props.category}/${filter}/${
+                (currentPage - 1) * 12
+              }`
+        );
+        if (!res.ok) throw new Error("Network response was not ok");
+        const data = await res.json();
+        setData(data);
+      } catch (error) {
+        console.error("Fetch error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [currentPage, refresh, filter]);
 
-  function search(q) {
+  const search = async (q) => {
     setLoading(true);
-    fetch(`/api/data/search/${crit}/${q}`)
-      .then((res) => {
-        if (res.ok) return res.json();
-        else throw Error("");
-      })
-      .then((data) => {
-        setLoading(false);
-        setData(data);
-      })
-      .catch((e) => {
-        setLoading(false);
-      });
-  }
+    try {
+      const res = await fetch(`/api/data/search/${crit}/${q}`);
+      if (!res.ok) throw new Error("Network response was not ok");
+      const data = await res.json();
+      setData(data);
+    } catch (error) {
+      console.error("Search error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="arc">
-      <div className="slist">
-        <div className="scontainer">
-          <div className="left">
-            <Category
-              txt="All"
-              filter={filter}
-              setFilter={setFilter}
-              setCurrentPage={setCurrentPage}
+    <Box className={classes.container}>
+      <Box className={classes.sidebar}>
+        <Category
+          txt="All"
+          filter={filter}
+          setFilter={setFilter}
+          setCurrentPage={setCurrentPage}
+          classes={classes}
+        />
+        <Category
+          txt="Raster"
+          filter={filter}
+          setFilter={setFilter}
+          setCurrentPage={setCurrentPage}
+          classes={classes}
+        />
+        <Category
+          txt="Vector"
+          filter={filter}
+          setFilter={setFilter}
+          setCurrentPage={setCurrentPage}
+          classes={classes}
+        />
+      </Box>
+      <Box className={classes.mainContent}>
+        <Box className={classes.top}>
+          <Typography variant="h6">Search Criteria</Typography>
+          <TextField
+            select
+            label="Criteria"
+            value={crit}
+            onChange={(e) => setCrit(e.target.value)}
+            variant="outlined"
+            size="small"
+            className={classes.searchInput}
+          >
+            {criteria.map((c) => (
+              <MenuItem key={c} value={c}>
+                {c}
+              </MenuItem>
+            ))}
+          </TextField>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              search(srch.current.value);
+            }}
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <TextField
+              ref={srch}
+              type="text"
+              placeholder={"Searching by " + crit}
+              variant="outlined"
+              size="small"
+              required
+              onChange={(e) => {
+                if (e.target.value === "") {
+                  setData(null);
+                  setRefresh(!refresh);
+                } else {
+                  search(e.target.value);
+                }
+              }}
             />
-            <Category
-              txt="Raster"
-              filter={filter}
-              setFilter={setFilter}
-              setCurrentPage={setCurrentPage}
-            />
-            <Category
-              txt="Vector"
-              filter={filter}
-              setFilter={setFilter}
-              setCurrentPage={setCurrentPage}
-            />
-          </div>
-          <div className="smain">
-            <div className="top">
-              <dir className="yr">
-                <h4>Search Criteria</h4>
-                <SelectMain
-                  data={criteria}
-                  getSelected={(v) => {
-                    setCrit(v);
-                  }}
-                />
-              </dir>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                <input
-                  ref={srch}
-                  type="text"
-                  placeholder={"Searching by " + crit}
-                  required
-                  onChange={(e) => {
-                    if (e.target.value == "") {
-                      setData(null);
-                      setRefresh(!refresh);
-                    } else {
-                      search(e.target.value);
-                    }
-                  }}
-                />
-                <i className="fa fa-search"></i>
-              </form>
-            </div>
-
-            <div className="list">
-              {data &&
-                data?.data?.length > 0 &&
-                data?.data?.map((item, i) => {
-                  return <MyDocument key={i} item={item} />;
-                })}
-            </div>
-            <br />
-            <br />
-            {data && (
-              <Pagination
-                totalItems={data.total}
-                currentPage={currentPage}
-                onPageChange={handlePageChange}
-              />
-            )}
-          </div>
-        </div>
-        {loading && <WaveLoading />}
-      </div>
-    </div>
+            <Button type="submit" variant="contained" color="primary">
+              Search
+            </Button>
+          </form>
+        </Box>
+        <Box>
+          {data?.data?.length > 0 ? (
+            data.data.map((item, i) => (
+              <MyDocument key={i} item={item} classes={classes} />
+            ))
+          ) : (
+            <Typography variant="body2">No documents found.</Typography>
+          )}
+        </Box>
+        {data && (
+          <Pagination
+            totalItems={data.total}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </Box>
+      {loading && <CircularProgress />}
+    </Box>
   );
 }
 
-const Category = (props) => {
+const Category = ({ txt, filter, setFilter, setCurrentPage, classes }) => {
   return (
-    <div
+    <Box
       onClick={() => {
-        props.setFilter(props.txt);
-        props.setCurrentPage(1);
+        setFilter(txt);
+        setCurrentPage(1);
       }}
-      style={{
-        backgroundColor: props.txt == props.filter ? "#60606030" : "white",
-      }}
-      className="category"
+      className={`${classes.category} ${
+        txt === filter ? classes.activeCategory : ""
+      }`}
     >
-      <p>{props.txt}</p>
-    </div>
+      <Typography variant="body2">{txt}</Typography>
+    </Box>
   );
 };
 
-const MyDocument = (props) => {
+const MyDocument = ({ item, classes }) => {
   return (
-    <div
-      title={"Map Description" + "\n\n" + props.item.Description}
-      className="stk"
+    <Box
+      title={"Map Description" + "\n\n" + item.Description}
+      className={classes.document}
       onClick={() => {
-        window.location.href = `/maps/${props.item.Category}/${props.item.ID}`;
+        window.location.href = `/maps/${item.Category}/${item.ID}`;
       }}
     >
-      <img src={`/api/${props.item.Thumbnail}`} alt="" />
-      <div className="np">
-        <div className="tp">
-          <h3>{props.item.Title}</h3>
-        </div>
-        <h4>Owner: {props.item.Owner}</h4>
-        <h4>Date Published: {props.item.updatedAt.split("T")[0]}</h4>
-        <p>{props.item.Description}</p>
-      </div>
-    </div>
+      <img
+        src={`/api/${item.Thumbnail}`}
+        alt=""
+        className={classes.thumbnail}
+      />
+      <Box className={classes.description}>
+        <Typography variant="h6">{item.Title}</Typography>
+        <Typography variant="body2">Owner: {item.Owner}</Typography>
+        <Typography variant="body2">
+          Date Published: {item.updatedAt.split("T")[0]}
+        </Typography>
+        <Typography variant="body2">{item.Description}</Typography>
+      </Box>
+    </Box>
   );
 };

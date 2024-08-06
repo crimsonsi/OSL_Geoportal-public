@@ -42,7 +42,7 @@ export default function ModalHeader(props) {
             className="logo"
           >
             <img src={logo2} alt="Oakar Services Logo" />
-            <h2>Data Hub</h2>
+            <h2>Geoportal</h2>
           </div>
           <i
             onClick={() => {

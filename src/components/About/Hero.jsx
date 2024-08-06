@@ -76,17 +76,17 @@ export default class Hero extends React.Component {
               </div>
             </div>
             <div>
-              <h1>About Data Hub</h1>
+              <h1>About Geoportal</h1>
               <div className="descriptionContent">
                 <p>
-                  The Data Hub is a tool for the handling and management of
+                  The Geoportal is a tool for the handling and management of
                   geospatial data. It facilitates the dissemination and sharing
                   of geospatial data and maps across stakeholders promoting the
                   ease of access to geospatial resources.
                   <br />
-                  The Data Hub provides a framework for updating and sharing
+                  The Geoportal provides a framework for updating and sharing
                   information in real-time for planning and management purposes.
-                  The Data Hub supports a range of users such as education
+                  The Geoportal supports a range of users such as education
                   institutions, research firms, and government agencies.
                 </p>
               </div>

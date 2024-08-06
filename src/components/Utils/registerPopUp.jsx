@@ -1,16 +1,25 @@
 import React, { useRef, useState } from "react";
-import InputMap from "../maps/InputMap";
-import Button from "./ButtonMain";
-import Loading from "./Loading";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+  CircularProgress,
+  Typography,
+  Link,
+  Box,
+} from "@mui/material";
 
 export default function RegisterPopUp(props) {
   const [isError, setIsError] = useState("");
   const [body, updateBody] = useState({
-    Email: null,
-    Password: null,
-    cPassword: null,
-    Phone: null,
-    Name: null,
+    Email: "",
+    Password: "",
+    cPassword: "",
+    Phone: "",
+    Name: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const rfEmail = useRef();
@@ -19,58 +28,73 @@ export default function RegisterPopUp(props) {
   const rfName = useRef();
   const rfPhone = useRef();
 
-  const loginUser = () => {
-    let d = body;
-    d.Email = rfEmail.current.value.toLowerCase().trim();
-    d.Name = rfName.current.value;
-    d.Phone = rfPhone.current.value;
-    d.Password = rfPassword.current.value;
-    d.cPassword = rfcPassword.current.value;
-    updateBody(d);
+  const registerUser = () => {
+    const email = rfEmail.current.value.toLowerCase().trim();
+    const password = rfPassword.current.value;
+    const cPassword = rfcPassword.current.value;
+    const name = rfName.current.value;
+    const phone = rfPhone.current.value;
+
     setIsError("");
-    if (!body.Name) return setIsError("Name is required!");
-    if (!body.Phone || body.Phone?.length < 11)
-      return setIsError("Phone is required! include country code e.g 254790123123");
-    if (!validateEmail(body.Email))
+
+    if (!name) return setIsError("Name is required!");
+    if (!phone || phone.length < 11)
+      return setIsError(
+        "Phone is required! Include country code e.g. 254790123123"
+      );
+    if (!validateEmail(email))
       return setIsError("Please enter a valid email address!");
-    if (!validatePassword(body.Password))
+    if (!validatePassword(password))
       return setIsError("Password must be at least 6 characters!");
-    if (body.Password !== body.cPassword)
-      return setIsError("Passwords do not match")
-    if (validateEmail(body.Email) && validatePassword(body.Password)) {
-      setIsLoading(true);
-      fetch("/api/users/register", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(body),
+    if (password !== cPassword) return setIsError("Passwords do not match");
+
+    updateBody({
+      Email: email,
+      Password: password,
+      cPassword,
+      Phone: phone,
+      Name: name,
+    });
+    setIsLoading(true);
+
+    fetch("/api/users/register", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        Email: email,
+        Password: password,
+        cPassword,
+        Phone: phone,
+        Name: name,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Registration failed!!");
+        }
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else throw Error("Registration failed!!");
-        })
-        .then((data) => {
-          setIsLoading(false);
-          if (data.success) {
-            setIsError(data.success);
-            localStorage.setItem("cilbup_ksa", data.token);
-            props.setIsAuthenticated(true);
-            props.setToggleRegister(false);
-          } else {
-            setIsError(data.error);
-            props.setIsAuthenticated(false);
-          }
-        })
-        .catch((err) => {
-          setIsLoading(false);
-        
-          setIsError("Registration failed!");
-        });
-    }
+      .then((data) => {
+        setIsLoading(false);
+        if (data.success) {
+          setIsError(data.success);
+          localStorage.setItem("cilbup_ksa", data.token);
+          props.setIsAuthenticated(true);
+          props.setToggleRegister(false);
+        } else {
+          setIsError(data.error);
+          props.setIsAuthenticated(false);
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setIsError("Registration failed!");
+      });
   };
 
   const validateEmail = (email) => {
@@ -86,78 +110,114 @@ export default function RegisterPopUp(props) {
   };
 
   return (
-    <div className="login">
-      <div className="container">
-        <h3>Register</h3>
-        <h4>{isError}</h4>
+    <Dialog
+      open={props.open}
+      onClose={() => props.setToggleRegister(false)}
+      maxWidth="xs"
+      fullWidth
+    >
+      <DialogTitle>Register</DialogTitle>
+      <DialogContent>
+        {isError && (
+          <Typography color="error" marginBottom="1rem">
+            {isError}
+          </Typography>
+        )}
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            registerUser();
           }}
         >
-          <InputMap
-            ref={rfName}
+          <TextField
+            inputRef={rfName}
             label="Full Name *"
             type="text"
             placeholder="Enter your full name"
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-          <InputMap
-            ref={rfPhone}
+          <TextField
+            inputRef={rfPhone}
             label="Phone Number *"
-            type="number"
+            type="tel"
             placeholder="Enter a valid number"
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-          <InputMap
-            ref={rfEmail}
+          <TextField
+            inputRef={rfEmail}
             label="Email Address *"
             type="email"
             placeholder="Enter Email Address"
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-          <InputMap
-            ref={rfPassword}
+          <TextField
+            inputRef={rfPassword}
             label="Password *"
             type="password"
             placeholder="Enter Password"
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-          <InputMap
-            ref={rfcPassword}
+          <TextField
+            inputRef={rfcPassword}
             label="Confirm Password *"
             type="password"
             placeholder="Confirm Password"
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-          <p>
-            Review terms and conditions?{" "}
-            <span
+          <Box textAlign="right" marginBottom="1rem">
+            <Link
+              component="button"
+              variant="body2"
               onClick={() => {
                 window.location.href = "/terms";
               }}
             >
-              Click here
-            </span>
-          </p>
-          <Button label="Submit" handleClick={loginUser} />
+              Review terms and conditions
+            </Link>
+          </Box>
+          <DialogActions>
+            <Button
+              onClick={() => props.setToggleRegister(false)}
+              color="secondary"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isLoading}
+            >
+              {isLoading ? <CircularProgress size={24} /> : "Submit"}
+            </Button>
+          </DialogActions>
         </form>
-        <p>
-          Already have an account?{" "}
-          <span
-            onClick={() => {
-              props.setToggleLogin(true);
-              props.setToggleRegister(false);
-            }}
-          >
-            Login here
-          </span>
-        </p>
-        <h4
-          onClick={() => {
-            props.setToggleLogin(false);
-            props.setToggleRegister(false);
-          }}
-        >
-          Cancel
-        </h4>
-        {isLoading && <Loading />}
-      </div>
-    </div>
+        <Box marginTop="1rem">
+          <Typography>
+            Already have an account?{" "}
+            <Link
+              component="button"
+              variant="body2"
+              onClick={() => {
+                props.setToggleLogin(true);
+                props.setToggleRegister(false);
+              }}
+            >
+              Login here
+            </Link>
+          </Typography>
+        </Box>
+      </DialogContent>
+    </Dialog>
   );
 }
