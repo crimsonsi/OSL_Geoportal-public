@@ -1,10 +1,5 @@
 import { React, useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.scss";
 // import Aos from "aos";
 // import "aos/dist/aos.css";
@@ -123,110 +118,171 @@ function App() {
   }, [page]);
 
   return (
+    // <Router>
+    //   <Routes>
+    //     <Route path="/login" element={<Login />} />
+    //     <Route path="/*" element={<ProtectedRoute component={Home} />} />
+    //     <Route path="*" element={<NotFound />} />
+    //   </Routes>
+    // </Router>
     <Router>
-      <Switch>
-        <Route exact path="/">
-          <LandingPage
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route exact path="/Categories/*">
-          <Category
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={
+            <LandingPage
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/Categories/*"
+          element={
+            <Category
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
 
-        <Route exact path="/data">
-          <DataPage
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
+        <Route
+          exact
+          path="/data"
+          element={
+            <DataPage
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
 
-        <Route exact path="/maps/*">
-          <SingleInstancePage
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route exact path="/collections/*">
-          <SingleCollection
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route exact path="/about">
-          <AboutPage
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route exact path="/publications">
-          <PublicationsPage
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route exact path="/knowledgehub/storymap/*">
-          <StoryMapsPage
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route exact path="/faqs">
-          <FAQs
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route exact path="/contact">
-          <ContactUsPage
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route exact path="/terms">
-          <Terms
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route exact path="/privacypolicy">
-          <PrivacyPolicy
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-        </Route>
-        <Route path="*">
-          <NotFound />
-        </Route>
-      </Switch>
+        <Route
+          exact
+          path="/maps/*"
+          element={
+            <SingleInstancePage
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
+
+        <Route
+          exact
+          path="/collections/*"
+          element={
+            <SingleCollection
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
+
+        <Route
+          exact
+          path="/about"
+          element={
+            <AboutPage
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
+
+        <Route
+          exact
+          path="/publications"
+          element={
+            <PublicationsPage
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
+
+        <Route
+          exact
+          path="/knowledgehub/storymap/*"
+          element={
+            <StoryMapsPage
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
+
+        <Route
+          exact
+          path="/faqs"
+          element={
+            <FAQs
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
+
+        <Route
+          exact
+          path="/contact"
+          element={
+            <ContactUsPage
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
+
+        <Route
+          exact
+          path="/terms"
+          element={
+            <Terms
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/privacypolicy"
+          element={
+            <PrivacyPolicy
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </Router>
   );
 }
