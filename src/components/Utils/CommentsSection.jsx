@@ -4,9 +4,9 @@ import Pagination from "./pagination";
 
 export default function CommentsSection(props) {
   const [data, setData] = useState(null);
-  const [sNo, setSNo] = useState((currentPage-1) * 12 + 1);
   const [time, setTime] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);  
+  const [sNo, setSNo] = useState((currentPage-1) * 12 + 1);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
