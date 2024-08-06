@@ -3,22 +3,22 @@ import { useState } from "react";
 import Charts from "./SidePanel/Charts";
 import Export from "./SidePanel/Export";
 import Metadata from "./SidePanel/Metadata";
-import { useMediaQuery } from "@material-ui/core";
+// import { useMediaQuery } from "@material-ui/core";
 
 export default function RightPanel(props) {
   const [collapsed, setCollapsed] = useState(false);
   const [active, setActive] = useState("Layers");
 
-  const isSmallScreen = useMediaQuery("(max-width: 640px)");
-  const isMediumScreen = useMediaQuery(
-    "(min-width: 641px) and (max-width: 1024px)"
-  );
-  const isLargeScreen = useMediaQuery("(min-width: 1025px)");
+  // const isSmallScreen = useMediaQuery("(max-width: 640px)");
+  // const isMediumScreen = useMediaQuery(
+  //   "(min-width: 641px) and (max-width: 1024px)"
+  // );
+  // const isLargeScreen = useMediaQuery("(min-width: 1025px)");
 
 
-  useEffect(() => {
-    isSmallScreen && setCollapsed(true);
-  }, [isSmallScreen]);
+  // useEffect(() => {
+  //   isSmallScreen && setCollapsed(true);
+  // }, [isSmallScreen]);
 
   return (
     <div className="right_panel">
