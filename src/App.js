@@ -6,8 +6,8 @@ import {
   useHistory,
 } from "react-router-dom";
 import "./App.scss";
-import Aos from "aos";
-import "aos/dist/aos.css";
+// import Aos from "aos";
+// import "aos/dist/aos.css";
 import NotFound from "./Pages/404";
 import LandingPage from "./Pages/LandingNew";
 import DataPage from "./Pages/DataPage";
@@ -23,15 +23,15 @@ import StoryMapsPage from "./Pages/StoryMapPage";
 import FAQs from "./Pages/FAQs";
 
 function App() {
-  useEffect(() => {
-    Aos.init();
-  }, []);
+  // useEffect(() => {
+  //   Aos.init();
+  // }, []);
 
   var jwt = require("jsonwebtoken");
 
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
-  const history = useHistory();
+  // const history = useHistory();
   const [page, setPage] = useState();
   const [instancePage, setInstancePage] = useState();
   const [body, updateBody] = useState({

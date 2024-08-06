@@ -1,15 +1,15 @@
 import React from "react";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react/swiper-react.js";
+// import { Swiper, SwiperSlide } from "swiper/react/swiper-react.js";
 // Styles must use direct files imports
-import "swiper/swiper.scss"; // core Swiper
-import "swiper/modules/effect-cards/effect-cards.scss"; // Navigation module
-import "swiper/modules/pagination/pagination.scss"; // Pagination module
+// import "swiper/swiper.scss"; // core Swiper
+// import "swiper/modules/effect-cards/effect-cards.scss"; // Navigation module
+// import "swiper/modules/pagination/pagination.scss"; // Pagination module
 import "./Cards.scss";
 // import Swiper core and required modules
-import SwiperCore, { Autoplay, EffectCards } from "swiper";
+// import SwiperCore, { Autoplay, EffectCards } from "swiper";
 // install Swiper modules
-SwiperCore.use([Autoplay, EffectCards]);
+// SwiperCore.use([Autoplay, EffectCards]);
 
 const Item = (props) => {
   return (
@@ -23,7 +23,8 @@ const Item = (props) => {
 export default function Cards(props) {
   return (
     <>
-      <Swiper
+    <div>card</div>
+      {/* <Swiper
         effect={"cards"}
         autoplay={{
           delay: 2500,
@@ -39,7 +40,7 @@ export default function Cards(props) {
             </SwiperSlide>
           );
         })}
-      </Swiper>
+      </Swiper> */}
     </>
   );
 }
