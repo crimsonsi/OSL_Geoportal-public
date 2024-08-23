@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
   AppBar,
-  Toolbar,
   Typography,
   Button,
   Menu,
@@ -13,10 +12,8 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import { styled } from "@mui/system";
 import logo2 from "../../assets/imgs/Logo-accent.png";
-import ModalHeader from "./modal_header";
 import { useLocation } from "react-router-dom";
 import Login from "./loginPopUp";
 import RegisterPopUp from "./registerPopUp";
@@ -240,10 +237,11 @@ export default function Header(props) {
         />
       )}
 
-      <AppBar position="static" ref={headerRef}>
+      <AppBar sx={{ zIndex: 9999 }} position="static" ref={headerRef}>
         <HeaderContainer sx={{ p: 2 }}>
-          <Logo
+          <img
             src={logo2}
+            height={"24px"}
             alt="Oakar Services Logo"
             onClick={() => {
               window.location.href = "/";
@@ -331,7 +329,7 @@ export default function Header(props) {
             aria-label="menu"
             onClick={handleDrawerToggle}
           >
-            <MenuIcon />
+            <Menu />
           </MobileMenuButton>
         </HeaderContainer>
       </AppBar>

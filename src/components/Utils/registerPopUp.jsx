@@ -115,6 +115,7 @@ export default function RegisterPopUp(props) {
       onClose={() => props.setToggleRegister(false)}
       maxWidth="xs"
       fullWidth
+      sx={{ zIndex: 999999 }}
     >
       <DialogTitle>Register</DialogTitle>
       <DialogContent>

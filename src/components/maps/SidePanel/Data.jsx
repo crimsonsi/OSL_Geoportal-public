@@ -298,7 +298,7 @@ export default function Data(props) {
               } catch (error) {}
             }
           } catch (error) {}
-
+          if (fill == undefined) fill = "blue";
           var response = $.ajax({
             url: encodeURI(getUrl(workspace, layer)),
             dataType: "json",

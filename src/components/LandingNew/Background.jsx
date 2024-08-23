@@ -7,7 +7,7 @@ import bg4 from "../../assets/imgs/bg4.jpg";
 import bg5 from "../../assets/imgs/bg5.jpg";
 import bg6 from "../../assets/imgs/bg6.jpg";
 import "../Landing/Cards.scss";
-// import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 // import "swiper/swiper.min.css";
 // import "swiper/modules/pagination/pagination.scss"; // Pagination module
 // import "swiper/css";
@@ -74,7 +74,7 @@ export default function Background(params) {
     <div style={{ backgroundImage: imgs[index + 1] }} className="bg">
       <img className={cls} src={imgs[index]} alt="" />
       <div className="nhero">
-        {/* <Swiper
+        <Swiper
           autoplay={{
             delay: 10000,
             disableOnInteraction: false,
@@ -82,7 +82,7 @@ export default function Background(params) {
           loop={true}
           grabCursor={true}
           pagination={true}
-          modules={[Pagination]}
+          modules={[]}
           className="mySwiper"
         >
           {content.map((item, i) => {
@@ -92,7 +92,7 @@ export default function Background(params) {
               </SwiperSlide>
             );
           })}
-        </Swiper> */}
+        </Swiper>
         <div className="themes">
           {content.map((item, index) => {
             return (
