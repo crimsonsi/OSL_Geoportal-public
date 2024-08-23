@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import "../../Styles/Feedbackform.scss";
 import { useState } from "react";
 
@@ -18,7 +18,7 @@ export default function FeedBackForm(props) {
   });
 
   const sendFeedBack = () => {
-    setIsLoading(true);
+    setIsLoading(false);
     let d = body;
     d.To = rfEmail.current.value;
     d.From = rfName.current.value;
@@ -62,7 +62,7 @@ export default function FeedBackForm(props) {
           setIsLoading(false);
           setIsErr("Oops! Something went wrong!");
         });
-    };
+    }
   };
   const validateEmail = (email) => {
     return String(email)
@@ -117,4 +117,4 @@ export default function FeedBackForm(props) {
       </div>
     </div>
   );
-};
+}

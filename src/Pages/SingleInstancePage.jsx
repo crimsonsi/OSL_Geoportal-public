@@ -57,16 +57,14 @@ export default function SingleInstancePage(props) {
         setChoice("raster");
       } else if (pathname[2].includes("General")) {
         setChoice("general");
-      }
-      else if (pathname[2].includes("Time")) {
-        setChoice("timeseries")
-      }
-      else window.location.href = "/portal/maps";
+      } else if (pathname[2].includes("Time")) {
+        setChoice("timeseries");
+      } else window.location.href = "/portal/maps";
     }
   });
 
   const postComment = () => {
-    setIsLoading(true);
+    setIsLoading(false);
     if (props.currentUser) {
       setPrompt("");
       let d = body;

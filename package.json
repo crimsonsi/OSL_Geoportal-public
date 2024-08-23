@@ -2,7 +2,15 @@
   "name": "osl-geoportal-public",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://api-service-ksa.ksa.go.ke",
+  "proxy": "http://194.163.165.107:7236",
+  "options": {
+    "allowedHosts": [
+      "localhost",
+      ".localhost",
+      "api-service-ksa.ksa.go.ke"
+    ],
+    "proxy": "http://localhost:3003"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

@@ -97,7 +97,7 @@ export default function Data(props) {
       .indexOf(layer);
 
     if (i !== -1) {
-      props.setIsLoading(true);
+      props.setIsLoading(false);
       try {
         const dt = await fetch(
           data[i].href
@@ -141,9 +141,7 @@ export default function Data(props) {
                   color: i.name.replace("Channel", "").toLowerCase(),
                   count: 1,
                 });
-             
               });
-            
             }
           } catch (error) {
             try {
@@ -174,9 +172,7 @@ export default function Data(props) {
                     color: i.name.replace("Channel", "").toLowerCase(),
                     count: 1,
                   });
-               
                 });
-               
               }
             } catch (error) {}
           }
@@ -247,7 +243,6 @@ export default function Data(props) {
                   headers: headers,
                 }
               ).then((res) => {
-            
                 if (res.ok) return res.text();
               });
 
@@ -279,7 +274,6 @@ export default function Data(props) {
                     headers: headers,
                   }
                 ).then((res) => {
-            
                   if (res.ok) return res.text();
                 });
 
@@ -493,9 +487,9 @@ const WorkspaceItem = (props) => {
 
   return (
     <div
-      onClick={()=>{
+      onClick={() => {
         props.getSelected(props.workspace);
-        setOpen((curr)=>(!curr))
+        setOpen((curr) => !curr);
       }}
       className="workspace_item"
     >

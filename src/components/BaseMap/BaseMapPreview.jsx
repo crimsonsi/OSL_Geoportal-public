@@ -202,7 +202,7 @@ export default function ThematicPreview(props) {
   }, [body?.Data?.length]);
 
   async function loadData(item) {
-    setIsLoading(true);
+    setIsLoading(false);
     let dataType = "";
     const dt = await fetch(
       `/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
@@ -489,8 +489,7 @@ export default function ThematicPreview(props) {
         if (res.ok) return res.json();
         else throw Error("Download not created");
       })
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch((err) => {
         console.log(err);
       });

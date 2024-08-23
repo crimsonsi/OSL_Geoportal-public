@@ -163,7 +163,7 @@ export default function ThematicPreview(props) {
   }, [body?.Data?.length]);
 
   function loadData(item) {
-    setIsLoading(true);
+    setIsLoading(false);
     var response = $.ajax({
       url: encodeURI(getUrl(item.url)),
       dataType: "json",
@@ -266,8 +266,6 @@ export default function ThematicPreview(props) {
       });
     }
   }
-
-  
 
   function uniqueStyle(layer, style) {
     style.classes.map((e) => {

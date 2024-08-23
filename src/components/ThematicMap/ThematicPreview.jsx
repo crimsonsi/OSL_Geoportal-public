@@ -53,7 +53,7 @@ export default function ThematicPreview(props) {
     Data: [],
     Status: "",
   };
-  
+
   const pathname = window.location.pathname.split("/")[3];
   const [body, setBody] = useState(template);
   const [msg, setMsg] = useState(null);
@@ -164,7 +164,6 @@ export default function ThematicPreview(props) {
 
     initialMap.on("click", function (ev) {
       initialMap.forEachFeatureAtPixel(ev.pixel, function (feature) {
-    
         setPopup(feature.values_);
         return true;
       });
@@ -200,12 +199,12 @@ export default function ThematicPreview(props) {
         }
       }
     }
-  
+
     loadAllData();
   }, [body?.Data?.length]);
 
   async function loadData(item) {
-    setIsLoading(true);
+    setIsLoading(false);
     let dataType = "";
     const dt = await fetch(
       `/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
@@ -253,7 +252,7 @@ export default function ThematicPreview(props) {
         })
         .catch((e) => {});
     } else if (dataType === "VECTOR") {
-      setIsLoading(true);
+      setIsLoading(false);
       var response = await $.ajax({
         url: encodeURI(getUrl(item.url)),
         dataType: "json",
@@ -522,13 +521,15 @@ export default function ThematicPreview(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(d),
-    }).then((res) => {
-      if (res.ok) return res.json();
-      else throw Error ("Download not created");
-    }).then((data) => {
-    }).catch((err) => {
-      console.log(err)
-    });
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        else throw Error("Download not created");
+      })
+      .then((data) => {})
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

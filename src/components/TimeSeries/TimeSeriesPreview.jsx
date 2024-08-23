@@ -67,10 +67,10 @@ export default function TimeSeriesPreview(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [selected, setSelected] = useState(3);
 
-  const [timeSeriesData, setTimeSeriesData] = useState([])
-  const [timeSeries, setTimeSeries] = useState([])
-  const [dates, setDates] = useState([])
-  const [active, setActive] = useState(0)
+  const [timeSeriesData, setTimeSeriesData] = useState([]);
+  const [timeSeries, setTimeSeries] = useState([]);
+  const [dates, setDates] = useState([]);
+  const [active, setActive] = useState(0);
 
   const [popup, setPopup] = useState(null);
   const [querySelector, setQuerySelector] = useState(null);
@@ -141,7 +141,7 @@ export default function TimeSeriesPreview(props) {
 
         ke_counties.setSource(new WMTS(options));
       })
-      .catch((e) => { });
+      .catch((e) => {});
 
     const initialMap = new Map({
       controls: defaultControls().extend([
@@ -164,11 +164,10 @@ export default function TimeSeriesPreview(props) {
       }),
     });
 
-    initialMap?.on("moveend", function (e) { });
+    initialMap?.on("moveend", function (e) {});
 
     initialMap.on("click", function (ev) {
       initialMap.forEachFeatureAtPixel(ev.pixel, function (feature) {
-
         setPopup(feature.values_);
         return true;
       });
@@ -201,7 +200,7 @@ export default function TimeSeriesPreview(props) {
           d.Data = JSON.parse(d.Data);
           setBody(d);
         })
-        .catch((err) => { });
+        .catch((err) => {});
     }
   }, [map]);
 
@@ -209,7 +208,11 @@ export default function TimeSeriesPreview(props) {
     async function loadAllData() {
       if (body?.Data?.length > 0) {
         for (const item of body.Data) {
-          addToSeries(item.date, item.url.split(":")[0], item.url.split(":")[1])
+          addToSeries(
+            item.date,
+            item.url.split(":")[0],
+            item.url.split(":")[1]
+          );
         }
       }
     }
@@ -218,7 +221,7 @@ export default function TimeSeriesPreview(props) {
   }, [body?.Data?.length]);
 
   async function loadData(item) {
-    setIsLoading(true);
+    setIsLoading(false);
     let dataType = "";
     const dt = await fetch(
       `/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
@@ -264,9 +267,9 @@ export default function TimeSeriesPreview(props) {
           });
           setIsLoading(false);
         })
-        .catch((e) => { });
+        .catch((e) => {});
     } else if (dataType === "VECTOR") {
-      setIsLoading(true);
+      setIsLoading(false);
       var response = await $.ajax({
         url: encodeURI(getUrl(item.url)),
         dataType: "json",
@@ -293,8 +296,7 @@ export default function TimeSeriesPreview(props) {
           if (item.style.type === "Basic") {
             if (item.style.fill) {
               vector.setStyle(fillStyle(vector, item.style));
-            }
-            else {
+            } else {
               vector.setStyle(fillNoStyle(vector, item.style));
             }
           } else if (item.style.type === "Unique") {
@@ -402,28 +404,28 @@ export default function TimeSeriesPreview(props) {
       image:
         shape == "circle"
           ? new Circle({
-            radius: radius,
-            fill: new Fill({
-              color: fill,
-            }),
-            stroke: new Stroke({
-              color: stroke,
-              width: 1,
-            }),
-          })
+              radius: radius,
+              fill: new Fill({
+                color: fill,
+              }),
+              stroke: new Stroke({
+                color: stroke,
+                width: 1,
+              }),
+            })
           : new RegularShape({
-            radius: radius,
-            points: p,
-            angle: a,
-            rotation: r,
-            fill: new Fill({
-              color: fill,
+              radius: radius,
+              points: p,
+              angle: a,
+              rotation: r,
+              fill: new Fill({
+                color: fill,
+              }),
+              stroke: new Stroke({
+                color: stroke,
+                width: 1,
+              }),
             }),
-            stroke: new Stroke({
-              color: stroke,
-              width: 1,
-            }),
-          }),
       fill: new Fill({
         color: fill,
       }),
@@ -511,11 +513,13 @@ export default function TimeSeriesPreview(props) {
 
   function getUrl(url, filters) {
     if (!filters) {
-      return `/geoserver/${url.split(":")[0]
-        }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
+      return `/geoserver/${
+        url.split(":")[0]
+      }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
     } else {
-      return `/geoserver/${url.split(":")[0]
-        }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&${filters}&outputFormat=json`;
+      return `/geoserver/${
+        url.split(":")[0]
+      }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&${filters}&outputFormat=json`;
     }
   }
 
@@ -579,34 +583,35 @@ export default function TimeSeriesPreview(props) {
   };
 
   useEffect(() => {
-    let DataArr = timeSeriesData
+    let DataArr = timeSeriesData;
 
-    let DatesArr = []
-    let timeSeriesDict = {}
-    Array.isArray(DataArr) && DataArr.forEach(element => {
-      let tar = element.split(":")
-      DatesArr.push(tar[0])
-      timeSeriesDict[tar[0].toString()] = `${tar[1]}:${tar[2]}`
-    });
-    DatesArr = DatesArr.sort()
-    setDates(DatesArr)
+    let DatesArr = [];
+    let timeSeriesDict = {};
+    Array.isArray(DataArr) &&
+      DataArr.forEach((element) => {
+        let tar = element.split(":");
+        DatesArr.push(tar[0]);
+        timeSeriesDict[tar[0].toString()] = `${tar[1]}:${tar[2]}`;
+      });
+    DatesArr = DatesArr.sort();
+    setDates(DatesArr);
     // setActive(DatesArr.indexOf(DatesArr[0]))
-    setTimeSeries(timeSeriesDict)
+    setTimeSeries(timeSeriesDict);
 
     // setBody((curr) => {
     //   return ({ ...curr, Data: timeSeriesData })
     // })
-  }, [timeSeriesData])
+  }, [timeSeriesData]);
 
   const addToSeries = (val0, val1, val2) => {
     setTimeSeriesData((curr) => {
       if (curr.includes(`${val0}:${val1}:${val2}`)) {
-        return (curr)
+        return curr;
       } else {
-        return ([...curr, `${val0}:${val1}:${val2}`])
+        return [...curr, `${val0}:${val1}:${val2}`];
       }
-    })
-  }
+    });
+  };
 
   return (
     <div className="NewInstancesPage">

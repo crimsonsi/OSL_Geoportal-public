@@ -203,7 +203,7 @@ export default function WorldDataPreview(props) {
   }, [body?.Data?.length]);
 
   async function loadData(item) {
-    setIsLoading(true);
+    setIsLoading(false);
     let dataType = "";
     const dt = await fetch(
       `/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
@@ -251,7 +251,7 @@ export default function WorldDataPreview(props) {
         })
         .catch((e) => {});
     } else if (dataType === "VECTOR") {
-      setIsLoading(true);
+      setIsLoading(false);
       var response = await $.ajax({
         url: encodeURI(getUrl(item.url)),
         dataType: "json",
@@ -525,8 +525,7 @@ export default function WorldDataPreview(props) {
         if (res.ok) return res.json();
         else throw Error("Download not created");
       })
-      .then((data) => {
-      })
+      .then((data) => {})
       .catch((err) => {
         console.log(err);
       });

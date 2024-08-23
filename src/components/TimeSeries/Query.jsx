@@ -58,7 +58,7 @@ export default function Query(props) {
   function addToMap() {
     setError("");
     if (layerIndex !== -1 && value !== "" && operator !== "") {
-      props.setIsLoading(true);
+      props.setIsLoading(false);
       var response = $.ajax({
         url: encodeURI(
           getUrl(
@@ -142,7 +142,7 @@ export default function Query(props) {
   function resetMap() {
     setError("");
     if (layerIndex !== -1 && value !== "" && operator !== "") {
-      props.setIsLoading(true);
+      props.setIsLoading(false);
       var response = $.ajax({
         url: encodeURI(
           getResetUrl(

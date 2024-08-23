@@ -2,97 +2,95 @@ import React, { useRef, useState, useEffect } from "react";
 import Button from "../Utils/ButtonMain";
 
 export default function ReplyComment(props) {
+  const [isError, setIsError] = useState("");
+  const [body, updateBody] = useState({
+    MessageID: null,
+    UserID: null,
+    Content: null,
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const rfContent = useRef();
 
-    const [isError, setIsError] = useState("");
-    const [body, updateBody] = useState({
-        MessageID: null,
-        UserID: null,
-        Content: null,
-    });
-    const [isLoading, setIsLoading] = useState(false);
-    const rfContent = useRef();
+  const [currentUser, setCurrentUser] = useState();
 
-    const [currentUser, setCurrentUser] = useState()
+  var jwt = require("jsonwebtoken");
+  useEffect(() => {
+    const token = localStorage.getItem("nimda_ksa");
+    setCurrentUser(jwt.decode(token));
+  }, []);
 
-    var jwt = require("jsonwebtoken")
-    useEffect(() => {
-      const token = localStorage.getItem("nimda_ksa");
-      setCurrentUser(jwt.decode(token))
-    }, []);
+  const sendReply = () => {
+    let d = body;
 
-    const sendReply = () => {   
-      let d = body;
-      
-      d.CommentID = props.commentID;
-      d.UserID = props.currentUser?.Name;
-      d.Content = rfContent.current.value;
-      updateBody(d);
-      setIsError("");
-      if (!body.Content) return setIsError("Please write a reply!");
+    d.CommentID = props.commentID;
+    d.UserID = props.currentUser?.Name;
+    d.Content = rfContent.current.value;
+    updateBody(d);
+    setIsError("");
+    if (!body.Content) return setIsError("Please write a reply!");
 
-      if (body.Content) {
-        setIsLoading(true);
-        if (props.target === "messages") {
-          fetch(`/api/replies/reply`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify(body),
+    if (body.Content) {
+      setIsLoading(false);
+      if (props.target === "messages") {
+        fetch(`/api/replies/reply`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(body),
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else throw Error("Could not Send Reply!!");
           })
-            .then((response) => {
-              if (response.ok) {
-                return response.json();
-              } else throw Error("Could not Send Reply!!");
-            })
-            .then((data) => {
-              setIsLoading(false);
-              if (data.success) {
-                setIsError(data.success);
-                localStorage.clear();
-              } else {
-                setIsError(data.error);
-              }
-            })
-            .catch((err) => {
-              setIsLoading(false);
-              setIsError("Could not Send Reply!");
-            });
-        }
-        if (props.target === "comments") {
-          fetch(`/api/createcommentsreply/reply`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify(body),
+          .then((data) => {
+            setIsLoading(false);
+            if (data.success) {
+              setIsError(data.success);
+              localStorage.clear();
+            } else {
+              setIsError(data.error);
+            }
           })
-            .then((response) => {
-              if (response.ok) {
-                return response.json();
-              } else throw Error("Could not Send Reply!!");
-            })
-            .then((data) => {
-              setIsLoading(false);
-              if (data.success) {
-                setIsError(data.success);
-                localStorage.clear();
-              } else {
-                setIsError(data.error);
-              }
-            })
-            .catch((err) => {
-              setIsLoading(false);
-              setIsError("Could not Send Reply!");
-            });
-          }
-        }
-        
-    };
+          .catch((err) => {
+            setIsLoading(false);
+            setIsError("Could not Send Reply!");
+          });
+      }
+      if (props.target === "comments") {
+        fetch(`/api/createcommentsreply/reply`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(body),
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else throw Error("Could not Send Reply!!");
+          })
+          .then((data) => {
+            setIsLoading(false);
+            if (data.success) {
+              setIsError(data.success);
+              localStorage.clear();
+            } else {
+              setIsError(data.error);
+            }
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            setIsError("Could not Send Reply!");
+          });
+      }
+    }
+  };
 
   return (
     <div className="login">

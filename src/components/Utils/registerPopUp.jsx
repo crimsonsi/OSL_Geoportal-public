@@ -30,15 +30,17 @@ export default function RegisterPopUp(props) {
     setIsError("");
     if (!body.Name) return setIsError("Name is required!");
     if (!body.Phone || body.Phone?.length < 11)
-      return setIsError("Phone is required! include country code e.g 254790123123");
+      return setIsError(
+        "Phone is required! include country code e.g 254790123123"
+      );
     if (!validateEmail(body.Email))
       return setIsError("Please enter a valid email address!");
     if (!validatePassword(body.Password))
       return setIsError("Password must be at least 6 characters!");
     if (body.Password !== body.cPassword)
-      return setIsError("Passwords do not match")
+      return setIsError("Passwords do not match");
     if (validateEmail(body.Email) && validatePassword(body.Password)) {
-      setIsLoading(true);
+      setIsLoading(false);
       fetch("/api/users/register", {
         method: "POST",
         credentials: "include",
@@ -67,7 +69,7 @@ export default function RegisterPopUp(props) {
         })
         .catch((err) => {
           setIsLoading(false);
-        
+
           setIsError("Registration failed!");
         });
     }

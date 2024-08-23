@@ -28,7 +28,7 @@ export default function LoginPopUp(props) {
       return setIsError("Password must be at least 6 characters!");
 
     if (validateEmail(body.Email) && validatePassword(body.Password)) {
-      setIsLoading(true);
+      setIsLoading(false);
       fetch("/api/users/login", {
         method: "POST",
         credentials: "include",

@@ -18,10 +18,10 @@ import { asArray } from "ol/color";
 
 export default function TimeSeriesData(props) {
   var XMLParser = require("react-xml-parser");
-  const [inputDate, setInputDate] = useState()
+  const [inputDate, setInputDate] = useState();
 
-  const [timeSeriesData, setTimeSeriesData] = useState([])
-  const [timeSeries, setTimeSeries] = useState([])
+  const [timeSeriesData, setTimeSeriesData] = useState([]);
+  const [timeSeries, setTimeSeries] = useState([]);
 
   const parser = new WMTSCapabilities();
   const [workspaces, setWorkspaces] = useState([]);
@@ -48,45 +48,45 @@ export default function TimeSeriesData(props) {
 
   const removeFromSeries = (val) => {
     setTimeSeriesData((curr) => {
-      curr.pop(val)
-      return (curr)
-    })
-  }
+      curr.pop(val);
+      return curr;
+    });
+  };
 
   useEffect(() => {
     if (props.body.Data.length > 0) {
       if (props.active >= 0 && props.active < props.body.Data.length) {
-        loadData(props.body.Data[props.active])
+        loadData(props.body.Data[props.active]);
       } else {
-        loadData(props.body.Data[props.body.Data.length - 1])
+        loadData(props.body.Data[props.body.Data.length - 1]);
       }
     }
-  }, [props.body])
+  }, [props.body]);
 
   const nextProduct = (target) => {
     if (target < props.body.Data.length - 1) {
-      removeLayersExcept(['Basemap', 'Kenya Counties', 'Grid']);
-      let active = target + 1
+      removeLayersExcept(["Basemap", "Kenya Counties", "Grid"]);
+      let active = target + 1;
 
       if (props.body.Data[active] != null) {
-        props.setActive(active)
+        props.setActive(active);
         loadData(props.body.Data[active]);
       }
     }
-  }
+  };
 
   const showCurrent = (target) => {
     if (target < props.body.Data.length) {
-      removeLayersExcept(['Basemap', 'Kenya Counties', 'Grid']);
+      removeLayersExcept(["Basemap", "Kenya Counties", "Grid"]);
       if (props.body.Data[target] != null) {
-        props.setActive(target)
+        props.setActive(target);
         loadData(props.body.Data[target]);
       }
     }
-  }
+  };
 
   async function loadData(item) {
-    props.setIsLoading(true);
+    props.setIsLoading(false);
     let dataType = "";
     const dt = await fetch(
       `/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
@@ -132,9 +132,9 @@ export default function TimeSeriesData(props) {
           });
           props.setIsLoading(false);
         })
-        .catch((e) => { });
+        .catch((e) => {});
     } else if (dataType === "VECTOR") {
-      props.setIsLoading(true);
+      props.setIsLoading(false);
       var response = await $.ajax({
         url: encodeURI(loadUrl(item.url)),
         dataType: "json",
@@ -173,15 +173,15 @@ export default function TimeSeriesData(props) {
 
   const previousProduct = (target) => {
     if (target > 0) {
-      removeLayersExcept(['Basemap', 'Kenya Counties', 'Grid']);
-      let active = target - 1
+      removeLayersExcept(["Basemap", "Kenya Counties", "Grid"]);
+      let active = target - 1;
 
       if (props.body.Data[active] != null) {
-        props.setActive(active)
+        props.setActive(active);
         loadData(props.body.Data[active]);
       }
     }
-  }
+  };
 
   useEffect(() => {
     fetch("/geoserver/rest/workspaces", {
@@ -201,7 +201,7 @@ export default function TimeSeriesData(props) {
           setSelected(list[0]);
         }
       })
-      .catch((e) => { });
+      .catch((e) => {});
   }, []);
 
   useEffect(() => {
@@ -224,7 +224,7 @@ export default function TimeSeriesData(props) {
             setSelectedLayer(list[0]);
           }
         })
-        .catch((e) => { });
+        .catch((e) => {});
     }
   }, [selected]);
 
@@ -238,7 +238,7 @@ export default function TimeSeriesData(props) {
       .indexOf(layer);
 
     if (i !== -1) {
-      props.setIsLoading(true);
+      props.setIsLoading(false);
       try {
         const dt = await fetch(
           data[i].href
@@ -313,7 +313,6 @@ export default function TimeSeriesData(props) {
                 });
               });
             }
-
           } catch (error) {
             props.setIsLoading(false);
           }
@@ -350,7 +349,9 @@ export default function TimeSeriesData(props) {
                 padding: [100, 100, 100, 100],
               });
               let d = props.body;
-              if (!d.Data.some(item => item.url === `${workspace}:${layer}`)) {
+              if (
+                !d.Data.some((item) => item.url === `${workspace}:${layer}`)
+              ) {
                 d.Data.push({
                   url: `${workspace}:${layer}`,
                   style: {
@@ -359,10 +360,9 @@ export default function TimeSeriesData(props) {
                   },
                   date: inputDate,
                 });
-                props.setActive(d.Data.length - 1)
+                props.setActive(d.Data.length - 1);
                 props.setBody(d);
-                props.addToSeries(inputDate, selected, selectedLayer)
-
+                props.addToSeries(inputDate, selected, selectedLayer);
               }
               props.setIsLoading(false);
             })
@@ -378,10 +378,16 @@ export default function TimeSeriesData(props) {
           let fill;
           let stroke;
           try {
-            const style = await fetch(`${dt.layer.defaultStyle.href.replace("http://geoserver:8080", "")}`, {
-              credentials: "include",
-              headers: headers,
-            }).then((res) => {
+            const style = await fetch(
+              `${dt.layer.defaultStyle.href.replace(
+                "http://geoserver:8080",
+                ""
+              )}`,
+              {
+                credentials: "include",
+                headers: headers,
+              }
+            ).then((res) => {
               if (res.ok) return res.json();
             });
 
@@ -398,7 +404,9 @@ export default function TimeSeriesData(props) {
                 if (res.ok) return res.text();
               });
 
-              const txt = new XMLParser().parseFromString(xml.replaceAll("sld:", ""));
+              const txt = new XMLParser().parseFromString(
+                xml.replaceAll("sld:", "")
+              );
               const rule = findNested(txt, "name", "Rule");
 
               var symbolizer = findNested(rule, "name", "PointSymbolizer");
@@ -430,9 +438,9 @@ export default function TimeSeriesData(props) {
                   if (res.ok) return res.text();
                 });
 
-
-
-                const txt = new XMLParser().parseFromString(xml.replaceAll("sld:", ""));
+                const txt = new XMLParser().parseFromString(
+                  xml.replaceAll("sld:", "")
+                );
                 const rule = findNested(txt, "name", "Rule");
                 var symbolizer = findNested(rule, "name", "PointSymbolizer");
                 if (symbolizer == undefined) {
@@ -451,12 +459,12 @@ export default function TimeSeriesData(props) {
                 if (strokeObj != undefined)
                   stroke = findNested(strokeObj, "name", "CssParameter")?.value;
               } catch (error) {
-                console.log(error)
+                console.log(error);
                 props.setIsLoading(false);
               }
             }
           } catch (error) {
-            console.log(error)
+            console.log(error);
             props.setIsLoading(false);
           }
 
@@ -472,7 +480,9 @@ export default function TimeSeriesData(props) {
             props.setIsLoading(false);
             if (data.features.length !== 0) {
               let d = props.body;
-              if (!d.Data.some(item => item.url === `${workspace}:${layer}`)) {
+              if (
+                !d.Data.some((item) => item.url === `${workspace}:${layer}`)
+              ) {
                 const vector = new VectorLayer({
                   title: layer,
                   source: new VectorSource({
@@ -502,14 +512,17 @@ export default function TimeSeriesData(props) {
                   },
                   date: inputDate,
                 });
-                props.setActive(d.Data.length - 1)
+                props.setActive(d.Data.length - 1);
                 props.setBody(d);
-                props.addToSeries(inputDate, selected, selectedLayer)
+                props.addToSeries(inputDate, selected, selectedLayer);
               }
               props.setIsLoading(false);
             }
           });
-        } else { alert("Invalid Layer!"); props.setIsLoading(false); }
+        } else {
+          alert("Invalid Layer!");
+          props.setIsLoading(false);
+        }
       } catch (e) {
         alert("Invalid Layer!");
       }
@@ -517,19 +530,23 @@ export default function TimeSeriesData(props) {
   }
 
   const removeLayersExcept = (layersToKeep) => {
-    const mapLayers = props.map.getLayers().array_
+    const mapLayers = props.map.getLayers().array_;
 
-    const updatedLayers = mapLayers.filter((layer) => !layersToKeep.includes(layer.get('title')));
+    const updatedLayers = mapLayers.filter(
+      (layer) => !layersToKeep.includes(layer.get("title"))
+    );
     updatedLayers.map((item, i) => props.map.removeLayer(item));
   };
 
   function loadUrl(url, filters) {
     if (!filters) {
-      return `/geoserver/${url.split(":")[0]
-        }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
+      return `/geoserver/${
+        url.split(":")[0]
+      }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
     } else {
-      return `/geoserver/${url.split(":")[0]
-        }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&${filters}&outputFormat=json`;
+      return `/geoserver/${
+        url.split(":")[0]
+      }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&${filters}&outputFormat=json`;
     }
   }
 
@@ -593,28 +610,28 @@ export default function TimeSeriesData(props) {
       image:
         shape == "circle"
           ? new Circle({
-            radius: radius,
-            fill: new Fill({
-              color: fill,
-            }),
-            stroke: new Stroke({
-              color: stroke,
-              width: 1,
-            }),
-          })
+              radius: radius,
+              fill: new Fill({
+                color: fill,
+              }),
+              stroke: new Stroke({
+                color: stroke,
+                width: 1,
+              }),
+            })
           : new RegularShape({
-            radius: radius,
-            points: p,
-            angle: a,
-            rotation: r,
-            fill: new Fill({
-              color: fill,
+              radius: radius,
+              points: p,
+              angle: a,
+              rotation: r,
+              fill: new Fill({
+                color: fill,
+              }),
+              stroke: new Stroke({
+                color: stroke,
+                width: 1,
+              }),
             }),
-            stroke: new Stroke({
-              color: stroke,
-              width: 1,
-            }),
-          }),
       fill: new Fill({
         color: fill,
       }),
@@ -719,28 +736,28 @@ export default function TimeSeriesData(props) {
       image:
         shape == "circle"
           ? new Circle({
-            radius: radius,
-            fill: new Fill({
-              color: fill,
-            }),
-            stroke: new Stroke({
-              color: stroke,
-              width: 1,
-            }),
-          })
+              radius: radius,
+              fill: new Fill({
+                color: fill,
+              }),
+              stroke: new Stroke({
+                color: stroke,
+                width: 1,
+              }),
+            })
           : new RegularShape({
-            radius: radius,
-            points: p,
-            angle: a,
-            rotation: r,
-            fill: new Fill({
-              color: fill,
+              radius: radius,
+              points: p,
+              angle: a,
+              rotation: r,
+              fill: new Fill({
+                color: fill,
+              }),
+              stroke: new Stroke({
+                color: stroke,
+                width: 1,
+              }),
             }),
-            stroke: new Stroke({
-              color: stroke,
-              width: 1,
-            }),
-          }),
       fill: new Fill({
         color: fill,
       }),
@@ -828,80 +845,132 @@ export default function TimeSeriesData(props) {
 
   return (
     <>
-      <TimeSeriesSlider active={props.active} body={props.body} showCurrent={showCurrent} nextProduct={nextProduct} previousProduct={previousProduct} />
-      {props.dataSelector && (<div className="data_popup">
-        <div className="dcont">
-          <h3>Add Data</h3>
-          <hr />
-          <div className="createTimeSeries">
-            {timeSeries[props.active]}
-            <div className="selectBox">
-              <select onChange={(e) => { setSelected(e.target.value) }}>
-                <option>Select Category</option>
-                {workspaces.map((workspace, i) => (<option key={i} value={workspace}>{workspace}</option>))}
-              </select>
-              {selected ? layers.length != 0 ?
-                <div className="selectBox">
-                  <select onChange={(e) => { setSelectedLayer(e.target.value) }}>
-                    <option >Select Layer</option>
-                    {layers.map((layer, i) => (<option key={i} value={layer}>{layer}</option>))}
-                  </select>
-                  <input onChange={(e) => { setInputDate(e.target.value) }} type="date" />
-                  <button className="add" onClick={() => {
-                    removeLayersExcept(['Basemap', 'Kenya Counties', 'Grid']);
-                    addToMap(selected, selectedLayer);
-                  }}>Add to Series</button>
-                </div>
-                : <p>Please select a category</p> : ''}
+      <TimeSeriesSlider
+        active={props.active}
+        body={props.body}
+        showCurrent={showCurrent}
+        nextProduct={nextProduct}
+        previousProduct={previousProduct}
+      />
+      {props.dataSelector && (
+        <div className="data_popup">
+          <div className="dcont">
+            <h3>Add Data</h3>
+            <hr />
+            <div className="createTimeSeries">
+              {timeSeries[props.active]}
+              <div className="selectBox">
+                <select
+                  onChange={(e) => {
+                    setSelected(e.target.value);
+                  }}
+                >
+                  <option>Select Category</option>
+                  {workspaces.map((workspace, i) => (
+                    <option key={i} value={workspace}>
+                      {workspace}
+                    </option>
+                  ))}
+                </select>
+                {selected ? (
+                  layers.length != 0 ? (
+                    <div className="selectBox">
+                      <select
+                        onChange={(e) => {
+                          setSelectedLayer(e.target.value);
+                        }}
+                      >
+                        <option>Select Layer</option>
+                        {layers.map((layer, i) => (
+                          <option key={i} value={layer}>
+                            {layer}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        onChange={(e) => {
+                          setInputDate(e.target.value);
+                        }}
+                        type="date"
+                      />
+                      <button
+                        className="add"
+                        onClick={() => {
+                          removeLayersExcept([
+                            "Basemap",
+                            "Kenya Counties",
+                            "Grid",
+                          ]);
+                          addToMap(selected, selectedLayer);
+                        }}
+                      >
+                        Add to Series
+                      </button>
+                    </div>
+                  ) : (
+                    <p>Please select a category</p>
+                  )
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className="itemContainer">
+                <h3>Time Series Data</h3>
+                <hr />
+                {props.body.Data.map((item, i) => {
+                  return (
+                    <TimeSeriesItem
+                      setBody={props.setBody}
+                      body={props.body}
+                      key={i}
+                      removeLayersExcept={removeLayersExcept}
+                      index={i}
+                      item={item}
+                    />
+                  );
+                })}
+              </div>
             </div>
-            <div className="itemContainer">
-              <h3>Time Series Data</h3>
-              <hr />
-              {props.body.Data.map((item, i) => {
-                return <TimeSeriesItem setBody={props.setBody} body={props.body} key={i} removeLayersExcept={removeLayersExcept} index={i} item={item} />
-              })}
-            </div>
+            <i
+              onClick={() => {
+                props.setDataSelector(null);
+              }}
+              className="fa fa-close"
+            >
+              &#xf00d;
+            </i>
           </div>
-          <i
-            onClick={() => {
-              props.setDataSelector(null);
-            }}
-            className="fa fa-close"
-          >
-            &#xf00d;
-          </i>
         </div>
-      </div>)}
+      )}
     </>
   );
 }
 
 const TimeSeriesItem = (props) => {
-
   function moveUp() {
     if (props.index !== 0) {
-      let d = props.body
+      let d = props.body;
       const removedItem = d.Data.splice(props.index, 1)[0];
       d.Data.splice(props.index - 1, 0, removedItem);
-      props.setBody({ ...props.body, Data: d.Data })
+      props.setBody({ ...props.body, Data: d.Data });
     }
   }
 
   function moveDown() {
     if (props.index !== props.body.Data.length) {
-      let d = props.body
+      let d = props.body;
       const removedItem = d.Data.splice(props.index, 1)[0];
       d.Data.splice(props.index + 1, 0, removedItem);
-      props.setBody({ ...props.body, Data: d.Data })
+      props.setBody({ ...props.body, Data: d.Data });
     }
   }
 
   function removeItem() {
     if (props.index !== props.body.Data.length) {
-      let d = props.body
+      let d = props.body;
       d.Data.splice(props.index, 1);
-      props.setBody({ ...props.body, Data: d.Data })
-      props.removeLayersExcept(['Basemap', 'Kenya Counties', 'Grid']);
+      props.setBody({ ...props.body, Data: d.Data });
+      props.removeLayersExcept(["Basemap", "Kenya Counties", "Grid"]);
     }
   }
 
@@ -912,9 +981,24 @@ const TimeSeriesItem = (props) => {
         <h6>{props.item.date}</h6>
       </div>
 
-      <i onClick={() => { moveUp() }} className="fa fa-angle-up"></i>
-      <i onClick={() => { moveDown() }} className="fa fa-angle-down"></i>
-      <i onClick={() => { removeItem() }} className="fa fa-times"></i>
+      <i
+        onClick={() => {
+          moveUp();
+        }}
+        className="fa fa-angle-up"
+      ></i>
+      <i
+        onClick={() => {
+          moveDown();
+        }}
+        className="fa fa-angle-down"
+      ></i>
+      <i
+        onClick={() => {
+          removeItem();
+        }}
+        className="fa fa-times"
+      ></i>
     </div>
   );
 };

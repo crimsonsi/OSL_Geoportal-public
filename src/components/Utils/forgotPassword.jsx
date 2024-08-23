@@ -27,7 +27,7 @@ export default function ForgotPassword(props) {
     }
 
     if (validateEmail(body.Email)) {
-      setIsLoading(true);
+      setIsLoading(false);
       fetch("/api/users/forgot", {
         method: "POST",
         headers: {

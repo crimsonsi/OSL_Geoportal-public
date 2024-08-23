@@ -44,7 +44,7 @@ export default function ContactUsPage(props) {
   });
 
   const postMessage = () => {
-    setIsLoading(true);
+    setIsLoading(false);
     let d = body;
     if (currentUser) {
       d.To = currentUser.Email;
@@ -118,7 +118,7 @@ export default function ContactUsPage(props) {
             setIsAuthenticated={props.setIsAuthenticated}
             currentUser={props.currentUser}
             setCurrentUser={props.setCurrentUser}
-            parent='Contact Us'
+            parent="Contact Us"
           />
         </div>
         <div className="contactsContent">
