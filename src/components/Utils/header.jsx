@@ -1,4 +1,20 @@
 import React, { useEffect, useState, useRef } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Menu,
+  MenuItem,
+  Container,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { styled } from "@mui/system";
 import logo2 from "../../assets/imgs/Logo-accent.png";
 import ModalHeader from "./modal_header";
 import { useLocation } from "react-router-dom";
@@ -8,18 +24,48 @@ import UserAccount from "./userAccount";
 import EditUserDetails from "./editUserDetails";
 import ChangePassword from "./ChangePassword";
 
+const HeaderContainer = styled(Container)({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+});
+
+const Logo = styled("img")({
+  cursor: "pointer",
+  maxHeight: "44px",
+});
+
+const NavButtons = styled("div")(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+}));
+
+const MobileMenuButton = styled(IconButton)(({ theme }) => ({
+  [theme.breakpoints.up("md")]: {
+    display: "none",
+  },
+}));
+
+const DrawerList = styled(List)({
+  width: 250,
+});
+
 function NavLink(props) {
   const location = useLocation();
 
   return (
-    <a
-      className={props.url === location.pathname ? "underline" : ""}
+    <Button
+      color="inherit"
       onClick={() => {
         window.location.href = props.url;
       }}
+      style={{
+        textDecoration: props.url === location.pathname ? "underline" : "none",
+      }}
     >
       {props.txt}
-    </a>
+    </Button>
   );
 }
 
@@ -35,13 +81,13 @@ export default function Header(props) {
   const [clicked, setClicked] = useState(false);
   const [toggleLogin, setToggleLogin] = useState(false);
   const [toggleRegister, setToggleRegister] = useState(false);
-  // const [isAuthenticated, setIsAuthenticated] = useState(true);
-  //const [currentUser, setCurrentUser] = useState();
   const [showSettings, setShowSettings] = useState(false);
   const [toggleAccount, setToggleAccount] = useState(false);
   const [toggleEditDetails, setToggleEditDetails] = useState(false);
   const [toggleChangePass, setToggleChangePass] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const headerRef = useRef(null);
+
   const toggleMenu = () => {
     setClicked(!clicked);
   };
@@ -58,7 +104,7 @@ export default function Header(props) {
 
   function changeCss() {
     if (props.landing) {
-      if (this.scrollY > 500) {
+      if (window.scrollY > 500) {
         headerRef.current.style.paddingTop = "10px";
         headerRef.current.style.paddingBottom = "10px";
         headerRef.current.style.backgroundColor = "#011B46";
@@ -78,9 +124,7 @@ export default function Header(props) {
       method: "get",
       credentials: "include",
     })
-      .then((res) => {
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         localStorage.clear();
         props.setIsAuthenticated(false);
@@ -100,10 +144,63 @@ export default function Header(props) {
     }
   };
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const drawer = (
+    <DrawerList>
+      <ListItem button onClick={() => (window.location.href = "/")}>
+        <ListItemText primary="Home" />
+      </ListItem>
+      <ListItem button onClick={() => (window.location.href = "/data")}>
+        <ListItemText primary="Browse Data" />
+      </ListItem>
+      <ListItem button onClick={() => (window.location.href = "/publications")}>
+        <ListItemText primary="Knowledge Hub" />
+      </ListItem>
+      <ListItem button onClick={() => (window.location.href = "/about")}>
+        <ListItemText primary="About" />
+      </ListItem>
+      <ListItem button onClick={() => (window.location.href = "/contact")}>
+        <ListItemText primary="Contact Us" />
+      </ListItem>
+      {props.isAuthenticated ? (
+        <>
+          <ListItem button onClick={() => setToggleAccount(true)}>
+            <ListItemText primary="Account" />
+          </ListItem>
+          <ListItem button onClick={() => setToggleEditDetails(true)}>
+            <ListItemText primary="Edit Details" />
+          </ListItem>
+          <ListItem button onClick={() => setToggleChangePass(true)}>
+            <ListItemText primary="Change Password" />
+          </ListItem>
+          <ListItem button onClick={logout}>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </>
+      ) : (
+        <ListItem button onClick={() => changeToggle("login")}>
+          <ListItemText primary="Login" />
+        </ListItem>
+      )}
+    </DrawerList>
+  );
+
   return (
     <div>
       {toggleLogin && (
         <Login
+          open={toggleLogin}
           setToggleLogin={setToggleLogin}
           setToggleRegister={setToggleRegister}
           setIsAuthenticated={props.setIsAuthenticated}
@@ -111,6 +208,7 @@ export default function Header(props) {
       )}
       {toggleRegister && (
         <RegisterPopUp
+          open={toggleRegister}
           setToggleRegister={setToggleRegister}
           setToggleLogin={setToggleLogin}
           setIsAuthenticated={props.setIsAuthenticated}
@@ -124,6 +222,7 @@ export default function Header(props) {
       )}
       {toggleEditDetails && (
         <EditUserDetails
+          open={toggleEditDetails}
           setToggleEditDetails={setToggleEditDetails}
           setToggleChangePass={setToggleChangePass}
           setIsAuthenticated={props.setIsAuthenticated}
@@ -133,6 +232,7 @@ export default function Header(props) {
       )}
       {toggleChangePass && (
         <ChangePassword
+          open={toggleChangePass}
           setToggleChangePass={setToggleChangePass}
           setIsAuthenticated={props.setIsAuthenticated}
           isAuthenticated={props.isAuthenticated}
@@ -140,25 +240,26 @@ export default function Header(props) {
         />
       )}
 
-      <div className="header" ref={headerRef}>
-        <div className="container">
-          <div
+      <AppBar position="static" ref={headerRef}>
+        <HeaderContainer sx={{ p: 2 }}>
+          <Logo
+            src={logo2}
+            alt="Oakar Services Logo"
             onClick={() => {
               window.location.href = "/";
             }}
-            className="logo"
+          />
+          <Typography
+            variant="h4"
+            style={{ flexGrow: 1, paddingLeft: 2, cursor: "pointer" }}
+            onClick={() => {
+              window.location.href = "/";
+            }}
           >
-            <img src={logo2} className="lg" alt="Oakar Services Logo" />
-            <h2>Data Hub</h2>
-          </div>
-
-          <div className="nav">
-            <NavLink
-              className="navlink"
-              txt="Home"
-              url="/"
-              active={props.parent}
-            />
+            Geoportal
+          </Typography>
+          <NavButtons>
+            <NavLink txt="Home" url="/" active={props.parent} />
             <NavLink txt="Browse Data" url="/data" active={props.parent} />
             <NavLink
               txt="Knowledge Hub"
@@ -167,112 +268,76 @@ export default function Header(props) {
             />
             <NavLink txt="About" url="/about" active={props.parent} />
             <NavLink txt="Contact Us" url="/contact" active={props.parent} />
-            <div
-              className="nav2"
-              onMouseOver={() => setShowSettings(true)}
-              onMouseOut={() => setShowSettings(false)}
-            >
-              {props.isAuthenticated ? (
-                <div className="loginOut">
-                  <div>
-                    {props.currentUser && props.currentUser.Name && (
-                      <h5>
-                        {props.currentUser.Name}{" "}
-                        <span>
-                          <i className="fa fa-caret-down"></i>
-                        </span>
-                      </h5>
-                    )}
-                  </div>
-                  {showSettings ? (
-                    <div className="userOptions showSettings">
-                      <h5
-                        onClick={() => {
-                          setToggleAccount(true);
-                        }}
-                      >
-                        Account
-                      </h5>
-                      <h5
-                        onClick={() => {
-                          setToggleEditDetails(true);
-                        }}
-                      >
-                        Edit Details
-                      </h5>
-                      <h5
-                        onClick={() => {
-                          setToggleChangePass(true);
-                        }}
-                      >
-                        Change Password
-                      </h5>
-                      <h5
-                        onClick={() => {
-                          logout();
-                        }}
-                      >
-                        Logout
-                      </h5>
-                    </div>
-                  ) : (
-                    <div className="userOptions">
-                      <h5
-                        onClick={() => {
-                          {
-                            setToggleAccount(true);
-                          }
-                        }}
-                      >
-                        Account
-                      </h5>
-                      <h5
-                        onClick={() => {
-                          setToggleEditDetails(true);
-                        }}
-                      >
-                        Edit Details
-                      </h5>
-                      <h5
-                        onClick={() => {
-                          setToggleChangePass(true);
-                        }}
-                      >
-                        Change Password
-                      </h5>
-                      <h5>Logout</h5>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <button
-                  className="loginOut"
-                  onClick={() => changeToggle("login")}
+            {props.isAuthenticated ? (
+              <div>
+                <Button
+                  aria-controls="simple-menu"
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={handleMenuClick}
                 >
-                  Login
-                </button>
-              )}
-            </div>
-          </div>
-          <i
-            onClick={() => {
-              toggleMenu();
-            }}
-            className="fa fa-bars"
-          ></i>
-        </div>
-      </div>
-      {clicked && (
-        <ModalHeader
-          active={props.active}
-          logout={logout}
-          isAuthenticated={props.isAuthenticated}
-          toggleMenu={toggleMenu}
-          setToggleLogin={setToggleLogin}
-          setToggleRegister={setToggleRegister}
-          setIsAuthenticated={props.setIsAuthenticated}
-        />
-      )}
+                  {props.currentUser && props.currentUser.Name}
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      setToggleAccount(true);
+                      handleMenuClose();
+                    }}
+                  >
+                    Account
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setToggleEditDetails(true);
+                      handleMenuClose();
+                    }}
+                  >
+                    Edit Details
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setToggleChangePass(true);
+                      handleMenuClose();
+                    }}
+                  >
+                    Change Password
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      logout();
+                      handleMenuClose();
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
+                </Menu>
+              </div>
+            ) : (
+              <Button variant="primary" onClick={() => changeToggle("login")}>
+                Login
+              </Button>
+            )}
+          </NavButtons>
+          <MobileMenuButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={handleDrawerToggle}
+          >
+            <MenuIcon />
+          </MobileMenuButton>
+        </HeaderContainer>
+      </AppBar>
+      <Drawer anchor="right" open={mobileOpen} onClose={handleDrawerToggle}>
+        {drawer}
+      </Drawer>
     </div>
   );
 }

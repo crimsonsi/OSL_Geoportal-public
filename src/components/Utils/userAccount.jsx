@@ -1,25 +1,43 @@
 import React from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography,
+  Button,
+} from "@mui/material";
 
 export default function UserAccount(props) {
-
   return (
-    <div className="login">
-      <div className="container">
-        <h3>Account Details</h3>
-        <div>
-          <p>Name : {props.currentUser.Name}</p>
-          <p>Phone : {props.currentUser.Phone}</p>
-          <p>Email : {props.currentUser.Email}</p>
-          {props.currentUser.Status && <p>Status : Active</p>}
-        </div>
-        <h4
-          onClick={() => {
-            props.setToggleAccount(false)
-          }}
-        >
+    <Dialog
+      open={props.open}
+      onClose={() => props.setToggleAccount(false)}
+      maxWidth="xs"
+      fullWidth
+    >
+      <DialogTitle>Account Details</DialogTitle>
+      <DialogContent>
+        <Typography variant="h6" gutterBottom>
+          Name: {props.currentUser.Name}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Phone: {props.currentUser.Phone}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Email: {props.currentUser.Email}
+        </Typography>
+        {props.currentUser.Status && (
+          <Typography variant="body1" gutterBottom>
+            Status: Active
+          </Typography>
+        )}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => props.setToggleAccount(false)} color="secondary">
           Cancel
-        </h4>
-      </div>
-    </div>
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

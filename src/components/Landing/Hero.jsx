@@ -65,7 +65,7 @@ export default class Hero extends React.Component {
               </h1>
               <br></br>
               <h3>
-                <i className="fa  fa-angle-right"></i> Data Hub
+                <i className="fa  fa-angle-right"></i> Geoportal
               </h3>
               <h3>
                 <i className="fa  fa-angle-right"></i> Open Data Cube
@@ -73,7 +73,7 @@ export default class Hero extends React.Component {
             </div>
             <div>
               <p>
-                Data Hub creates and maintains a range of significant spatial
+                Geoportal creates and maintains a range of significant spatial
                 datasets that are useful to a number of stakeholders.
               </p>
               <p>

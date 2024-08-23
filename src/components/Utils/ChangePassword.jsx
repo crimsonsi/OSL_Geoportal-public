@@ -1,13 +1,21 @@
 import React, { useRef, useState } from "react";
-import InputMap from "../maps/InputMap";
-import Button from "./ButtonMain";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 
 export default function ChangePassword(props) {
   const [isError, setIsError] = useState("");
   const [body, updateBody] = useState({
-    Password: null,
-    NewPassword: null,
-    ConfirmNewPassword: null,
+    Password: "",
+    NewPassword: "",
+    ConfirmNewPassword: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const rfOldPassword = useRef();
@@ -22,14 +30,15 @@ export default function ChangePassword(props) {
       d.ConfirmNewPassword = rfConfirmNewPassword.current.value;
       updateBody(d);
       setIsError("");
+
       if (!body.Password) return setIsError("Old password is required!");
-      if (!body.NewPassword || body.NewPassword?.length < 6)
+      if (!body.NewPassword || body.NewPassword.length < 6)
         return setIsError("New Password must be at least 6 characters!");
       if (!validatePassword(body.NewPassword, body.ConfirmNewPassword))
-        return setIsError("Old Password and New Password do not match");
+        return setIsError("New Password and Confirm New Password do not match");
 
       if (validatePassword(body.NewPassword, body.ConfirmNewPassword)) {
-        setIsLoading(false);
+        setIsLoading(true);
         fetch(`/api/users/${props.currentUser.UserID}`, {
           method: "PUT",
           credentials: "include",
@@ -42,7 +51,7 @@ export default function ChangePassword(props) {
           .then((response) => {
             if (response.ok) {
               return response.json();
-            } else throw Error("Could not Change password!!");
+            } else throw new Error("Could not Change password!");
           })
           .then((data) => {
             setIsLoading(false);
@@ -51,14 +60,13 @@ export default function ChangePassword(props) {
               setTimeout(() => {
                 props.setToggleChangePass(false);
               }, 1000);
-
               localStorage.clear();
               props.setIsAuthenticated(false);
             } else {
               setIsError(data.error);
             }
           })
-          .catch((err) => {
+          .catch(() => {
             setIsLoading(false);
             setIsError("Could not Change password!");
           });
@@ -73,47 +81,74 @@ export default function ChangePassword(props) {
   };
 
   return (
-    <div className="login">
-      <div className="container">
-        <h3>Change Password for {props.currentUser.Name}</h3>
-        <h4>{isError}</h4>
+    <Dialog
+      open={props.open}
+      onClose={() => props.setToggleChangePass(false)}
+      maxWidth="xs"
+      fullWidth
+    >
+      <DialogTitle>Change Password</DialogTitle>
+      <DialogContent>
+        <Typography variant="h6" gutterBottom>
+          Change Password for {props.currentUser.Name}
+        </Typography>
+        {isError && (
+          <Typography color="error" marginBottom="1rem">
+            {isError}
+          </Typography>
+        )}
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            changePassword();
           }}
+          style={{ width: "100%" }}
         >
-          <InputMap
-            ref={rfOldPassword}
+          <TextField
+            inputRef={rfOldPassword}
             label="Enter Old Password *"
             type="password"
-            placeholder="Enter Password"
+            placeholder="Enter Old Password"
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-
-          <InputMap
-            ref={rfNewPassword}
-            label="Enter your new Password *"
+          <TextField
+            inputRef={rfNewPassword}
+            label="Enter New Password *"
             type="password"
             placeholder="New Password"
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-
-          <InputMap
-            ref={rfConfirmNewPassword}
-            label="Confirm your new Password *"
+          <TextField
+            inputRef={rfConfirmNewPassword}
+            label="Confirm New Password *"
             type="password"
-            placeholder="Confirm Password"
+            placeholder="Confirm New Password"
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-          <br />
-          <Button label="Submit" handleClick={changePassword} />
+          <DialogActions>
+            <Button
+              onClick={() => props.setToggleChangePass(false)}
+              color="secondary"
+            >
+              Close
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isLoading}
+            >
+              {isLoading ? <CircularProgress size={24} /> : "Submit"}
+            </Button>
+          </DialogActions>
         </form>
-        <p>Change your password</p>
-        <h4
-          onClick={() => {
-            props.setToggleChangePass(false);
-          }}
-        >
-          Close
-        </h4>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

@@ -1,64 +1,71 @@
 import React, { useRef, useState } from "react";
-import InputMap from "../maps/InputMap";
-import Button from "./ButtonMain";
-import Loading from "./Loading";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+  CircularProgress,
+  Typography,
+  Link,
+  Box,
+} from "@mui/material";
 import ForgotPassword from "./forgotPassword";
 
 export default function LoginPopUp(props) {
   const [isError, setIsError] = useState("");
-  const [body, updateBody] = useState({
-    Email: null,
-    Password: null,
-  });
+  const [body, updateBody] = useState({ Email: "", Password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [forgot, setForgot] = useState(false);
   const rfEmail = useRef();
   const rfPassword = useRef();
 
   const loginUser = () => {
-    let d = body;
-    d.Email = rfEmail.current.value.toLowerCase().trim();
-    d.Password = rfPassword.current.value;
-    updateBody(d);
+    const email = rfEmail.current.value.toLowerCase().trim();
+    const password = rfPassword.current.value;
+
     setIsError("");
 
-    if (!validateEmail(body.Email))
+    if (!validateEmail(email))
       return setIsError("Please enter a valid email address!");
-    if (!validatePassword(body.Password))
+    if (!validatePassword(password))
       return setIsError("Password must be at least 6 characters!");
 
-    if (validateEmail(body.Email) && validatePassword(body.Password)) {
-      setIsLoading(false);
-      fetch("/api/users/login", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(body),
+    updateBody({ Email: email, Password: password });
+    setIsLoading(true);
+
+    fetch("/api/users/login", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ Email: email, Password: password }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Login failed");
+        }
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else throw Error("Login failed");
-        })
-        .then((data) => {
-          setIsLoading(false);
-          if (data.success) {
-            props.setIsAuthenticated(true);
-            props.setToggleLogin(false);
-            localStorage.setItem("cilbup_ksa", data.token);
-          } else {
-            setIsError(data.error);
-          }
-        })
-        .catch((err) => {
-          props.setIsAuthenticated(false);
-          setIsLoading(false);
-          setIsError("Login failed!");
-        });
-    }
+      .then((data) => {
+        setIsLoading(false);
+        if (data.success) {
+          props.setIsAuthenticated(true);
+          props.setToggleLogin(false);
+          localStorage.setItem("cilbup_ksa", data.token);
+        } else {
+          setIsError(data.error);
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setIsError("Login failed!");
+        props.setIsAuthenticated(false);
+      });
   };
 
   const validateEmail = (email) => {
@@ -75,61 +82,87 @@ export default function LoginPopUp(props) {
 
   return (
     <>
-      <div className="login">
-        <div className="container">
-          <h3>Login</h3>
-          <h4>{isError}</h4>
+      <Dialog
+        open={props.open}
+        onClose={() => props.setToggleLogin(false)}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle>Login</DialogTitle>
+        <DialogContent>
+          {isError && (
+            <Typography color="error" marginBottom="1rem">
+              {isError}
+            </Typography>
+          )}
           <form
             onSubmit={(e) => {
               e.preventDefault();
+              loginUser();
             }}
+            style={{ width: "100%" }}
           >
-            <InputMap
-              ref={rfEmail}
+            <TextField
+              inputRef={rfEmail}
               label="Email Address *"
               type="email"
               placeholder="Enter Email Address"
+              fullWidth
+              margin="normal"
+              variant="outlined"
             />
-            <InputMap
-              ref={rfPassword}
+            <TextField
+              inputRef={rfPassword}
               label="Password *"
               type="password"
               placeholder="Enter Password"
+              fullWidth
+              margin="normal"
+              variant="outlined"
             />
-            <p>
-              Forgot password?{" "}
-              <span
+            <Box textAlign="right" marginBottom="1rem">
+              <Link
+                component="button"
+                variant="body2"
+                onClick={() => setForgot(true)}
+              >
+                Forgot password?
+              </Link>
+            </Box>
+            <DialogActions>
+              <Button
+                onClick={() => props.setToggleLogin(false)}
+                color="secondary"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={isLoading}
+              >
+                {isLoading ? <CircularProgress size={24} /> : "Submit"}
+              </Button>
+            </DialogActions>
+          </form>
+          <Box marginTop="1rem">
+            <Typography>
+              Don't have an account?{" "}
+              <Link
+                component="button"
+                variant="body2"
                 onClick={() => {
-                  setForgot(true);
+                  props.setToggleLogin(false);
+                  props.setToggleRegister(true);
                 }}
               >
-                Click here
-              </span>
-            </p>
-            <Button label="Submit" handleClick={loginUser} />
-          </form>
-          <p>
-            Don't have an account?{" "}
-            <span
-              onClick={() => {
-                props.setToggleLogin(false);
-                props.setToggleRegister(true);
-              }}
-            >
-              Register here
-            </span>
-          </p>
-          <h4
-            onClick={() => {
-              props.setToggleLogin(false);
-              props.setToggleRegister(false);
-            }}
-          >
-            Cancel
-          </h4>
-          {isLoading && <Loading />}
-        </div>
-      </div>
+                Register here
+              </Link>
+            </Typography>
+          </Box>
+        </DialogContent>
+      </Dialog>
       {forgot && <ForgotPassword setForgot={setForgot} />}
     </>
   );

@@ -25,13 +25,13 @@ export default function AboutPage(props) {
             }}
             style={{ cursor: "pointer" }}
           >
-            The Data Hub
+            The Geoportal
           </h2>
           {showFeedBackForm && (
             <FeedBackForm setShowFeedBackForm={setShowFeedBackForm} />
           )}
           <p>
-            The data hub is our one stop platform that allows you to access,
+            The Geoportal is our one stop platform that allows you to access,
             visualize and analyze our collections of data. The portal helps our
             users save time by availing useful, relevant and easy to understand
             sets of data. It also provides spatial data analysis and
@@ -71,7 +71,7 @@ export default function AboutPage(props) {
         </div>
       </section>
       <section className="section-3">
-        <h2>Data hub purpose and functionality</h2>
+        <h2>Geoportal purpose and functionality</h2>
 
         <div className="container">
           <div>
@@ -116,7 +116,7 @@ export default function AboutPage(props) {
         <div className="vision">
           <h2>Oakar Services Geoplatform </h2>
           <p>
-            The Data Hub is a platform created for the purpose of sharing
+            The Geoportal is a platform created for the purpose of sharing
             spatial data with the public. The public who are the major
             stakeholders targeted by the portal consists of companies and
             organizations dealing with spatial data in their business
@@ -126,15 +126,15 @@ export default function AboutPage(props) {
             needing spatial data for their projects and researches.
           </p>
           <p>
-            The Data hub is an easy to use application. Public users register on
-            the portal by creating an account. The account consists of an email
-            address and password which a user uses to sign-in into the portal.
-            On successful login, a user is able to access functionalities of the
-            Geo-platform, beginning with a list of published instances organized
-            categorically.
+            The Geoportal is an easy to use application. Public users register
+            on the portal by creating an account. The account consists of an
+            email address and password which a user uses to sign-in into the
+            portal. On successful login, a user is able to access
+            functionalities of the Geo-platform, beginning with a list of
+            published instances organized categorically.
           </p>
           <p>
-            The Data Hub consists of a data page showing all data in the public
+            The Geoportal consists of a data page showing all data in the public
             portal published by the administrator via the admin portal. Users
             can categorize the data and also search based on the titles and
             keywords in the data.
@@ -149,7 +149,7 @@ export default function AboutPage(props) {
             the user to communicate with the system administrator.
           </p>
           <h3>
-            The Data Hub has got several special functionalities for its users.
+            The Geoportal has got several special functionalities for its users.
           </h3>
           <ul>
             <li>
