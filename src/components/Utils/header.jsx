@@ -156,38 +156,59 @@ export default function Header(props) {
   const drawer = (
     <DrawerList>
       <ListItem button onClick={() => (window.location.href = "/")}>
-        <ListItemText primary="Home" />
+        <ListItemText sx={{ textTransform: "capitalize" }} primary="Home" />
       </ListItem>
       <ListItem button onClick={() => (window.location.href = "/data")}>
-        <ListItemText primary="Browse Data" />
+        <ListItemText
+          sx={{ textTransform: "capitalize" }}
+          primary="Browse Data"
+        />
       </ListItem>
       <ListItem button onClick={() => (window.location.href = "/publications")}>
-        <ListItemText primary="Knowledge Hub" />
+        <ListItemText
+          sx={{ textTransform: "capitalize" }}
+          primary="Knowledge Hub"
+        />
       </ListItem>
       <ListItem button onClick={() => (window.location.href = "/about")}>
-        <ListItemText primary="About" />
+        <ListItemText sx={{ textTransform: "capitalize" }} primary="About" />
       </ListItem>
       <ListItem button onClick={() => (window.location.href = "/contact")}>
-        <ListItemText primary="Contact Us" />
+        <ListItemText
+          sx={{ textTransform: "capitalize" }}
+          primary="Contact Us"
+        />
       </ListItem>
       {props.isAuthenticated ? (
         <>
           <ListItem button onClick={() => setToggleAccount(true)}>
-            <ListItemText primary="Account" />
+            <ListItemText
+              sx={{ textTransform: "capitalize" }}
+              primary="Account"
+            />
           </ListItem>
           <ListItem button onClick={() => setToggleEditDetails(true)}>
-            <ListItemText primary="Edit Details" />
+            <ListItemText
+              sx={{ textTransform: "capitalize" }}
+              primary="Edit Details"
+            />
           </ListItem>
           <ListItem button onClick={() => setToggleChangePass(true)}>
-            <ListItemText primary="Change Password" />
+            <ListItemText
+              sx={{ textTransform: "capitalize" }}
+              primary="Change Password"
+            />
           </ListItem>
           <ListItem button onClick={logout}>
-            <ListItemText primary="Logout" />
+            <ListItemText
+              sx={{ textTransform: "capitalize" }}
+              primary="Logout"
+            />
           </ListItem>
         </>
       ) : (
         <ListItem button onClick={() => changeToggle("login")}>
-          <ListItemText primary="Login" />
+          <ListItemText sx={{ textTransform: "capitalize" }} primary="Login" />
         </ListItem>
       )}
     </DrawerList>

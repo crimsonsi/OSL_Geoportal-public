@@ -1,29 +1,32 @@
-import { useRef, useEffect } from "react";
-import "../Styles/SingleInstancePage.scss";
+import { useRef, useEffect, useState } from "react";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  CircularProgress,
+  Alert,
+  Container,
+} from "@mui/material";
 import ThematicPreview from "../components/ThematicMap/ThematicPreview";
 import WorldDataPreview from "../components/WorldData/WorldDataPreview";
 import BaseMapPreview from "../components/BaseMap/BaseMapPreview";
 import Header from "../components/Utils/header";
 import Footer from "../components/Utils/footer";
-import { useState } from "react";
-import Button from "../components/Utils/ButtonMain";
 import CommentsSection from "../components/Utils/CommentsSection";
-import TopoMapPreview from "../components/Topo/TopoMapPreview";
 import TimeSeriesPreview from "../components/TimeSeries/TimeSeriesPreview";
 
 export default function SingleInstancePage(props) {
   const pathname = window.location.pathname.split("/");
   const [service, setService] = useState(null);
-  const [prompt, setPrompt] = useState();
+  const [prompt, setPrompt] = useState("");
   const [isErr, setIsErr] = useState("");
-  const [isLoading, setIsLoading] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const instanceId = window.location.pathname.split("/")[3];
   const [refresh, setRefresh] = useState(true);
-  //
-  const [successMsg, setSuccessMsg] = useState();
+  const [successMsg, setSuccessMsg] = useState("");
   const [changed, setChanged] = useState(false);
   const rfContent = useRef();
-  const rfName = useRef();
   const [body, updateBody] = useState({
     To: instanceId,
     From: "",
@@ -44,11 +47,7 @@ export default function SingleInstancePage(props) {
     if (props.currentUser) {
       setPrompt("");
     }
-    const i = opts
-      .map((e) => {
-        return e;
-      })
-      .indexOf(pathname[2].replaceAll("%20", " "));
+    const i = opts.map((e) => e).indexOf(pathname[2].replaceAll("%20", " "));
 
     if (i !== -1) {
       setChoice("thematic");
@@ -61,13 +60,13 @@ export default function SingleInstancePage(props) {
         setChoice("timeseries");
       } else window.location.href = "/portal/maps";
     }
-  });
+  }, [pathname, opts, props.currentUser]);
 
   const postComment = () => {
-    setIsLoading(false);
+    setIsLoading(true);
     if (props.currentUser) {
       setPrompt("");
-      let d = body;
+      let d = { ...body };
       d.Content = rfContent.current.value;
       d.To = pathname[3];
       d.Subject = pathname[3];
@@ -95,9 +94,9 @@ export default function SingleInstancePage(props) {
             setIsLoading(false);
             setChanged(!changed);
             if (data.success) {
-              setIsErr("comment successful");
+              setSuccessMsg("Comment posted successfully!");
               setTimeout(() => {
-                setIsErr("");
+                setSuccessMsg("");
               }, 2000);
               rfContent.current.value = "";
               setRefresh(!refresh);
@@ -113,7 +112,7 @@ export default function SingleInstancePage(props) {
               }, 2000);
             }
           })
-          .catch((err) => {
+          .catch(() => {
             setIsLoading(false);
             setIsErr("Please login or register to send a comment!");
             setTimeout(() => {
@@ -127,61 +126,60 @@ export default function SingleInstancePage(props) {
   };
 
   return (
-    <div className="wrapper">
-      <div className="MainContent">
-        <div className="headings">
-          <Header
-            isAuthenticated={props.isAuthenticated}
-            setIsAuthenticated={props.setIsAuthenticated}
-            currentUser={props.currentUser}
-            setCurrentUser={props.setCurrentUser}
-            parent="singleinstance"
-          />
-        </div>
-        <div className="SingleInstancePage">
-          <div>
-            {choice && choice === "thematic" && <ThematicPreview />}
-            {choice && choice === "raster" && <BaseMapPreview />}
-            {choice && choice === "general" && <WorldDataPreview />}
-            {choice && choice === "timeseries" && <TimeSeriesPreview />}
-          </div>
+    <Box className="SingleInstancePage">
+      <Header
+        isAuthenticated={props.isAuthenticated}
+        setIsAuthenticated={props.setIsAuthenticated}
+        currentUser={props.currentUser}
+        setCurrentUser={props.setCurrentUser}
+        parent="singleinstance"
+      />
 
-          <div className="addComment">
-            <p>{successMsg}</p>
-            <span className="err">{isErr}</span>
-            <div className="input">
-              <label htmlFor="">Leave a Comment</label>
-              <textarea
-                onClick={() =>
-                  !props.isAuthenticated &&
-                  setPrompt("Please login to send a comment...")
-                }
-                ref={rfContent}
-                name=""
-                id=""
-                cols="30"
-                rows="5"
-              ></textarea>
-            </div>
-            <button
-              onClick={() => {
-                postComment();
-              }}
+      <Container disableGutters>
+        <Box my={1}>
+          {choice === "thematic" && <ThematicPreview />}
+          {choice === "raster" && <BaseMapPreview />}
+          {choice === "general" && <WorldDataPreview />}
+          {choice === "timeseries" && <TimeSeriesPreview />}
+        </Box>
+        <Box my={4}>
+          {successMsg && <Alert severity="success">{successMsg}</Alert>}
+          {isErr && <Alert severity="error">{isErr}</Alert>}
+          <Typography variant="h5" gutterBottom>
+            Leave a Comment
+          </Typography>
+          <TextField
+            fullWidth
+            multiline
+            rows={5}
+            variant="outlined"
+            placeholder="Enter your comment"
+            inputRef={rfContent}
+            onClick={() =>
+              !props.isAuthenticated &&
+              setPrompt("Please login to send a comment...")
+            }
+          />
+          <Box my={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={postComment}
+              disabled={isLoading}
             >
-              Submit
-            </button>
-          </div>
-          <div className="comments">
-            <CommentsSection
-              instanceID={body.To}
-              refresh={refresh}
-              changed={changed}
-              currentUser={props.currentUser}
-            />
-          </div>
-        </div>
-        <Footer />
-      </div>
-    </div>
+              {isLoading ? <CircularProgress size={24} /> : "Submit"}
+            </Button>
+          </Box>
+        </Box>
+        <CommentsSection
+          instanceID={body.To}
+          refresh={refresh}
+          changed={changed}
+          currentUser={props.currentUser}
+        />
+      </Container>
+
+      <Footer />
+    </Box>
   );
 }

@@ -38,6 +38,7 @@ import WMTS, { optionsFromCapabilities } from "ol/source/WMTS.js";
 import WMTSCapabilities from "ol/format/WMTSCapabilities.js";
 import TitlePanel from "../maps/TitlePanel";
 import Popup from "./Popup";
+import { Container } from "@mui/material";
 
 export default function ThematicPreview(props) {
   const parser = new WMTSCapabilities();

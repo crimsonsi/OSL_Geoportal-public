@@ -17,7 +17,12 @@ export default function ImageUpload(props) {
   return (
     <div className="photo">
       <div className="img">
-        <img ref={preview} src={image} alt="" />
+        <img
+          style={{ maxHeight: "300px", width: "100%", objectFit: "cover" }}
+          ref={preview}
+          src={image}
+          alt=""
+        />
       </div>
     </div>
   );

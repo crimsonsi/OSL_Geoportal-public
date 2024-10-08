@@ -32,6 +32,7 @@ import Query from "../Topo/Query";
 import PreviewData from "../maps/PreviewData";
 import WMTSCapabilities from "ol/format/WMTSCapabilities.js";
 import WMTS, { optionsFromCapabilities } from "ol/source/WMTS.js";
+import { Container } from "@mui/material";
 
 export default function ThematicPreview(props) {
   const parser = new WMTSCapabilities();
@@ -415,11 +416,13 @@ export default function ThematicPreview(props) {
   return (
     <div>
       <div className="map">
-        <div
-          ref={mapElement}
-          style={{ width: "100%", height: "90vh" }}
-          id="map"
-        ></div>
+        <Container>
+          <div
+            ref={mapElement}
+            style={{ width: "100%", height: "90vh" }}
+            id="map"
+          ></div>
+        </Container>
         {isLoading && <RippleLoading />}
         <div
           onClick={() => {
