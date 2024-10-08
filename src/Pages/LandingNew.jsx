@@ -22,7 +22,7 @@ export default function LandingPage(props) {
         currentUser={props.currentUser}
         setCurrentUser={props.setCurrentUser}
         toggleRegisterfromLanding={toggleRegister}
-        landing={true}
+        landing={false}
         parent='landing'
       />
       <Background />

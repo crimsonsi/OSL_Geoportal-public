@@ -55,7 +55,10 @@ export default function LoginPopUp(props) {
         setIsLoading(false);
         if (data.success) {
           props.setIsAuthenticated(true);
-          props.setToggleLogin(false);
+          setTimeout(() => {
+            props.setToggleLogin(false);
+          }, 1000);
+
           localStorage.setItem("cilbup_ksa", data.token);
         } else {
           setIsError(data.error);

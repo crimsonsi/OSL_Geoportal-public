@@ -18,8 +18,6 @@ import TimeSeriesPreview from "../components/TimeSeries/TimeSeriesPreview";
 
 export default function SingleInstancePage(props) {
   const pathname = window.location.pathname.split("/");
-  const [service, setService] = useState(null);
-  const [prompt, setPrompt] = useState("");
   const [isErr, setIsErr] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const instanceId = window.location.pathname.split("/")[3];
@@ -45,7 +43,7 @@ export default function SingleInstancePage(props) {
 
   useEffect(() => {
     if (props.currentUser) {
-      setPrompt("");
+      setIsErr("");
     }
     const i = opts.map((e) => e).indexOf(pathname[2].replaceAll("%20", " "));
 
@@ -63,9 +61,9 @@ export default function SingleInstancePage(props) {
   }, [pathname, opts, props.currentUser]);
 
   const postComment = () => {
-    setIsLoading(true);
     if (props.currentUser) {
-      setPrompt("");
+      setIsLoading(true);
+      setIsErr("");
       let d = { ...body };
       d.Content = rfContent.current.value;
       d.To = pathname[3];
@@ -121,7 +119,7 @@ export default function SingleInstancePage(props) {
           });
       }
     } else {
-      setPrompt("Please login first");
+      setIsErr("Please login first");
     }
   };
 
@@ -157,7 +155,7 @@ export default function SingleInstancePage(props) {
             inputRef={rfContent}
             onClick={() =>
               !props.isAuthenticated &&
-              setPrompt("Please login to send a comment...")
+              setIsErr("Please login to send a comment...")
             }
           />
           <Box my={2}>

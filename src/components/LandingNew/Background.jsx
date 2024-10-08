@@ -10,9 +10,9 @@ import "../Landing/Cards.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 // import "swiper/swiper.min.css";
 // import "swiper/modules/pagination/pagination.scss"; // Pagination module
-// import "swiper/css";
-// import "swiper/css/pagination";
-// import SwiperCore, { Autoplay, Pagination } from "swiper";
+import "swiper/css";
+import "swiper/css/pagination";
+import SwiperCore, { Autoplay, Pagination } from "swiper";
 import Header from "../Utils/header";
 import Cards from "../Landing/Cards";
 import CoolText from "./CoolText";
@@ -74,7 +74,7 @@ export default function Background(params) {
     <div style={{ backgroundImage: imgs[index + 1] }} className="bg">
       <img className={cls} src={imgs[index]} alt="" />
       <div className="nhero">
-        <Swiper
+        {/* <Swiper
           autoplay={{
             delay: 10000,
             disableOnInteraction: false,
@@ -92,7 +92,7 @@ export default function Background(params) {
               </SwiperSlide>
             );
           })}
-        </Swiper>
+        </Swiper> */}
         <div className="themes">
           {content.map((item, index) => {
             return (
@@ -106,12 +106,6 @@ export default function Background(params) {
             );
           })}
         </div>
-
-        <div className="coffee-medium__smoke coffee-medium__smoke-one"></div>
-        <div className="coffee-medium__smoke coffee-medium__smoke-two"></div>
-        <div className="coffee-medium__smoke coffee-medium__smoke-three"></div>
-        <div className="coffee-medium__smoke coffee-medium__smoke-for"></div>
-        <div className="coffee-medium__cup"></div>
       </div>
     </div>
   );
