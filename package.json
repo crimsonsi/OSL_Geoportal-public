@@ -2,14 +2,13 @@
   "name": "osl-geoportal-public",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://194.163.165.107:7236",
+  "proxy": "http://localhost:3003",
   "options": {
     "allowedHosts": [
       "localhost",
       ".localhost",
       "api-service-ksa.ksa.go.ke"
-    ],
-    "proxy": "http://localhost:3003"
+    ]    
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",
