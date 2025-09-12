@@ -8,12 +8,13 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install --legacy-peer-deps
-# rebuild node-sass
 RUN npm rebuild node-sass
-RUN npm run-script build
 
 # Copy the source code
 COPY . .
+
+
+RUN npm run build
 
 # Stage 2: Serve the app using Nginx
 FROM nginx:1.21.3-alpine
@@ -29,4 +30,3 @@ EXPOSE 80
 
 # Run Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
-
