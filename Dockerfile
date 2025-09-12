@@ -1,3 +1,4 @@
+# --- Build stage ---
 FROM node:lts-alpine as build
 
 # Set working directory
@@ -16,7 +17,7 @@ RUN npm rebuild node-sass
 # Copy remaining source files AFTER install
 COPY . .
 
-# Build your app
+# Build your CRA app (output goes into /app/build)
 RUN npm run build
 
 
@@ -26,8 +27,8 @@ FROM nginx:alpine
 # Copy nginx config
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Copy built app from previous stage
-COPY --from=build /app/dist /usr/share/nginx/html
+# Copy built CRA app from previous stage
+COPY --from=build /app/build /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
