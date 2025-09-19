@@ -38,7 +38,6 @@ import WMTS, { optionsFromCapabilities } from "ol/source/WMTS.js";
 import WMTSCapabilities from "ol/format/WMTSCapabilities.js";
 import TitlePanel from "../maps/TitlePanel";
 import Popup from "./Popup";
-import { Container } from "@mui/material";
 
 export default function ThematicPreview(props) {
   const parser = new WMTSCapabilities();
@@ -58,10 +57,8 @@ export default function ThematicPreview(props) {
   const pathname = window.location.pathname.split("/")[3];
   const [body, setBody] = useState(template);
   const [msg, setMsg] = useState(null);
-  const [basemap, setBasemap] = useState(new TileLayer({ title: "Basemap" }));
-  const [ke_counties, setke_counties] = useState(
-    new TileLayer({ title: "Kenya Counties" })
-  );
+  const [basemap] = useState(new TileLayer({ title: "Basemap" }));
+  const [ke_counties] = useState(new TileLayer({ title: "Kenya Counties" }));
   const [map, setMap] = useState(null);
   const [dataSelector, setDataSelector] = useState(null);
   const [styleSelector, setStyleSelector] = useState(null);
@@ -74,7 +71,7 @@ export default function ThematicPreview(props) {
     4153378.2713831086, -194668.47203224793, 4183418.0234991824,
     -175024.15576295764,
   ]);
-  const [graticule, setGraticule] = useState(
+  const [graticule] = useState(
     new Graticule({
       strokeStyle: new Stroke({
         color: "rgba(0,0,0,0.5)",
@@ -125,7 +122,7 @@ export default function ThematicPreview(props) {
     )
       .then((res) => {
         if (!res.ok) {
-          throw Error("Could not fetch messages!!!");
+          throw Error("Could not fetch WMTS capabilities!!!");
         }
         return res.text();
       })
@@ -138,7 +135,9 @@ export default function ThematicPreview(props) {
 
         ke_counties.setSource(new WMTS(options));
       })
-      .catch((e) => {});
+      .catch((e) => {
+        console.error("Error loading Kenya Counties layer:", e);
+      });
 
     const initialMap = new Map({
       controls: defaultControls().extend([
@@ -205,89 +204,117 @@ export default function ThematicPreview(props) {
   }, [body?.Data?.length]);
 
   async function loadData(item) {
-    setIsLoading(false);
+    setIsLoading(true);
     let dataType = "";
-    const dt = await fetch(
-      `/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
-      {
-        credentials: "include",
-        headers: headers,
-      }
-    ).then((res) => {
-      if (res.ok) return res.json();
-    });
-    dataType = dt?.layer?.type;
-    if (dataType === "RASTER") {
-      await fetch(
-        encodeURI(
-          `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
-        ),
+
+    try {
+      const dt = await fetch(
+        `/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
         {
-          method: "get",
           credentials: "include",
+          headers: headers,
         }
-      )
-        .then((res) => {
-          if (!res.ok) {
-            throw Error("Could not fetch messages!!!");
+      );
+
+      if (dt.ok) {
+        const layerInfo = await dt.json();
+        dataType = layerInfo?.layer?.type;
+        console.log(`Layer type for ${item.url}:`, dataType);
+      } else {
+        console.error(`Failed to fetch layer info for ${item.url}:`, dt.status);
+        setIsLoading(false);
+        return;
+      }
+
+      if (dataType === "RASTER") {
+        await fetch(
+          encodeURI(
+            `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+          ),
+          {
+            method: "get",
+            credentials: "include",
           }
-          return res.text();
-        })
-        .then((text) => {
-          const result = parser.read(text);
-          const options = optionsFromCapabilities(result, {
-            layer: `${item.url.split(":")[0]}:${item.url.split(":")[1]}`,
-            matrixSet: "EPSG:900913",
+        )
+          .then((res) => {
+            if (!res.ok) {
+              throw Error("Could not fetch WMTS capabilities!!!");
+            }
+            return res.text();
+          })
+          .then((text) => {
+            const result = parser.read(text);
+            const options = optionsFromCapabilities(result, {
+              layer: `${item.url.split(":")[0]}:${item.url.split(":")[1]}`,
+              matrixSet: "EPSG:900913",
+            });
+
+            const pic = new TileLayer({
+              title: item.url.split(":")[1],
+              opacity: 1,
+              source: new WMTS(options),
+            });
+            map.addLayer(pic);
+            map.getView().fit(options.tileGrid.getExtent(), {
+              padding: [100, 100, 100, 100],
+            });
+            setIsLoading(false);
+          })
+          .catch((e) => {
+            console.error("Error loading raster layer:", e);
+            setIsLoading(false);
+          });
+      } else if (dataType === "VECTOR") {
+        try {
+          var response = await $.ajax({
+            url: encodeURI(getUrl(item.url)),
+            dataType: "json",
+            success: {},
+            error: function (xhr) {
+              console.error("Error loading vector data:", xhr);
+              setIsLoading(false);
+            },
           });
 
-          const pic = new TileLayer({
-            title: item.url.split(":")[1],
-            opacity: 1,
-            source: new WMTS(options),
+          $.when(response).done(function (data) {
+            setIsLoading(false);
+            if (data.features.length !== 0) {
+              const vector = new VectorLayer({
+                title: item.url.split(":")[1],
+                source: new VectorSource({
+                  features: new GeoJSON({}).readFeatures(data, {
+                    featureProjection: map.getView().getProjection(),
+                  }),
+                }),
+              });
+              setExtent(vector.getSource().getExtent());
+              map.getView().fit(vector.getSource().getExtent(), {
+                padding: [50, 50, 50, 50],
+              });
+              if (item.style.type === "Basic") {
+                vector.setStyle(fillStyle(vector, item.style));
+              } else if (item.style.type === "Unique") {
+                vector.setStyle(uniqueStyle(vector, item.style));
+              } else if (item.style.type === "Range") {
+                vector.setStyle(rangeStyle(vector, item.style));
+              }
+              map.addLayer(vector);
+            } else {
+              console.warn(`No features found in vector layer: ${item.url}`);
+            }
           });
-          map.addLayer(pic);
-          map.getView().fit(options.tileGrid.getExtent(), {
-            padding: [100, 100, 100, 100],
-          });
+        } catch (error) {
+          console.error("Error processing vector data:", error);
           setIsLoading(false);
-        })
-        .catch((e) => {});
-    } else if (dataType === "VECTOR") {
-      setIsLoading(false);
-      var response = await $.ajax({
-        url: encodeURI(getUrl(item.url)),
-        dataType: "json",
-        success: {},
-        error: function (xhr) {
-          setIsLoading(false);
-        },
-      });
-      $.when(response).done(function (data) {
-        setIsLoading(false);
-        if (data.features.length !== 0) {
-          const vector = new VectorLayer({
-            title: item.url.split(":")[1],
-            source: new VectorSource({
-              features: new GeoJSON({}).readFeatures(data, {
-                featureProjection: map.getView().getProjection(),
-              }),
-            }),
-          });
-          setExtent(vector.getSource().getExtent());
-          map.getView().fit(vector.getSource().getExtent(), {
-            padding: [50, 50, 50, 50],
-          });
-          if (item.style.type === "Basic") {
-            vector.setStyle(fillStyle(vector, item.style));
-          } else if (item.style.type === "Unique") {
-            vector.setStyle(uniqueStyle(vector, item.style));
-          } else if (item.style.type === "Range") {
-            vector.setStyle(rangeStyle(vector, item.style));
-          }
-          map.addLayer(vector);
         }
-      });
-    } else setIsLoading(false);
+      } else {
+        console.warn(`Unknown data type: ${dataType} for layer: ${item.url}`);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Error in loadData:", error);
+      setIsLoading(false);
+    }
   }
 
   function fillStyle(layer, style) {
@@ -297,10 +324,10 @@ export default function ThematicPreview(props) {
       layer
         .getSource()
         .getFeatures()
-        .map((item) => {
+        .forEach((item) => {
           item.setStyle((feature, resolution) => {
             let txt =
-              feature.values_[style.lcolumn] == undefined
+              feature.values_[style.lcolumn] === undefined
                 ? ""
                 : feature.values_[style.lcolumn];
 
@@ -359,13 +386,13 @@ export default function ThematicPreview(props) {
   }
 
   function uniqueStyle(layer, style) {
-    style.classes.map((e) => {
+    style.classes.forEach((e) => {
       let count = 0;
       layer
         .getSource()
         .getFeatures()
-        .map((item) => {
-          if (item.values_[style.column] == e.name) {
+        .forEach((item) => {
+          if (item.values_[style.column] === e.name) {
             item.setStyle(
               new Style({
                 image: new Circle({
@@ -395,12 +422,12 @@ export default function ThematicPreview(props) {
   }
 
   function rangeStyle(layer, style) {
-    style.classes.map((e) => {
+    style.classes.forEach((e) => {
       let count = 0;
       layer
         .getSource()
         .getFeatures()
-        .map((item) => {
+        .forEach((item) => {
           if (
             Number(item.values_[style.column]) >= e.min &&
             Number(item.values_[style.column]) < e.max
@@ -464,7 +491,7 @@ export default function ThematicPreview(props) {
             if (transform) {
               // Get the transform parameters from the style's transform matrix
               matrix = transform
-                .match(/^matrix\(([^\(]*)\)$/)[1]
+                .match(/^matrix\(([^(]*)\)$/)[1]
                 .split(",")
                 .map(Number);
             } else {
@@ -553,14 +580,14 @@ export default function ThematicPreview(props) {
         </div>
         <div className="download">
           <div>
-            <a
+            <button
               onClick={() => {
                 printMap();
               }}
-              role="button"
+              type="button"
             >
               <i className="fa fa-camera"></i> Screenshot
-            </a>
+            </button>
           </div>
         </div>
         {baseSelector && (
