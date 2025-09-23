@@ -1,6 +1,5 @@
-import { Box, Card, Container, Divider, Typography } from "@mui/material";
+import { Box, Card, Container, Divider, Grid, Typography } from "@mui/material";
 import ImageUpload from "./ImageUpload";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 export default function PreviewData(props) {
   return (
@@ -10,8 +9,8 @@ export default function PreviewData(props) {
       </Typography>
       <Divider sx={{ my: 2 }} />
 
-      <Grid2 container spacing={3}>
-        <Grid2 item md={8}>
+      <Grid container spacing={3}>
+        <Grid item md={8}>
           <Typography variant="body1" gutterBottom>
             {props.body.Description}
           </Typography>
@@ -52,15 +51,15 @@ export default function PreviewData(props) {
             <strong>Classification Type: </strong>
             {props.body?.Data[0]?.style?.type} Classification
           </Typography>
-        </Grid2>
-        <Grid2 item md={4}>
+        </Grid>
+        <Grid item md={4}>
           <ImageUpload
             preview={true}
             body={props.body}
             updateBody={props.updateBody}
           />
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
     </Card>
   );
 }
