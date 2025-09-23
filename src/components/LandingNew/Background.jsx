@@ -6,13 +6,7 @@ import bg3 from "../../assets/imgs/bg3.jpg";
 import bg4 from "../../assets/imgs/bg4.jpg";
 import bg5 from "../../assets/imgs/bg5.jpg";
 import bg6 from "../../assets/imgs/bg6.jpg";
-import "../Landing/Cards.scss";
-import { Swiper, SwiperSlide } from "swiper/react";
-// import "swiper/swiper.min.css";
-// import "swiper/modules/pagination/pagination.scss"; // Pagination module
-import "swiper/css";
-import "swiper/css/pagination";
-import SwiperCore, { Autoplay, Pagination } from "swiper";
+import "../../Styles/Cards.scss";
 import Header from "../Utils/header";
 import Cards from "../Landing/Cards";
 import CoolText from "./CoolText";

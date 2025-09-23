@@ -1,5 +1,5 @@
-@import "../../Styles/0_mediaquery";
-@import "../../Styles/1_variables";
+@use "./index" as *;
+@use "./variables" as *;
 
 #app {
   display: flex;

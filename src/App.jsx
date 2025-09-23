@@ -17,13 +17,9 @@ import PublicationsPage from "./Pages/Publications";
 import StoryMapsPage from "./Pages/StoryMapPage";
 import FAQs from "./Pages/FAQs";
 
+import { jwtDecode } from "jwt-decode";
+
 function App() {
-  // useEffect(() => {
-  //   Aos.init();
-  // }, []);
-
-  var jwt = require("jsonwebtoken");
-
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
   // const history = useHistory();
@@ -40,7 +36,7 @@ function App() {
     const token = localStorage.getItem("cilbup_ksa");
     if (token) {
       try {
-        var decoded = jwt.decode(token);
+        var decoded = jwtDecode(token);
         //window.location.reload(false)
         setCurrentUser(decoded);
 

@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import Footer from "../components/Utils/footer";
 import Hero from "../components/ContactUs/Hero";
 import Button from "../components/Utils/button1";
+import { jwtDecode } from "jwt-decode";
 
 export default function ContactUsPage(props) {
   const [isErr, setIsErr] = useState("");
@@ -9,13 +10,12 @@ export default function ContactUsPage(props) {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [currentUser, setCurrentUser] = useState();
 
-  var jwt = require("jsonwebtoken");
 
   useEffect(() => {
     const token = localStorage.getItem("cilbup_ksa");
     if (token) {
       try {
-        var decoded = jwt.decode(token);
+        var decoded = jwtDecode(token);
         setCurrentUser(decoded);
 
         if (Date.now() >= decoded.exp * 1000) {
