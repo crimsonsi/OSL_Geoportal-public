@@ -1,18 +1,18 @@
-@import '@fontsource/roboto/300.css';
-@import '@fontsource/roboto/400.css';
-@import '@fontsource/roboto/500.css';
-@import '@fontsource/roboto/700.css';
+@use '@fontsource/roboto/300.css' as *;
+@use '@fontsource/roboto/400.css' as *;
+@use '@fontsource/roboto/500.css' as *;
+@use '@fontsource/roboto/700.css' as *;
 
-@import "./Styles/variables";
-@import "./Styles/0_mediaquery";
-@import "./Styles/header";
-@import "./Styles/footer";
-@import "./Styles/InstancesPage";
-@import "./Styles/SingleInstancePage";
-@import "./Styles/ContactUs.scss";
-@import "./Styles/Aboutpage.scss";
-@import "./Styles/faqs.scss";
-@import "./Styles/timeseries.scss";
+@use "./Styles/variables" as *;
+@use "./Styles/0_mediaquery" as *;
+@use "./Styles/header" as *;
+@use "./Styles/footer" as *;
+@use "./Styles/InstancesPage" as *;
+@use "./Styles/SingleInstancePage" as *;
+@use "./Styles/ContactUs.scss" as *;
+@use "./Styles/Aboutpage.scss" as *;
+@use "./Styles/faqs.scss" as *;
+@use "./Styles/timeseries.scss" as *;
 
 html {
   scroll-behavior: smooth;

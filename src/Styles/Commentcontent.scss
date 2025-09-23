@@ -1,5 +1,4 @@
-@import "./0_mediaquery";
-@import "./1_variables";
+@use "./index" as *;
 
 .messageContent {
   box-shadow: 1px 1px 5px #60606030;

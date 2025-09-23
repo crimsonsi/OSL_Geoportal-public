@@ -1,6 +1,5 @@
-@import "../Styles/0_mediaquery";
-@import "../Styles/1_variables";
-@import "../Styles/variables";
+@use "./index" as *;
+@use "./variables" as *;
 
 .landingnew {
   height: 100vh;
@@ -45,7 +44,7 @@
     pointer-events: all;
 
     .s_hero {
-     // position: absolute;
+      // position: absolute;
       // left: 7.5%;
       // right: 7.5%;
       // top: 10vh;

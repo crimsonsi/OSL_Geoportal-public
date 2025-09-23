@@ -1,5 +1,4 @@
-@import "./0_mediaquery.scss";
-@import "./1_variables.scss";
+@use "./index" as *;
 
 .storymaps {
   height: 100%;

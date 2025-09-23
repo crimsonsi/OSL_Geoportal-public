@@ -1,5 +1,6 @@
-@import "./0_mediaquery.scss";
-@import "./1_variables.scss";
+@use "./index" as *;
+@use "./1_variables" as *;
+@use "./0_mediaquery" as *;
 
 .data {
     height: 100vh;

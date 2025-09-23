@@ -1,6 +1,4 @@
-@import "./variables";
-@import "./1_variables";
-@import "./0_mediaquery";
+@use "./index" as *;
 
 .DocContainer {
   margin:auto;

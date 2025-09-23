@@ -1,5 +1,4 @@
-@import "./1_variables";
-@import "./_0_mediaquery";
+@use "./index" as *;
 
 .feedbackform{
     position: fixed;

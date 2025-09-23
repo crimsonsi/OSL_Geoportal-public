@@ -1,4 +1,6 @@
-@import "./_1_variables";
+@use "./index" as *;
+@use "./variables" as *;
+
 .header {
   width: 100%;
   position: fixed;

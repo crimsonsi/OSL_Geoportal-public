@@ -1,4 +1,4 @@
-@import "./_1_variables";
+@use "./index" as *;
 .AboutTerms {
   font-family: "Inter";
   padding-top: 100px;

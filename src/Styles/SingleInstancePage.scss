@@ -1,5 +1,4 @@
-@import "./0_mediaquery";
-@import "./1_variables";
+@use "./index" as *;
 
 .headings {
   background-color: #0c164f;
