@@ -133,7 +133,15 @@ export default function ThematicPreview(props) {
           matrixSet: "EPSG:4326",
         });
 
-        ke_counties.setSource(new WMTS(options));
+        if (options) {
+          ke_counties.setSource(new WMTS(options));
+        } else {
+          console.warn(
+            "Could not create WMTS options for Kenya Counties layer. Available layers:",
+            result.Contents?.Layer?.map((l) => l.Identifier) ||
+              "No layers found"
+          );
+        }
       })
       .catch((e) => {
         console.error("Error loading Kenya Counties layer:", e);
@@ -249,15 +257,23 @@ export default function ThematicPreview(props) {
               matrixSet: "EPSG:900913",
             });
 
-            const pic = new TileLayer({
-              title: item.url.split(":")[1],
-              opacity: 1,
-              source: new WMTS(options),
-            });
-            map.addLayer(pic);
-            map.getView().fit(options.tileGrid.getExtent(), {
-              padding: [100, 100, 100, 100],
-            });
+            if (options) {
+              const pic = new TileLayer({
+                title: item.url.split(":")[1],
+                opacity: 1,
+                source: new WMTS(options),
+              });
+              map.addLayer(pic);
+              map.getView().fit(options.tileGrid.getExtent(), {
+                padding: [100, 100, 100, 100],
+              });
+            } else {
+              console.warn(
+                `Could not create WMTS options for layer: ${item.url}. Available layers:`,
+                result.Contents?.Layer?.map((l) => l.Identifier) ||
+                  "No layers found"
+              );
+            }
             setIsLoading(false);
           })
           .catch((e) => {
@@ -287,18 +303,55 @@ export default function ThematicPreview(props) {
                   }),
                 }),
               });
-              setExtent(vector.getSource().getExtent());
-              map.getView().fit(vector.getSource().getExtent(), {
-                padding: [50, 50, 50, 50],
-              });
-              if (item.style.type === "Basic") {
-                vector.setStyle(fillStyle(vector, item.style));
-              } else if (item.style.type === "Unique") {
-                vector.setStyle(uniqueStyle(vector, item.style));
-              } else if (item.style.type === "Range") {
-                vector.setStyle(rangeStyle(vector, item.style));
+
+              // Apply styling first
+              if (item.style && item.style.type) {
+                if (item.style.type === "Basic") {
+                  vector.setStyle(fillStyle(vector, item.style));
+                } else if (item.style.type === "Unique") {
+                  vector.setStyle(uniqueStyle(vector, item.style));
+                } else if (item.style.type === "Range") {
+                  vector.setStyle(rangeStyle(vector, item.style));
+                }
+              } else {
+                // Fallback style if no style is defined
+                console.log(
+                  "No style defined for layer, applying default style"
+                );
+                vector.setStyle(
+                  new Style({
+                    fill: new Fill({
+                      color: "rgba(255, 0, 0, 0.3)",
+                    }),
+                    stroke: new Stroke({
+                      color: "#ff0000",
+                      width: 2,
+                    }),
+                  })
+                );
               }
+
+              // Add layer to map
               map.addLayer(vector);
+
+              // Update extent and fit view to show the data
+              const extent = vector.getSource().getExtent();
+              if (extent && extent[0] !== Infinity) {
+                setExtent(extent);
+                map.getView().fit(extent, {
+                  padding: [50, 50, 50, 50],
+                });
+                console.log(
+                  `Vector layer ${
+                    item.url.split(":")[1]
+                  } added and view fitted to extent:`,
+                  extent
+                );
+              } else {
+                console.warn(
+                  `Invalid extent for vector layer: ${item.url.split(":")[1]}`
+                );
+              }
             } else {
               console.warn(`No features found in vector layer: ${item.url}`);
             }
@@ -386,6 +439,12 @@ export default function ThematicPreview(props) {
   }
 
   function uniqueStyle(layer, style) {
+    console.log(
+      "Applying uniqueStyle to layer:",
+      layer.getTitle(),
+      "with style:",
+      style
+    );
     style.classes.forEach((e) => {
       let count = 0;
       layer
@@ -422,6 +481,12 @@ export default function ThematicPreview(props) {
   }
 
   function rangeStyle(layer, style) {
+    console.log(
+      "Applying rangeStyle to layer:",
+      layer.getTitle(),
+      "with style:",
+      style
+    );
     style.classes.forEach((e) => {
       let count = 0;
       layer
@@ -565,7 +630,7 @@ export default function ThematicPreview(props) {
       <div className="map">
         <div
           ref={mapElement}
-          style={{ width: "100%", height: "90vh" }}
+          style={{ width: "100%", height: "90vh"}}
           id="map"
         ></div>
         {popup && <Popup data={popup} setPopup={setPopup} />}
