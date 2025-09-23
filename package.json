@@ -1,15 +1,7 @@
 {
   "name": "osl-geoportal-public",
   "version": "0.1.0",
-  "private": true,
-  "proxy": "http://localhost:3003",
-  "options": {
-    "allowedHosts": [
-      "localhost",
-      ".localhost",
-      "api-service-ksa.ksa.go.ke"
-    ]    
-  },
+  "private": true,  
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
@@ -38,45 +30,33 @@
     "styled-components": "^6.1.12",
     "swiper": "^11.1.9",
     "vm-browserify": "^1.1.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "vite": "^7.1.6",
+    "vite-plugin-svgr": "^4.5.0",
+    "vite-tsconfig-paths": "^5.1.4",
+    "zod": "^4.1.9"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject",
-    "lint": "eslint ."
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "start": "vite --host",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage --watch=false"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "assert": "^2.1.0",
+    "@vitejs/plugin-react": "^5.0.3",
+    "@vitejs/plugin-react-swc": "^4.1.0",
+    "@vitest/coverage-v8": "^3.2.4",
     "buffer": "^6.0.3",
-    "crypto-browserify": "^3.12.0",
-    "customize-cra": "^1.0.0",
+    "crypto-browserify": "^3.12.1",
     "https-browserify": "^1.0.0",
     "os-browserify": "^0.3.0",
     "process": "^0.11.10",
-    "react-app-rewired": "^2.2.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
-    "url": "^0.11.3"
+    "util": "^0.12.5",
+    "vite-plugin-pwa": "^1.0.3",
+    "vitest": "^3.2.4"
   }
 }
