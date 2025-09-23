@@ -98,9 +98,7 @@ export default function ThematicPreview(props) {
   const [bChartImgUrl, setBChartImgUrl] = useState();
   const [popup, setPopup] = useState(null);
   const headers = {
-    Authorization: `Basic ${Buffer.from("admin:geoserver", "utf-8").toString(
-      "base64"
-    )}`,
+    Authorization: `Basic ${btoa("admin:geoserver")}`,
   };
 
   useEffect(() => {

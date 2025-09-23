@@ -37,10 +37,8 @@ export default function Data(props) {
   }
 
   let dataType = "";
-  let headers = {
-    Authorization: `Basic ${Buffer.from("admin:geoserver", "utf-8").toString(
-      "base64"
-    )}`,
+  const headers = {
+    Authorization: `Basic ${btoa("admin:geoserver")}`,
   };
   useEffect(() => {
     fetch("/geoserver/rest/workspaces", {
