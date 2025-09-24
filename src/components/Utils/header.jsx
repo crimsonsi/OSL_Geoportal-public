@@ -349,7 +349,7 @@ export default function Header(props) {
         </StyledListItemButton>
         <StyledListItemButton
           onClick={() => {
-            window.location.href = "/api-docs";
+            window.location.href = "/docs";
             setMobileOpen(false);
           }}
         >
@@ -511,7 +511,7 @@ export default function Header(props) {
                 url="/publications"
                 active={props.parent}
               />
-              <NavLink txt="API Docs" url="/api-docs" active={props.parent} />
+              <NavLink txt="Docs" url="/docs" active={props.parent} />
               <NavLink txt="About" url="/about" active={props.parent} />
               <NavLink txt="Contact Us" url="/contact" active={props.parent} />
             </NavSection>

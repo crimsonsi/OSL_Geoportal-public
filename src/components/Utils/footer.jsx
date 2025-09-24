@@ -73,7 +73,7 @@ const Footer = () => {
     { label: 'About Us', href: '/about' },
     { label: 'Contact', href: '/contact' },
     { label: 'FAQs', href: '/faqs' },
-    { label: 'API Documentation', href: '/api-docs' },
+    { label: 'API Documentation', href: '/docs' },
   ];
 
   const dataCategories = [
@@ -94,7 +94,7 @@ const Footer = () => {
 
   const supportLinks = [
     { label: 'User Guide', href: '/guide' },
-    { label: 'API Documentation', href: '/api-docs' },
+    { label: 'API Documentation', href: '/docs' },
     { label: 'Data Standards', href: '/standards' },
     { label: 'Feedback', href: '/feedback' },
     { label: 'Report Issues', href: '/issues' },

@@ -1,6 +1,11 @@
 import { React, useEffect, useState, Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ThemeProvider, CssBaseline, Box, CircularProgress } from "@mui/material";
+import {
+  ThemeProvider,
+  CssBaseline,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 import theme from "./theme";
 import "./App.scss";
 // import Aos from "aos";
@@ -8,7 +13,7 @@ import "./App.scss";
 
 // Lazy load components
 const NotFound = lazy(() => import("./Pages/404"));
-const LandingPage = lazy(() => import("./Pages/LandingNew"));
+const LandingPage = lazy(() => import("./Pages/LandingPage"));
 const DataPage = lazy(() => import("./Pages/DataPage"));
 const SingleInstancePage = lazy(() => import("./Pages/SingleInstancePage"));
 const SingleCollection = lazy(() => import("./Pages/SingleCollection"));
@@ -28,10 +33,10 @@ import { jwtDecode } from "jwt-decode";
 const LoadingSpinner = () => (
   <Box
     sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '100vh',
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "100vh",
       backgroundColor: theme.palette.background.default,
     }}
   >
@@ -102,7 +107,7 @@ function App() {
           case "data":
             setPage("Data");
             break;
-          case "api-docs":
+          case "docs":
             setPage("API Documentation");
             break;
         }
@@ -259,7 +264,7 @@ function App() {
             />
             <Route
               exact
-              path="/api-docs"
+              path="/docs"
               element={
                 <ApiDocs
                   isAuthenticated={isAuthenticated}
