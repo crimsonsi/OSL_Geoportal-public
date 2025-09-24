@@ -37,7 +37,7 @@ import RippleLoading from "../Utils/RippleLoading";
 import WMTS, { optionsFromCapabilities } from "ol/source/WMTS.js";
 import WMTSCapabilities from "ol/format/WMTSCapabilities.js";
 import TitlePanel from "../maps/TitlePanel";
-import Popup from "../ThematicMap/Popup";
+import Popup from "../Map/Popup";
 
 export default function WorldDataPreview(props) {
   const parser = new WMTSCapabilities();

@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import Header from "../components/Utils/header";
 import { useEffect } from "react";
 
-import Footer from "../components/Utils/footer";
+import Footer from "../components/Utils/Footer";
 import MapCategory from "../components/maps/MapCategory";
 
 export default function Category(props) {
   const [data, setData] = useState(null);
-  const instanceId = window.location.pathname.split("/")[2].replaceAll("%20", " ");
+  const instanceId = window.location.pathname
+    .split("/")[2]
+    .replaceAll("%20", " ");
 
   useEffect(() => {
     fetch(`/api/data/category/${instanceId}/0`, {

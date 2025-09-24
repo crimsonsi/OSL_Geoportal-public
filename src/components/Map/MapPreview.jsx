@@ -32,14 +32,13 @@ import MyStyler from "../maps/SidePanel/Topo/MyStyler";
 import { Map } from "ol";
 import { asArray } from "ol/color";
 import Query from "./Query";
-import PreviewData from "../maps/PreviewData";
 import RippleLoading from "../Utils/RippleLoading";
 import WMTS, { optionsFromCapabilities } from "ol/source/WMTS.js";
 import WMTSCapabilities from "ol/format/WMTSCapabilities.js";
 import TitlePanel from "../maps/TitlePanel";
 import Popup from "./Popup";
 
-export default function ThematicPreview(props) {
+export default function MapPreview(props) {
   const parser = new WMTSCapabilities();
   let template = {
     Title: "",
@@ -628,7 +627,7 @@ export default function ThematicPreview(props) {
       <div className="map">
         <div
           ref={mapElement}
-          style={{ width: "100%", height: "90vh"}}
+          style={{ width: "100%", height: "90vh" }}
           id="map"
         ></div>
         {popup && <Popup data={popup} setPopup={setPopup} />}
@@ -707,8 +706,6 @@ export default function ThematicPreview(props) {
           />
         )}
       </div>
-      <PreviewData body={body} />
-      {msg && <AlertMsg msg={msg} setMsg={setMsg} />}
     </div>
   );
 }

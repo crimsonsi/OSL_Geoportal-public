@@ -1,4 +1,43 @@
 import { useEffect, useState } from "react";
+import {
+  Box,
+  Typography,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  TextField,
+  Checkbox,
+  FormControlLabel,
+  Button,
+  IconButton,
+  Paper,
+  Divider,
+  Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Tabs,
+  Tab,
+  Card,
+  CardContent,
+  Slider,
+  Stack,
+  Chip,
+} from "@mui/material";
+import {
+  Close as CloseIcon,
+  Map as MapIcon,
+  ViewList as ViewListIcon,
+  PieChart as PieChartIcon,
+  Add as AddIcon,
+  Remove as RemoveIcon,
+  Check as CheckIcon,
+  Palette as PaletteIcon,
+  FormatPaint as FormatPaintIcon,
+  Label as LabelIcon,
+} from "@mui/icons-material";
 import Circle from "ol/style/Circle";
 import Style from "ol/style/Style";
 import Fill from "ol/style/Fill";
@@ -9,29 +48,42 @@ import Text from "ol/style/Text";
 import { useRef } from "react";
 
 export default function MyStyler(props) {
-  const [active, setActive] = useState("Basic");
+  const [activeTab, setActiveTab] = useState(0);
 
-  const Item = (params) => {
-    return (
-      <p
-        onClick={() => {
-          params.setActive(params.name);
-        }}
-        className={params.active === params.name ? "active" : ""}
-      >
-        {params.name}
-      </p>
-    );
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
   };
 
   return (
-    <div className="data_popup">
-      <div className="bar">
-        <Item name="Basic" active={active} setActive={setActive} />
-        <Item name="Unique" active={active} setActive={setActive} />
-        <Item name="Range" active={active} setActive={setActive} />
-      </div>
-      {active === "Basic" && (
+    <Paper
+      sx={{
+        position: "absolute",
+        top: 20,
+        left: 20,
+        width: 350,
+        maxHeight: "80vh",
+        overflow: "auto",
+        zIndex: 1000,
+        p: 2,
+      }}
+    >
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+        <Typography variant="h6">Layer Styling</Typography>
+        <IconButton
+          size="small"
+          onClick={() => props.setStyleSelector(null)}
+        >
+          <CloseIcon />
+        </IconButton>
+      </Box>
+
+      <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 2 }}>
+        <Tab label="Basic" />
+        <Tab label="Unique" />
+        <Tab label="Range" />
+      </Tabs>
+
+      {activeTab === 0 && (
         <BasicStyler
           setStyleSelector={props.setStyleSelector}
           map={props.map}
@@ -39,7 +91,7 @@ export default function MyStyler(props) {
           setBody={props.setBody}
         />
       )}
-      {active === "Unique" && (
+      {activeTab === 1 && (
         <UniqueStyler
           setStyleSelector={props.setStyleSelector}
           map={props.map}
@@ -47,7 +99,7 @@ export default function MyStyler(props) {
           setBody={props.setBody}
         />
       )}
-      {active === "Range" && (
+      {activeTab === 2 && (
         <RangeStyler
           setStyleSelector={props.setStyleSelector}
           map={props.map}
@@ -55,7 +107,7 @@ export default function MyStyler(props) {
           setBody={props.setBody}
         />
       )}
-    </div>
+    </Paper>
   );
 }
 
@@ -76,8 +128,6 @@ const BasicStyler = (props) => {
   const [swidth, setSWidth] = useState(1);
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(12);
-
-
 
   useEffect(() => {
     let d = [];
@@ -238,175 +288,196 @@ const BasicStyler = (props) => {
   }, [label, lcolumn, lcolor, lfont, offsetX, offsetY]);
 
   return (
-    <div className="basic_styler">
-      <h3>Select Layer</h3>
-      <hr />
-      <div className="row">
-        <i className="fa fa-map"></i>
-        <select
-          onChange={(e) => {
-            populateColumns(e.target.value);
-            setTitle(e.target.value);
-          }}
-          name=""
-          id=""
-        >
-          <option value="Select Layer">Select Layer</option>
-          {layrs.length > 0 &&
-            layrs.map((item, i) => {
-              return (
-                <option key={i} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-        </select>
-      </div>
-      <h3>Style</h3>
-      <hr />
-      <div className="row">
-        <input
-          type="color"
-          value={fill}
-          onChange={(e) => {
-            setFill(e.target.value);
-            fillStyle(title, e.target.value, null);
-          }}
-        />
-        <p>Fill color</p>
-        <p>Opacity</p>
-        <select
-          onChange={(e) => {
-            setFOpacity(e.target.value);
-            fillStyle(title, null, e.target.value);
-          }}
-          name=""
-          id=""
-        >
-          {opacity.map((item, i) => {
-            return (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <div className="row">
-        <input
-          type="color"
-          value={sfill}
-          onChange={(e) => {
-            setSFill(e.target.value);
-            fillStyle(title, null, null, e.target.value, null);
-          }}
-        />
-        <p>Stroke color</p>
-        <p>Width</p>
-        <select
-          value={swidth}
-          onChange={(e) => {
-            setSWidth(e.target.value);
-            fillStyle(title, null, null, null, e.target.value);
-          }}
-          name=""
-          id=""
-        >
-          {width.map((item, i) => {
-            return (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <h3>Label</h3>
-      <hr />
-      <div className="row">
-        <input
-          onChange={(e) => {
-            setLabel(!label);
-          }}
-          checked={label}
-          type="checkbox"
-          name=""
-          id=""
-        />
-        <select
-          value={lcolumn}
-          onChange={(e) => {
-            setLColumn(e.target.value);
-          }}
-          name=""
-          id=""
-        >
-          <option value="Select Column">Select Column</option>
-          {columns.length > 0 &&
-            columns.map((item, i) => {
-              return (
-                <option key={i} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-        </select>
-        <select
-          value={lfont}
-          onChange={(e) => {
-            setLFont(e.target.value);
-          }}
-          name=""
-          id=""
-        >
-          {font.map((item, i) => {
-            return (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <div className="row">
-        <input
-          type="color"
-          value={lcolor}
-          onChange={(e) => {
-            setLColor(e.target.value);
-          }}
-        />
-        <p>Label color</p>
-      </div>
-      <div className="row">
-        <input
-          type="number"
-          value={offsetX}
-          onChange={(e) => {
-            setOffsetX(e.target.value);
-          }}
-        />
-        <p>Offset X</p>
-      </div>
-      <div className="row">
-        <input
-          type="number"
-          value={offsetY}
-          onChange={(e) => {
-            setOffsetY(e.target.value);
-          }}
-        />
-        <p>Offset Y</p>
-      </div>
-      <i
-        onClick={() => {
-          props.setStyleSelector(null);
-        }}
-        className="fa fa-close"
-      >
-        &#xf00d;
-      </i>
-    </div>
+    <Box>
+      <Card sx={{ mb: 2 }}>
+        <CardContent>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <MapIcon sx={{ mr: 1, color: "primary.main" }} />
+            <Typography variant="h6">Select Layer</Typography>
+          </Box>
+          <FormControl fullWidth>
+            <InputLabel>Layer</InputLabel>
+            <Select
+              value={title}
+              label="Layer"
+              onChange={(e) => {
+                populateColumns(e.target.value);
+                setTitle(e.target.value);
+              }}
+            >
+              <MenuItem value="">Select Layer</MenuItem>
+              {layrs.length > 0 &&
+                layrs.map((item, i) => (
+                  <MenuItem key={i} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </CardContent>
+      </Card>
+
+      <Card sx={{ mb: 2 }}>
+        <CardContent>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <FormatPaintIcon sx={{ mr: 1, color: "primary.main" }} />
+            <Typography variant="h6">Style</Typography>
+          </Box>
+          
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 6 }}>
+              <Typography variant="body2" sx={{ mb: 1 }}>Fill Color</Typography>
+              <TextField
+                type="color"
+                value={fill}
+                onChange={(e) => {
+                  setFill(e.target.value);
+                  fillStyle(title, e.target.value, null);
+                }}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid size={{ xs: 6 }}>
+              <Typography variant="body2" sx={{ mb: 1 }}>Opacity</Typography>
+              <FormControl fullWidth size="small">
+                <Select
+                  value={fopacity}
+                  onChange={(e) => {
+                    setFOpacity(e.target.value);
+                    fillStyle(title, null, e.target.value);
+                  }}
+                >
+                  {opacity.map((item, i) => (
+                    <MenuItem key={i} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid size={{ xs: 6 }}>
+              <Typography variant="body2" sx={{ mb: 1 }}>Stroke Color</Typography>
+              <TextField
+                type="color"
+                value={sfill}
+                onChange={(e) => {
+                  setSFill(e.target.value);
+                  fillStyle(title, null, null, e.target.value, null);
+                }}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid size={{ xs: 6 }}>
+              <Typography variant="body2" sx={{ mb: 1 }}>Width</Typography>
+              <FormControl fullWidth size="small">
+                <Select
+                  value={swidth}
+                  onChange={(e) => {
+                    setSWidth(e.target.value);
+                    fillStyle(title, null, null, null, e.target.value);
+                  }}
+                >
+                  {width.map((item, i) => (
+                    <MenuItem key={i} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <LabelIcon sx={{ mr: 1, color: "primary.main" }} />
+            <Typography variant="h6">Label</Typography>
+          </Box>
+          
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={label}
+                onChange={(e) => setLabel(e.target.checked)}
+              />
+            }
+            label="Enable Labels"
+            sx={{ mb: 2 }}
+          />
+
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 6 }}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Column</InputLabel>
+                <Select
+                  value={lcolumn}
+                  label="Column"
+                  onChange={(e) => setLColumn(e.target.value)}
+                >
+                  <MenuItem value="">Select Column</MenuItem>
+                  {columns.length > 0 &&
+                    columns.map((item, i) => (
+                      <MenuItem key={i} value={item}>
+                        {item}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid size={{ xs: 6 }}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Font Size</InputLabel>
+                <Select
+                  value={lfont}
+                  label="Font Size"
+                  onChange={(e) => setLFont(e.target.value)}
+                >
+                  {font.map((item, i) => (
+                    <MenuItem key={i} value={item}>
+                      {item}px
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid size={{ xs: 4 }}>
+              <Typography variant="body2" sx={{ mb: 1 }}>Label Color</Typography>
+              <TextField
+                type="color"
+                value={lcolor}
+                onChange={(e) => setLColor(e.target.value)}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid size={{ xs: 4 }}>
+              <TextField
+                type="number"
+                label="Offset X"
+                value={offsetX}
+                onChange={(e) => setOffsetX(e.target.value)}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid size={{ xs: 4 }}>
+              <TextField
+                type="number"
+                label="Offset Y"
+                value={offsetY}
+                onChange={(e) => setOffsetY(e.target.value)}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 
@@ -649,94 +720,115 @@ const UniqueStyler = (props) => {
     }, [color]);
 
     return (
-      <div className="row">
-        <input
+      <Box sx={{ display: "flex", alignItems: "center", mb: 1, p: 1, border: "1px solid #e0e0e0", borderRadius: 1 }}>
+        <TextField
           type="color"
           value={color}
-          onChange={(e) => {
-            setColor(e.target.value);
-          }}
+          onChange={(e) => setColor(e.target.value)}
+          sx={{ width: 60, mr: 2 }}
+          size="small"
         />
-        <p>{params.item.name}</p>
-      </div>
+        <Typography variant="body2" sx={{ flexGrow: 1 }}>
+          {params.item.name}
+        </Typography>
+        <Chip label={params.item.count} size="small" color="primary" variant="outlined" />
+      </Box>
     );
   };
 
   return (
-    <div className="basic_styler">
-      <h3>Select Layer</h3>
-      <hr />
-      <div className="row">
-        <i className="fa fa-map"></i>
-        <select
-          onChange={(e) => {
-            populateColumns(e.target.value);
-            setTitle(e.target.value);
-          }}
-          name=""
-          id=""
-        >
-          <option value="Select Layer">Select Layer</option>
-          {layrs.length > 0 &&
-            layrs.map((item, i) => {
-              return (
-                <option key={i} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-        </select>
-      </div>
-      <h3>Select Column</h3>
-      <div className="row">
-        <i className="fa fa-bars"></i>
-        <select
-          value={lcolumn}
-          onChange={(e) => {
-            setLColumn(e.target.value);
-          }}
-          name=""
-          id=""
-        >
-          <option value="Select Column">Select Column</option>
-          {columns.length > 0 &&
-            columns.map((item, i) => {
-              if (item !== "geometry") {
-                return (
-                  <option key={i} value={item}>
+    <Box>
+      <Card sx={{ mb: 2 }}>
+        <CardContent>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <MapIcon sx={{ mr: 1, color: "primary.main" }} />
+            <Typography variant="h6">Select Layer</Typography>
+          </Box>
+          <FormControl fullWidth>
+            <InputLabel>Layer</InputLabel>
+            <Select
+              value={title}
+              label="Layer"
+              onChange={(e) => {
+                populateColumns(e.target.value);
+                setTitle(e.target.value);
+              }}
+            >
+              <MenuItem value="">Select Layer</MenuItem>
+              {layrs.length > 0 &&
+                layrs.map((item, i) => (
+                  <MenuItem key={i} value={item}>
                     {item}
-                  </option>
-                );
-              }
-            })}
-        </select>
-      </div>
-      <hr />
-      <h3>Classes</h3>
-      <div className="classes">
-        {classes.length > 0 &&
-          classes.map((item, i) => {
-            return (
-              <Theme
-                key={i}
-                item={item}
-                classes={classes}
-                setClasses={setClasses}
-              />
-            );
-          })}
-        {lcolumn === "geometry" && <p>This column is not supported</p>}
-        {lcolumn === "too_many" && <p>Classes exceed the maximum (100)</p>}
-      </div>
-      <i
-        onClick={() => {
-          props.setStyleSelector(null);
-        }}
-        className="fa fa-close"
-      >
-        &#xf00d;
-      </i>
-    </div>
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </CardContent>
+      </Card>
+
+      <Card sx={{ mb: 2 }}>
+        <CardContent>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <ViewListIcon sx={{ mr: 1, color: "primary.main" }} />
+            <Typography variant="h6">Select Column</Typography>
+          </Box>
+          <FormControl fullWidth>
+            <InputLabel>Column</InputLabel>
+            <Select
+              value={lcolumn}
+              label="Column"
+              onChange={(e) => setLColumn(e.target.value)}
+            >
+              <MenuItem value="">Select Column</MenuItem>
+              {columns.length > 0 &&
+                columns.map((item, i) => {
+                  if (item !== "geometry") {
+                    return (
+                      <MenuItem key={i} value={item}>
+                        {item}
+                      </MenuItem>
+                    );
+                  }
+                })}
+            </Select>
+          </FormControl>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <PaletteIcon sx={{ mr: 1, color: "primary.main" }} />
+            <Typography variant="h6">Classes</Typography>
+          </Box>
+          
+          {classes.length > 0 ? (
+            <Stack spacing={1}>
+              {classes.map((item, i) => (
+                <Theme
+                  key={i}
+                  item={item}
+                  classes={classes}
+                  setClasses={setClasses}
+                />
+              ))}
+            </Stack>
+          ) : (
+            <Box sx={{ textAlign: "center", py: 2 }}>
+              {lcolumn === "geometry" && (
+                <Typography color="error">This column is not supported</Typography>
+              )}
+              {lcolumn === "too_many" && (
+                <Typography color="error">Classes exceed the maximum (20)</Typography>
+              )}
+              {!lcolumn && (
+                <Typography color="text.secondary">Select a column to generate classes</Typography>
+              )}
+            </Box>
+          )}
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 
@@ -1082,197 +1174,228 @@ const RangeStyler = (props) => {
     }, [color]);
 
     return (
-      <div className="row">
-        <input
+      <Box sx={{ display: "flex", alignItems: "center", mb: 1, p: 1, border: "1px solid #e0e0e0", borderRadius: 1 }}>
+        <TextField
           type="color"
           value={color}
-          onChange={(e) => {
-            setColor(e.target.value);
-          }}
+          onChange={(e) => setColor(e.target.value)}
+          sx={{ width: 60, mr: 2 }}
+          size="small"
         />
-        <p>{params.item.name}</p>
-      </div>
+        <Typography variant="body2" sx={{ flexGrow: 1 }}>
+          {params.item.name}
+        </Typography>
+        {params.item.count && (
+          <Chip label={params.item.count} size="small" color="primary" variant="outlined" />
+        )}
+      </Box>
     );
   };
 
   const RangePopup = (params) => {
-    const name = useRef();
-    const min = useRef();
-    const max = useRef();
+    const [name, setName] = useState("");
+    const [min, setMin] = useState("");
+    const [max, setMax] = useState("");
 
     return (
-      <div className="range_popup">
-        <div className="container">
-          <h3>Range</h3>
-          <hr />
-          <div className="div2equal">
-            <p>
-              Min: <b>{params.extents[0]}</b>
-            </p>
-            <p>
-              Max: <b>{params.extents[1]}</b>
-            </p>
-          </div>
-          <hr />
-          <div className="columns">
-            <p>Name</p>
-            <p>Min</p>
-            <p>Max</p>
-          </div>
-          <div className="columns">
-            <input ref={name} type="text" />
-            <input ref={min} type="number" />
-            <input ref={max} type="number" />
-          </div>
-          <button
+      <Dialog open={true} onClose={() => setRangePopup(null)} maxWidth="sm" fullWidth>
+        <DialogTitle>Add Range</DialogTitle>
+        <DialogContent>
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="body2" color="text.secondary">
+              Min: <strong>{params.extents[0]}</strong> | Max: <strong>{params.extents[1]}</strong>
+            </Typography>
+          </Box>
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                fullWidth
+              />
+            </Grid>
+            <Grid size={{ xs: 6 }}>
+              <TextField
+                label="Min"
+                type="number"
+                value={min}
+                onChange={(e) => setMin(e.target.value)}
+                fullWidth
+              />
+            </Grid>
+            <Grid size={{ xs: 6 }}>
+              <TextField
+                label="Max"
+                type="number"
+                value={max}
+                onChange={(e) => setMax(e.target.value)}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setRangePopup(null)}>Cancel</Button>
+          <Button
             onClick={() => {
-              if (
-                name.current.value != "" &&
-                min.current.value != "" &&
-                max.current.value != ""
-              ) {
-                params.addRange(
-                  name.current.value,
-                  min.current.value,
-                  max.current.value
-                );
+              if (name && min && max) {
+                params.addRange(name, min, max);
                 setRangePopup(null);
               }
             }}
+            variant="contained"
+            startIcon={<CheckIcon />}
           >
-            <i className="fa fa-check "></i>
-          </button>
-          <i
-            onClick={() => {
-              setRangePopup(null);
-            }}
-            className="fa fa-close"
-          >
-            &#xf00d;
-          </i>
-        </div>
-      </div>
+            Add Range
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   };
 
   return (
-    <div className="basic_styler">
-      <h3>Select Layer</h3>
-      <hr />
-      <div className="row">
-        <i className="fa fa-map"></i>
-        <select
-          onChange={(e) => {
-            populateColumns(e.target.value);
-            setTitle(e.target.value);
-          }}
-          name=""
-          id=""
-        >
-          <option value="Select Layer">Select Layer</option>
-          {layrs.length > 0 &&
-            layrs.map((item, i) => {
-              return (
-                <option key={i} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-        </select>
-      </div>
-      <h3>Select Column</h3>
-      <div className="row">
-        <i className="fa fa-bars"></i>
-        <select
-          value={lcolumn}
-          onChange={(e) => {
-            setLColumn(e.target.value);
-            setClasses([]);
-            clearStyle(title);
-          }}
-          name=""
-          id=""
-        >
-          <option value="Select Column">Select Column</option>
-          {columns.length > 0 &&
-            columns.map((item, i) => {
-              if (item !== "geometry") {
-                return (
-                  <option key={i} value={item}>
+    <Box>
+      <Card sx={{ mb: 2 }}>
+        <CardContent>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <MapIcon sx={{ mr: 1, color: "primary.main" }} />
+            <Typography variant="h6">Select Layer</Typography>
+          </Box>
+          <FormControl fullWidth>
+            <InputLabel>Layer</InputLabel>
+            <Select
+              value={title}
+              label="Layer"
+              onChange={(e) => {
+                populateColumns(e.target.value);
+                setTitle(e.target.value);
+              }}
+            >
+              <MenuItem value="">Select Layer</MenuItem>
+              {layrs.length > 0 &&
+                layrs.map((item, i) => (
+                  <MenuItem key={i} value={item}>
                     {item}
-                  </option>
-                );
-              }
-            })}
-        </select>
-      </div>
-      <h3>Select Classification</h3>
-      <div className="row">
-        <i className="fa fa-pie-chart">&#xf200;</i>
-        <select
-          value={classification}
-          onChange={(e) => {
-            setClassification(e.target.value);
-          }}
-          name=""
-          id=""
-        >
-          <option value="Select Classification<">Select Classification</option>
-          <option value="Equal Interval">Equal Interval</option>
-          <option value="Custom Interval">Custom Interval</option>
-        </select>
-      </div>
-      <hr />
-      <h3>Classes</h3>
-      <div className="classes">
-        {classification === "Custom Interval" && (
-          <>
-            <div className="buttons">
-              <i
-                onClick={() => {
-                  if (lcolumn !== "") {
-                    setRangePopup(true);
-                  }
-                }}
-                className="fa fa-plus-square"
-              ></i>
-              <i
-                onClick={() => {
-                  removeClass();
-                }}
-                className="fa fa-minus-square"
-              ></i>
-            </div>
-          </>
-        )}
-        {classes &&
-          classes.length > 0 &&
-          classes.map((item, i) => {
-            return (
-              <Theme
-                key={i}
-                item={item}
-                classes={classes}
-                setClasses={setClasses}
-              />
-            );
-          })}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </CardContent>
+      </Card>
 
-        {isNumeric && title != "" && lcolumn != "" && (
-          <p>No numeric values detected in this column</p>
-        )}
-      </div>
+      <Card sx={{ mb: 2 }}>
+        <CardContent>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <ViewListIcon sx={{ mr: 1, color: "primary.main" }} />
+            <Typography variant="h6">Select Column</Typography>
+          </Box>
+          <FormControl fullWidth>
+            <InputLabel>Column</InputLabel>
+            <Select
+              value={lcolumn}
+              label="Column"
+              onChange={(e) => {
+                setLColumn(e.target.value);
+                setClasses([]);
+                clearStyle(title);
+              }}
+            >
+              <MenuItem value="">Select Column</MenuItem>
+              {columns.length > 0 &&
+                columns.map((item, i) => {
+                  if (item !== "geometry") {
+                    return (
+                      <MenuItem key={i} value={item}>
+                        {item}
+                      </MenuItem>
+                    );
+                  }
+                })}
+            </Select>
+          </FormControl>
+        </CardContent>
+      </Card>
+
+      <Card sx={{ mb: 2 }}>
+        <CardContent>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <PieChartIcon sx={{ mr: 1, color: "primary.main" }} />
+            <Typography variant="h6">Select Classification</Typography>
+          </Box>
+          <FormControl fullWidth>
+            <InputLabel>Classification</InputLabel>
+            <Select
+              value={classification}
+              label="Classification"
+              onChange={(e) => setClassification(e.target.value)}
+            >
+              <MenuItem value="Select Classification">Select Classification</MenuItem>
+              <MenuItem value="Equal Interval">Equal Interval</MenuItem>
+              <MenuItem value="Custom Interval">Custom Interval</MenuItem>
+            </Select>
+          </FormControl>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <PaletteIcon sx={{ mr: 1, color: "primary.main" }} />
+              <Typography variant="h6">Classes</Typography>
+            </Box>
+            {classification === "Custom Interval" && (
+              <Box>
+                <IconButton
+                  onClick={() => {
+                    if (lcolumn !== "") {
+                      setRangePopup(true);
+                    }
+                  }}
+                  color="primary"
+                  size="small"
+                >
+                  <AddIcon />
+                </IconButton>
+                <IconButton
+                  onClick={() => removeClass()}
+                  color="error"
+                  size="small"
+                >
+                  <RemoveIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
+          
+          {classes && classes.length > 0 ? (
+            <Stack spacing={1}>
+              {classes.map((item, i) => (
+                <Theme
+                  key={i}
+                  item={item}
+                  classes={classes}
+                  setClasses={setClasses}
+                />
+              ))}
+            </Stack>
+          ) : (
+            <Box sx={{ textAlign: "center", py: 2 }}>
+              {isNumeric && title != "" && lcolumn != "" && (
+                <Typography color="error">No numeric values detected in this column</Typography>
+              )}
+              {!lcolumn && (
+                <Typography color="text.secondary">Select a column to generate classes</Typography>
+              )}
+            </Box>
+          )}
+        </CardContent>
+      </Card>
+
       {rangeOPopup && extents.length > 1 && (
         <RangePopup extents={extents} addRange={addRange} />
       )}
-      <i
-        onClick={() => {
-          props.setStyleSelector(null);
-        }}
-        className="fa fa-close"
-      >
-        &#xf00d;
-      </i>
-    </div>
+    </Box>
   );
 };

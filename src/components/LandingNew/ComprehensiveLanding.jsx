@@ -12,6 +12,9 @@ import {
   IconButton,
   useTheme,
   useMediaQuery,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import {
   Public as PublicIcon,
@@ -29,6 +32,7 @@ import {
   Share as ShareIcon,
   Security as SecurityIcon,
   Speed as SpeedIcon,
+  ExpandMore as ExpandMoreIcon,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 
@@ -75,7 +79,7 @@ const FeatureIcon = styled(Box)(({ theme }) => ({
 const StatsCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   textAlign: "center",
-  background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+  background: `linear-gradient(135deg, ${theme.palette.secondary.dark}, ${theme.palette.secondary.main})`,
   color: "white",
   borderRadius: theme.spacing(2),
 }));
@@ -165,6 +169,29 @@ const stats = [
   { label: "Monthly Downloads", value: "10K+", icon: <DownloadIcon /> },
   { label: "API Requests", value: "1M+", icon: <CodeIcon /> },
   { label: "Active Users", value: "5K+", icon: <PublicIcon /> },
+];
+
+const sampleFaqs = [
+  {
+    Question: "What is Oakar Services GeoPortal?",
+    Answer:
+      "Oakar Services GeoPortal is a comprehensive platform that provides access to geospatial data, interactive maps, and analytical tools. It serves as a gateway for researchers, developers, and citizens to discover, visualize, and download various datasets in multiple formats.",
+  },
+  {
+    Question: "How can I access and download data?",
+    Answer:
+      "You can browse our data catalog, use advanced search filters to find specific datasets, and download data in various formats including CSV, GeoJSON, and Shapefile. Most datasets are freely available, while some may require registration or approval.",
+  },
+  {
+    Question: "Is there an API available for developers?",
+    Answer:
+      "Yes, we provide a comprehensive RESTful API that allows developers to integrate our data and services into their applications. The API supports various endpoints for data access, search functionality, and metadata retrieval.",
+  },
+  {
+    Question: "What types of data are available on the platform?",
+    Answer:
+      "Our platform hosts diverse datasets across multiple domains including Agriculture, Climate & Weather, Natural Resources, Spatial Planning, Disaster Management, Demographics, and Infrastructure data.",
+  },
 ];
 
 const ComprehensiveLanding = () => {
@@ -416,7 +443,14 @@ const ComprehensiveLanding = () => {
               Explore diverse datasets across multiple domains
             </Typography>
           </Box>
-          <Grid container spacing={3} justifyContent="center">
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 2,
+              justifyContent: "center",
+            }}
+          >
             {[
               "Agriculture",
               "Climate & Weather",
@@ -427,32 +461,130 @@ const ComprehensiveLanding = () => {
               "Demographics",
               "Infrastructure",
             ].map((category, index) => (
-              <Grid size={{ xs: 12 }} key={index}>
-                <Chip
-                  label={category}
-                  variant="outlined"
-                  size="large"
-                  onClick={() =>
-                    (window.location.href = `/categories/${category}`)
-                  }
+              <Chip
+                label={category}
+                variant="outlined"
+                size="large"
+                onClick={() =>
+                  (window.location.href = `/categories/${category}`)
+                }
+                sx={{
+                  px: 2,
+                  py: 1,
+                  fontSize: "1rem",
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.main,
+                    color: "white",
+                  },
+                }}
+              />
+            ))}
+          </Box>
+        </Container>
+      </Box>
+
+      {/* FAQs Section */}
+      <Box sx={{ py: 8, backgroundColor: theme.palette.grey[50] }}>
+        <Container maxWidth="lg">
+          <Box sx={{ textAlign: "center", mb: 6 }}>
+            <Typography
+              variant="h3"
+              component="h2"
+              gutterBottom
+              sx={{ fontWeight: 700, color: theme.palette.primary.main }}
+            >
+              Frequently Asked Questions
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: theme.palette.text.secondary,
+                maxWidth: 600,
+                mx: "auto",
+              }}
+            >
+              Find answers to common questions about our geoportal platform
+            </Typography>
+          </Box>
+          <Box sx={{ maxWidth: "900px", mx: "auto", mb: 4 }}>
+            {sampleFaqs.map((faq, index) => (
+              <Accordion
+                key={index}
+                sx={{
+                  mb: 2,
+                  "&:before": {
+                    display: "none",
+                  },
+                  boxShadow: 1,
+                  borderRadius: 1,
+                  "&.Mui-expanded": {
+                    margin: "0 0 16px 0",
+                  },
+                }}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
                   sx={{
-                    px: 2,
-                    py: 1,
-                    fontSize: "1rem",
-                    "&:hover": {
-                      backgroundColor: theme.palette.primary.main,
+                    bgcolor: "grey.50",
+                    "&.Mui-expanded": {
+                      bgcolor: "primary.light",
+                      color: "white",
+                    },
+                    "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
                       color: "white",
                     },
                   }}
-                />
-              </Grid>
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: { xs: "1rem", md: "1.1rem" },
+                    }}
+                  >
+                    {faq.Question}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails
+                  sx={{
+                    p: 3,
+                    bgcolor: "background.paper",
+                  }}
+                >
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      lineHeight: 1.7,
+                      color: "text.secondary",
+                    }}
+                  >
+                    {faq.Answer}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
             ))}
-          </Grid>
+          </Box>
+          <Box sx={{ textAlign: "center" }}>
+            <CTAButton
+              variant="contained"
+              size="large"
+              onClick={() => (window.location.href = "/faqs")}
+              sx={{
+                background: theme.palette.primary.main,
+                color: "white",
+                "&:hover": {
+                  background: theme.palette.primary.dark,
+                },
+              }}
+            >
+              View All FAQs
+            </CTAButton>
+          </Box>
         </Container>
       </Box>
 
       {/* Call to Action Section */}
-      <Box sx={{ py: 8, backgroundColor: theme.palette.grey[50] }}>
+      <Box sx={{ py: 8, backgroundColor: "white" }}>
         <Container maxWidth="md">
           <Paper
             elevation={3}

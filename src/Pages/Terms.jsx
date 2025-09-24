@@ -2,7 +2,7 @@ import "../Styles/Terms.scss";
 import React from "react";
 import Header from "../components/Utils/header";
 
-import Footer from "../components/Utils/footer";
+import Footer from "../components/Utils/Footer";
 
 export default function Terms(props) {
   return (

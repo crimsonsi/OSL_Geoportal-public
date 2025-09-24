@@ -1,12 +1,11 @@
 import { React, useEffect, useRef, useState } from "react";
 import Header from "../components/Utils/header";
-import Footer from "../components/Utils/footer";
+import Footer from "../components/Utils/Footer";
 import "../Styles/Publications.scss";
 import WaveLoading from "../components/Utils/WaveLoading";
 import Pagination from "../components/Utils/pagination";
 import placeholder from "../assets/imgs/placeholder.png";
 import { pdfjs } from "react-pdf";
-
 
 export default function PublicationsPage(props) {
   const [publications, setPublications] = useState();
@@ -41,10 +40,8 @@ export default function PublicationsPage(props) {
     } else setArrow("fa fa-angle-up");
   };
 
-
-
   useEffect(() => {
-    setPublications(null)
+    setPublications(null);
     if (filter == "Story Maps") {
       setLoading(true);
       fetch(`/api/storymaps/paginated/${(currentPage - 1) * 12}`)
@@ -54,7 +51,7 @@ export default function PublicationsPage(props) {
         })
         .then((data) => {
           setLoading(false);
-          setPublications(data)
+          setPublications(data);
         })
         .catch((e) => {
           setLoading(false);
@@ -77,7 +74,7 @@ export default function PublicationsPage(props) {
   }, [currentPage, refresh, filter]);
 
   function search(q) {
-    setPublications(null)
+    setPublications(null);
     setLoading(true);
     fetch(`/api/publications/search/${q}`)
       .then((res) => {
@@ -86,7 +83,7 @@ export default function PublicationsPage(props) {
       })
       .then((data) => {
         setLoading(false);
-        setPublications(data)
+        setPublications(data);
       })
       .catch((e) => {
         setLoading(false);
@@ -107,7 +104,6 @@ export default function PublicationsPage(props) {
         <div className="container">
           <div className="right">
             <div className="top">
-
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -125,11 +121,14 @@ export default function PublicationsPage(props) {
                     }
                   }}
                 />
-                <i onClick={() => {
-                  if (srch.current.value != "") {
-                    search(srch.current.value);
-                  }
-                }} className="fa fa-search"></i>
+                <i
+                  onClick={() => {
+                    if (srch.current.value != "") {
+                      search(srch.current.value);
+                    }
+                  }}
+                  className="fa fa-search"
+                ></i>
               </form>
             </div>
             <div className="left">
@@ -165,16 +164,17 @@ export default function PublicationsPage(props) {
               />
             </div>
             <div className="list">
-              {publications &&
-                publications?.result?.length > 0 && <>{
-                  filter == "Story Maps" ? publications?.result?.map((item, i) => {
-                    return <StoryMap key={i} item={item} />;
-                  }) : publications?.result?.map((item, i) => {
-                    return <MyDocument key={i} item={item} />;
-                  })
-                }
+              {publications && publications?.result?.length > 0 && (
+                <>
+                  {filter == "Story Maps"
+                    ? publications?.result?.map((item, i) => {
+                        return <StoryMap key={i} item={item} />;
+                      })
+                    : publications?.result?.map((item, i) => {
+                        return <MyDocument key={i} item={item} />;
+                      })}
                 </>
-              }
+              )}
             </div>
             {publications && (
               <Pagination
@@ -249,14 +249,15 @@ const MyDocument = (props) => {
           };
         }
       })
-      .catch((e) => { });
+      .catch((e) => {});
   }, []);
 
   return (
-    <div className="stk"
-    // onClick={()=>{
-    //   window.location.href = "/portal/knowledgehub/preview/" + props.item.PublicationID
-    // }}
+    <div
+      className="stk"
+      // onClick={()=>{
+      //   window.location.href = "/portal/knowledgehub/preview/" + props.item.PublicationID
+      // }}
     >
       {firstPageBlob ? (
         <img src={firstPageBlob} alt="" />
@@ -284,21 +285,27 @@ const StoryMap = (props) => {
   const [blob, setBlob] = useState(null);
   const [firstPageBlob, setFirstPageBlob] = useState(null);
 
-
   return (
-    <div className="stk"
+    <div
+      className="stk"
       onClick={() => {
         // window.location.href = "/portal/knowledgehub/preview/" + props.item.StoryMapID
       }}
     >
-      {props.item?.Images?.length > 0 ? <img src={"/api/uploads/" + props.item.Images[0]} alt="" /> : <img src={placeholder} alt="" />}
+      {props.item?.Images?.length > 0 ? (
+        <img src={"/api/uploads/" + props.item.Images[0]} alt="" />
+      ) : (
+        <img src={placeholder} alt="" />
+      )}
       <div className="np">
         <div className="tp">
           <h3>{props.item.Title}</h3>
         </div>
         <br />
         <p>Category: {props.item.Category}</p>
-        <a href={`/knowledgehub/storymap/${props.item.StoryMapID}`}>Click to view more</a>
+        <a href={`/knowledgehub/storymap/${props.item.StoryMapID}`}>
+          Click to view more
+        </a>
       </div>
     </div>
   );
