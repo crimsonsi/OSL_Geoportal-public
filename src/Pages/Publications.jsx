@@ -1,4 +1,28 @@
 import { React, useEffect, useRef, useState } from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Paper,
+  TextField,
+  InputAdornment,
+  IconButton,
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+  Chip,
+  Button,
+  CircularProgress,
+  Tabs,
+  Tab,
+} from "@mui/material";
+import {
+  Search as SearchIcon,
+  PictureAsPdf as PdfIcon,
+  Download as DownloadIcon,
+  Visibility as ViewIcon,
+} from "@mui/icons-material";
 import Header from "../components/Utils/header";
 import Footer from "../components/Utils/Footer";
 import "../Styles/Publications.scss";
@@ -15,10 +39,21 @@ export default function PublicationsPage(props) {
   const [filter, setFilter] = useState("Publications");
   const [refresh, setRefresh] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchValue, setSearchValue] = useState("");
   const srch = useRef();
+  
+  const categories = [
+    "Publications",
+    "Story Maps",
+    "Reports",
+    "Learning Materials",
+    "Other"
+  ];
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   const handleResize = () => {
     if (window.innerWidth < 768) {
       setShowing(false);
@@ -90,9 +125,27 @@ export default function PublicationsPage(props) {
       });
   }
 
-  //Try to use useState
+  const handleSearch = () => {
+    if (searchValue.trim() !== "") {
+      search(searchValue);
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+    if (e.target.value === "") {
+      setPublications(null);
+      setRefresh(!refresh);
+    }
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setFilter(categories[newValue]);
+    setCurrentPage(1);
+  };
+
   return (
-    <div className="data">
+    <Box sx={{ minHeight: "100vh", backgroundColor: "#f5f5f5" }}>
       <Header
         isAuthenticated={props.isAuthenticated}
         setIsAuthenticated={props.setIsAuthenticated}
@@ -100,114 +153,107 @@ export default function PublicationsPage(props) {
         setCurrentUser={props.setCurrentUser}
         parent="Knowledge Hub"
       />
-      <div className="publications">
-        <div className="container">
-          <div className="right">
-            <div className="top">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                <input
-                  ref={srch}
-                  type="text"
-                  placeholder="Type to search"
-                  required
-                  onChange={(e) => {
-                    if (e.target.value == "") {
-                      setPublications(null);
-                      setRefresh(!refresh);
+      
+      <Container maxWidth="xl" sx={{ py: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom sx={{ mb: 4, fontWeight: 600 }}>
+          Knowledge Hub
+        </Typography>
+
+        <Grid container spacing={3}>
+          {/* Search and Filters */}
+          <Grid item xs={12}>
+            <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+              <Box sx={{ mb: 3 }}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  placeholder="Search publications..."
+                  value={searchValue}
+                  onChange={handleSearchChange}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch();
                     }
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleSearch} edge="end">
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
                   }}
                 />
-                <i
-                  onClick={() => {
-                    if (srch.current.value != "") {
-                      search(srch.current.value);
-                    }
-                  }}
-                  className="fa fa-search"
-                ></i>
-              </form>
-            </div>
-            <div className="left">
-              <Category
-                txt="Publications"
-                filter={filter}
-                setFilter={setFilter}
-                setCurrentPage={setCurrentPage}
-              />
-              <Category
-                txt="Story Maps"
-                filter={filter}
-                setFilter={setFilter}
-                setCurrentPage={setCurrentPage}
-              />
-              <Category
-                txt="Reports"
-                filter={filter}
-                setFilter={setFilter}
-                setCurrentPage={setCurrentPage}
-              />
-              <Category
-                txt="Learning Materials"
-                filter={filter}
-                setFilter={setFilter}
-                setCurrentPage={setCurrentPage}
-              />
-              <Category
-                txt="Other"
-                filter={filter}
-                setFilter={setFilter}
-                setCurrentPage={setCurrentPage}
-              />
-            </div>
-            <div className="list">
-              {publications && publications?.result?.length > 0 && (
-                <>
-                  {filter == "Story Maps"
-                    ? publications?.result?.map((item, i) => {
-                        return <StoryMap key={i} item={item} />;
-                      })
-                    : publications?.result?.map((item, i) => {
-                        return <MyDocument key={i} item={item} />;
-                      })}
-                </>
-              )}
-            </div>
-            {publications && (
-              <Pagination
-                totalItems={publications.total}
-                currentPage={currentPage}
-                onPageChange={handlePageChange}
-              />
+              </Box>
+
+              <Tabs
+                value={categories.indexOf(filter)}
+                onChange={handleTabChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                sx={{
+                  '& .MuiTab-root': {
+                    textTransform: 'none',
+                    fontWeight: 500,
+                  },
+                }}
+              >
+                {categories.map((category, index) => (
+                  <Tab key={index} label={category} />
+                ))}
+              </Tabs>
+            </Paper>
+          </Grid>
+
+          {/* Content */}
+          <Grid item xs={12}>
+            {loading ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+                <CircularProgress size={60} />
+              </Box>
+            ) : (
+              <>
+                {publications && publications?.result?.length > 0 ? (
+                  <Grid container spacing={3}>
+                    {filter === "Story Maps"
+                      ? publications?.result?.map((item, i) => (
+                          <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+                            <StoryMap item={item} />
+                          </Grid>
+                        ))
+                      : publications?.result?.map((item, i) => (
+                          <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+                            <MyDocument item={item} />
+                          </Grid>
+                        ))}
+                  </Grid>
+                ) : (
+                  <Paper elevation={1} sx={{ p: 4, textAlign: 'center' }}>
+                    <Typography variant="h6" color="text.secondary">
+                      No publications found
+                    </Typography>
+                  </Paper>
+                )}
+
+                {publications && (
+                  <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+                    <Pagination
+                      totalItems={publications.total}
+                      currentPage={currentPage}
+                      onPageChange={handlePageChange}
+                    />
+                  </Box>
+                )}
+              </>
             )}
-          </div>
-        </div>
-        {loading && <WaveLoading />}
-      </div>
-      {/* <Footer /> */}
-    </div>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 }
 
-const Category = (props) => {
-  return (
-    <div
-      onClick={() => {
-        props.setFilter(props.txt);
-        props.setCurrentPage(1);
-      }}
-      style={{
-        backgroundColor: props.txt == props.filter ? "#60606030" : "white",
-      }}
-      className="category"
-    >
-      <p>{props.txt}</p>
-    </div>
-  );
-};
 const MyDocument = (props) => {
   const [blob, setBlob] = useState(null);
   const [firstPageBlob, setFirstPageBlob] = useState(null);
@@ -253,60 +299,173 @@ const MyDocument = (props) => {
   }, []);
 
   return (
-    <div
-      className="stk"
-      // onClick={()=>{
-      //   window.location.href = "/portal/knowledgehub/preview/" + props.item.PublicationID
-      // }}
+    <Card 
+      elevation={2} 
+      sx={{ 
+        height: '100%', 
+        display: 'flex', 
+        flexDirection: 'column',
+        transition: 'transform 0.2s, box-shadow 0.2s',
+        '&:hover': {
+          transform: 'translateY(-4px)',
+          boxShadow: 4,
+        }
+      }}
     >
-      {firstPageBlob ? (
-        <img src={firstPageBlob} alt="" />
-      ) : (
-        <img src={placeholder} alt="" />
-      )}
-      <div className="np">
-        <div className="tp">
-          <h3>{props.item.Title}</h3>
-        </div>
-        <br />
-        <p>{props.item.Description}</p>
-        <p>Category: {props.item.Type}</p>
-        {blob && (
-          <a title="Download File" href={blob} target="_blank">
-            View/Download <i className="fa fa-file-pdf-o">&#xf1c1;</i>
-          </a>
+      <CardMedia
+        sx={{ 
+          height: 200, 
+          backgroundColor: '#f5f5f5',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        {firstPageBlob ? (
+          <img 
+            src={firstPageBlob} 
+            alt={props.item.Title}
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover' 
+            }}
+          />
+        ) : (
+          <img 
+            src={placeholder} 
+            alt="Placeholder"
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover' 
+            }}
+          />
         )}
-      </div>
-    </div>
+      </CardMedia>
+      
+      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 600 }}>
+          {props.item.Title}
+        </Typography>
+        
+        <Typography 
+          variant="body2" 
+          color="text.secondary" 
+          sx={{ 
+            mb: 2, 
+            flexGrow: 1,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {props.item.Description}
+        </Typography>
+        
+        <Box sx={{ mb: 2 }}>
+          <Chip 
+            label={props.item.Type} 
+            size="small" 
+            color="primary" 
+            variant="outlined"
+          />
+        </Box>
+        
+        {blob && (
+          <Button
+            variant="contained"
+            startIcon={<ViewIcon />}
+            endIcon={<PdfIcon />}
+            href={blob}
+            target="_blank"
+            fullWidth
+            sx={{ mt: 'auto' }}
+          >
+            View/Download
+          </Button>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 
 const StoryMap = (props) => {
-  const [blob, setBlob] = useState(null);
-  const [firstPageBlob, setFirstPageBlob] = useState(null);
-
   return (
-    <div
-      className="stk"
+    <Card 
+      elevation={2} 
+      sx={{ 
+        height: '100%', 
+        display: 'flex', 
+        flexDirection: 'column',
+        cursor: 'pointer',
+        transition: 'transform 0.2s, box-shadow 0.2s',
+        '&:hover': {
+          transform: 'translateY(-4px)',
+          boxShadow: 4,
+        }
+      }}
       onClick={() => {
         // window.location.href = "/portal/knowledgehub/preview/" + props.item.StoryMapID
       }}
     >
-      {props.item?.Images?.length > 0 ? (
-        <img src={"/api/uploads/" + props.item.Images[0]} alt="" />
-      ) : (
-        <img src={placeholder} alt="" />
-      )}
-      <div className="np">
-        <div className="tp">
-          <h3>{props.item.Title}</h3>
-        </div>
-        <br />
-        <p>Category: {props.item.Category}</p>
-        <a href={`/knowledgehub/storymap/${props.item.StoryMapID}`}>
-          Click to view more
-        </a>
-      </div>
-    </div>
+      <CardMedia
+        sx={{ 
+          height: 200, 
+          backgroundColor: '#f5f5f5',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        {props.item?.Images?.length > 0 ? (
+          <img 
+            src={"/api/uploads/" + props.item.Images[0]} 
+            alt={props.item.Title}
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover' 
+            }}
+          />
+        ) : (
+          <img 
+            src={placeholder} 
+            alt="Placeholder"
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover' 
+            }}
+          />
+        )}
+      </CardMedia>
+      
+      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 600 }}>
+          {props.item.Title}
+        </Typography>
+        
+        <Box sx={{ mb: 2 }}>
+          <Chip 
+            label={props.item.Category} 
+            size="small" 
+            color="secondary" 
+            variant="outlined"
+          />
+        </Box>
+        
+        <Button
+          variant="outlined"
+          href={`/knowledgehub/storymap/${props.item.StoryMapID}`}
+          fullWidth
+          sx={{ mt: 'auto' }}
+        >
+          View Story Map
+        </Button>
+      </CardContent>
+    </Card>
   );
 };
