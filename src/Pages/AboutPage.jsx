@@ -143,7 +143,7 @@ export default function AboutPage(props) {
               <Button
                 variant="contained"
                 size="large"
-                href="/#explore"
+                href="/data"
                 sx={{
                   px: 4,
                   py: 1.5,
@@ -152,7 +152,7 @@ export default function AboutPage(props) {
                   borderRadius: 2,
                 }}
               >
-                Explore Products
+                Explore Data
               </Button>
             </Grid>
           </Grid>

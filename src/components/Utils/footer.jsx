@@ -86,18 +86,18 @@ const Footer = () => {
   ];
 
   const legalLinks = [
-    { label: 'Terms of Service', href: '/terms' },
-    { label: 'Privacy Policy', href: '/privacypolicy' },
-    { label: 'Data License', href: '/license' },
-    { label: 'Cookie Policy', href: '/cookies' },
+    { label: "Terms of Service", href: "/terms" },
+    { label: "Privacy Policy", href: "/privacypolicy" },
+    { label: "Data License", href: "/privacypolicy" },
+    { label: "Cookie Policy", href: "/privacypolicy" },
   ];
 
   const supportLinks = [
-    { label: 'User Guide', href: '/guide' },
+    { label: 'User Guide', href: '#' },
     { label: 'API Documentation', href: '/docs' },
-    { label: 'Data Standards', href: '/standards' },
-    { label: 'Feedback', href: '/feedback' },
-    { label: 'Report Issues', href: '/issues' },
+    { label: 'Data Standards', href: '#' },
+    { label: 'Feedback', href: '#' },
+    { label: 'Report Issues', href: '#' },
   ];
 
   return (

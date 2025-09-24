@@ -16,6 +16,7 @@ import {
   CircularProgress,
   Tabs,
   Tab,
+  Pagination,
 } from "@mui/material";
 import {
   Search as SearchIcon,
@@ -26,8 +27,6 @@ import {
 import Header from "../components/Utils/header";
 import Footer from "../components/Utils/Footer";
 import "../Styles/Publications.scss";
-import WaveLoading from "../components/Utils/WaveLoading";
-import Pagination from "../components/Utils/pagination";
 import placeholder from "../assets/imgs/placeholder.png";
 import { pdfjs } from "react-pdf";
 
@@ -161,7 +160,7 @@ export default function PublicationsPage(props) {
 
         <Grid container spacing={3}>
           {/* Search and Filters */}
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
               <Box sx={{ mb: 3 }}>
                 <TextField
@@ -207,7 +206,7 @@ export default function PublicationsPage(props) {
           </Grid>
 
           {/* Content */}
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             {loading ? (
               <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
                 <CircularProgress size={60} />
@@ -218,12 +217,12 @@ export default function PublicationsPage(props) {
                   <Grid container spacing={3}>
                     {filter === "Story Maps"
                       ? publications?.result?.map((item, i) => (
-                          <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+                          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={i}>
                             <StoryMap item={item} />
                           </Grid>
                         ))
                       : publications?.result?.map((item, i) => (
-                          <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+                          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={i}>
                             <MyDocument item={item} />
                           </Grid>
                         ))}
@@ -236,12 +235,16 @@ export default function PublicationsPage(props) {
                   </Paper>
                 )}
 
-                {publications && (
+                {publications  && (
                   <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
                     <Pagination
-                      totalItems={publications.total}
-                      currentPage={currentPage}
-                      onPageChange={handlePageChange}
+                      count={Math.ceil(publications.total / 10)}
+                      page={currentPage}
+                      onChange={(event, page) => handlePageChange(page)}
+                      color="primary"
+                      size="large"
+                      showFirstButton
+                      showLastButton
                     />
                   </Box>
                 )}
@@ -250,6 +253,7 @@ export default function PublicationsPage(props) {
           </Grid>
         </Grid>
       </Container>
+      <Footer />
     </Box>
   );
 }
