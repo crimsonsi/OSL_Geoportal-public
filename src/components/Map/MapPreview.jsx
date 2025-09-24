@@ -444,12 +444,6 @@ export default function MapPreview(props) {
   }
 
   function uniqueStyle(layer, style) {
-    console.log(
-      "Applying uniqueStyle to layer:",
-      layer.getTitle(),
-      "with style:",
-      style
-    );
     style.classes.forEach((e) => {
       let count = 0;
       layer
@@ -486,12 +480,6 @@ export default function MapPreview(props) {
   }
 
   function rangeStyle(layer, style) {
-    console.log(
-      "Applying rangeStyle to layer:",
-      layer.getTitle(),
-      "with style:",
-      style
-    );
     style.classes.forEach((e) => {
       let count = 0;
       layer
