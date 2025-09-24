@@ -1,13 +1,14 @@
-import "../Styles/landing.scss";
 import React, { useState } from "react";
 import Header from "../components/Utils/header";
-import Background from "../components/LandingNew/Background";
+import ComprehensiveLanding from "../components/LandingNew/ComprehensiveLanding";
+import Footer from "../components/Utils/Footer";
+import { Box } from "@mui/material";
 
 export default function LandingPage(props) {
   const [toggleRegister, setToggleRegister] = useState(false);
 
   return (
-    <div className="landingnew">
+    <Box>
       <Header
         isAuthenticated={props.isAuthenticated}
         setIsAuthenticated={props.setIsAuthenticated}
@@ -17,7 +18,8 @@ export default function LandingPage(props) {
         landing={false}
         parent='landing'
       />
-      <Background />
-    </div>
+      <ComprehensiveLanding />
+      <Footer />
+    </Box>
   );
 }

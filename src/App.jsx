@@ -1,23 +1,43 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider, CssBaseline, Box, CircularProgress } from "@mui/material";
+import theme from "./theme";
 import "./App.scss";
 // import Aos from "aos";
 // import "aos/dist/aos.css";
-import NotFound from "./Pages/404";
-import LandingPage from "./Pages/LandingNew";
-import DataPage from "./Pages/DataPage";
-import SingleInstancePage from "./Pages/SingleInstancePage";
-import SingleCollection from "./Pages/SingleCollection";
-import AboutPage from "./Pages/AboutPage";
-import ContactUsPage from "./Pages/ContactUsPage";
-import Terms from "./Pages/Terms";
-import PrivacyPolicy from "./Pages/PrivacyPolicy";
-import Category from "./Pages/Category";
-import PublicationsPage from "./Pages/Publications";
-import StoryMapsPage from "./Pages/StoryMapPage";
-import FAQs from "./Pages/FAQs";
+
+// Lazy load components
+const NotFound = lazy(() => import("./Pages/404"));
+const LandingPage = lazy(() => import("./Pages/LandingNew"));
+const DataPage = lazy(() => import("./Pages/DataPage"));
+const SingleInstancePage = lazy(() => import("./Pages/SingleInstancePage"));
+const SingleCollection = lazy(() => import("./Pages/SingleCollection"));
+const AboutPage = lazy(() => import("./Pages/AboutPage"));
+const ContactUsPage = lazy(() => import("./Pages/ContactUsPage"));
+const Terms = lazy(() => import("./Pages/Terms"));
+const PrivacyPolicy = lazy(() => import("./Pages/PrivacyPolicy"));
+const Category = lazy(() => import("./Pages/Category"));
+const PublicationsPage = lazy(() => import("./Pages/Publications"));
+const StoryMapsPage = lazy(() => import("./Pages/StoryMapPage"));
+const FAQs = lazy(() => import("./Pages/FAQs"));
+const ApiDocs = lazy(() => import("./Pages/ApiDocs"));
 
 import { jwtDecode } from "jwt-decode";
+
+// Loading component
+const LoadingSpinner = () => (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+      backgroundColor: theme.palette.background.default,
+    }}
+  >
+    <CircularProgress size={60} />
+  </Box>
+);
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -82,6 +102,9 @@ function App() {
           case "data":
             setPage("Data");
             break;
+          case "api-docs":
+            setPage("API Documentation");
+            break;
         }
       } else {
         setPage(pathDirectories[1]);
@@ -114,164 +137,181 @@ function App() {
   }, [page]);
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            <LandingPage
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <LandingPage
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/Categories/*"
-          element={
-            <Category
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+            <Route
+              exact
+              path="/Categories/*"
+              element={
+                <Category
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
 
-        <Route
-          exact
-          path="/data"
-          element={
-            <DataPage
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+            <Route
+              exact
+              path="/data"
+              element={
+                <DataPage
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
 
-        <Route
-          exact
-          path="/maps/*"
-          element={
-            <SingleInstancePage
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+            <Route
+              exact
+              path="/maps/*"
+              element={
+                <SingleInstancePage
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
 
-        <Route
-          exact
-          path="/collections/*"
-          element={
-            <SingleCollection
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+            <Route
+              exact
+              path="/collections/*"
+              element={
+                <SingleCollection
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
 
-        <Route
-          exact
-          path="/about"
-          element={
-            <AboutPage
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+            <Route
+              exact
+              path="/about"
+              element={
+                <AboutPage
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
 
-        <Route
-          exact
-          path="/publications"
-          element={
-            <PublicationsPage
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+            <Route
+              exact
+              path="/publications"
+              element={
+                <PublicationsPage
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
 
-        <Route
-          exact
-          path="/knowledgehub/storymap/*"
-          element={
-            <StoryMapsPage
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+            <Route
+              exact
+              path="/knowledgehub/storymap/*"
+              element={
+                <StoryMapsPage
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
 
-        <Route
-          exact
-          path="/faqs"
-          element={
-            <FAQs
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+            <Route
+              exact
+              path="/faqs"
+              element={
+                <FAQs
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/contact"
-          element={
-            <ContactUsPage
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+            <Route
+              exact
+              path="/api-docs"
+              element={
+                <ApiDocs
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
+            <Route
+              exact
+              path="/contact"
+              element={
+                <ContactUsPage
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
+            />
 
-        <Route
-          exact
-          path="/terms"
-          element={
-            <Terms
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+            <Route
+              exact
+              path="/terms"
+              element={
+                <Terms
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
-        <Route
-          exact
-          path="/privacypolicy"
-          element={
-            <PrivacyPolicy
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+            <Route
+              exact
+              path="/privacypolicy"
+              element={
+                <PrivacyPolicy
+                  isAuthenticated={isAuthenticated}
+                  setIsAuthenticated={setIsAuthenticated}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
-          }
-        />
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Router>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </Router>
+    </ThemeProvider>
   );
 }
 
