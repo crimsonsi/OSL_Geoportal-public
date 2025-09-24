@@ -225,13 +225,13 @@ export default function Query(props) {
 
   function getUrl(workspace, layer) {
     if (operator === "ILIKE") {
-      return `/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&CQL_FILTER=${lcolumn} ${operator} '%${value}%'&outputFormat=json`;
+      return `/api/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&CQL_FILTER=${lcolumn} ${operator} '%${value}%'&outputFormat=json`;
     } else
-      return `/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&CQL_FILTER=${lcolumn}${operator}'${value}'&outputFormat=json`;
+      return `/api/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&CQL_FILTER=${lcolumn}${operator}'${value}'&outputFormat=json`;
   }
 
   function getResetUrl(workspace, layer) {
-    return `/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&outputFormat=json`;
+    return `/api/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&outputFormat=json`;
   }
 
   function fillStyle(layer, style) {

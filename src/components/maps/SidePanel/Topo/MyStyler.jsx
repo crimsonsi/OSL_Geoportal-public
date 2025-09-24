@@ -59,7 +59,7 @@ export default function MyStyler(props) {
       sx={{
         position: "absolute",
         top: 20,
-        left: 20,
+        left: 60,
         width: 350,
         maxHeight: "80vh",
         overflow: "auto",

@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
-import "../../Styles/NewInstancesPage.scss";
-import "../../Styles/SingleInstancePage.scss";
+import {
+  Box,
+  Button,
+  IconButton,
+  Paper,
+  CircularProgress,
+  Backdrop,
+} from "@mui/material";
+import { Map as MapIcon, CameraAlt as CameraIcon } from "@mui/icons-material";
 import TopPanel from "../maps/TopPanel";
 import GeoJSON from "ol/format/GeoJSON";
 import VectorLayer from "ol/layer/Vector";
@@ -110,11 +117,10 @@ export default function MapPreview(props) {
 
     fetch(
       encodeURI(
-        `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+        `/api/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
       ),
       {
-        method: "get",
-        credentials: "include",
+        method: "get"
       }
     )
       .then((res) => {
@@ -176,6 +182,10 @@ export default function MapPreview(props) {
 
     setExtent(initialMap.getView().calculateExtent(initialMap.getSize()));
     setMap(initialMap);
+
+    return () => {
+      initialMap.setTarget(null); // cleanup on unmount
+    };
   }, []);
 
   useEffect(() => {
@@ -214,9 +224,8 @@ export default function MapPreview(props) {
 
     try {
       const dt = await fetch(
-        `/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
+        `/api/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
         {
-          credentials: "include",
           headers: headers,
         }
       );
@@ -234,11 +243,10 @@ export default function MapPreview(props) {
       if (dataType === "RASTER") {
         await fetch(
           encodeURI(
-            `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+            `/api/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
           ),
           {
-            method: "get",
-            credentials: "include",
+            method: "get"
           }
         )
           .then((res) => {
@@ -524,11 +532,11 @@ export default function MapPreview(props) {
 
   function getUrl(url, filters) {
     if (!filters) {
-      return `/geoserver/${
+      return `/api/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
     } else {
-      return `/geoserver/${
+      return `/api/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&${filters}&outputFormat=json`;
     }
@@ -623,35 +631,69 @@ export default function MapPreview(props) {
   };
 
   return (
-    <div className="NewInstancesPage">
-      <div className="map">
-        <div
+    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+      <Box sx={{ position: "relative", flex: 1 }}>
+        <Box
           ref={mapElement}
-          style={{ width: "100%", height: "90vh" }}
-          id="map"
-        ></div>
-        {popup && <Popup data={popup} setPopup={setPopup} />}
-        {isLoading && <RippleLoading />}
-        <div
-          onClick={() => {
-            setBaseSelector(true);
+          sx={{
+            width: "100%",
+            height: "90vh",
+            position: "relative",
+            borderRadius: 2,
+            overflow: "hidden",
+            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.5)",
           }}
-          className="base_selector"
+          id="map"
+        />
+
+        {popup && <Popup data={popup} setPopup={setPopup} />}
+
+        <Backdrop
+          sx={{
+            color: "#fff",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            position: "absolute",
+          }}
+          open={isLoading}
         >
-          <i className="fa fa-map"></i>
-        </div>
-        <div className="download">
-          <div>
-            <button
-              onClick={() => {
-                printMap();
-              }}
-              type="button"
-            >
-              <i className="fa fa-camera"></i> Screenshot
-            </button>
-          </div>
-        </div>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+
+        <IconButton
+          onClick={() => setBaseSelector(true)}
+          sx={{
+            position: "absolute",
+            bottom: 120,
+            right: 16,
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            "&:hover": {
+              backgroundColor: "rgba(255, 255, 255, 1)",
+            },
+            zIndex: 1000,
+          }}
+        >
+          <MapIcon />
+        </IconButton>
+
+        <Paper
+          sx={{
+            position: "absolute",
+            bottom: 16,
+            right: 16,
+            p: 1,
+            zIndex: 1000,
+          }}
+        >
+          <Button
+            onClick={printMap}
+            variant="contained"
+            startIcon={<CameraIcon />}
+            size="small"
+          >
+            Screenshot
+          </Button>
+        </Paper>
+
         {baseSelector && (
           <Basemaps
             setBaseSelector={setBaseSelector}
@@ -660,6 +702,7 @@ export default function MapPreview(props) {
             setSelected={setSelected}
           />
         )}
+
         <RightPanel
           map={map}
           body={body}
@@ -669,6 +712,7 @@ export default function MapPreview(props) {
           bChartImgUrl={bChartImgUrl}
           setBChartImgUrl={setBChartImgUrl}
         />
+
         <TopPanel
           dataSelector={dataSelector}
           setDataSelector={setDataSelector}
@@ -676,7 +720,9 @@ export default function MapPreview(props) {
           setQuerySelector={setQuerySelector}
           preview={true}
         />
+
         <TitlePanel title={body.Title} />
+
         {dataSelector && (
           <Data
             map={map}
@@ -687,6 +733,7 @@ export default function MapPreview(props) {
             setBody={setBody}
           />
         )}
+
         {querySelector && body && (
           <Query
             map={map}
@@ -697,6 +744,7 @@ export default function MapPreview(props) {
             setBody={setBody}
           />
         )}
+
         {styleSelector && (
           <MyStyler
             map={map}
@@ -705,7 +753,7 @@ export default function MapPreview(props) {
             setBody={setBody}
           />
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

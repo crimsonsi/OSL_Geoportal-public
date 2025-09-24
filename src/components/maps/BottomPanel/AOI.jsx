@@ -6,7 +6,7 @@ import drawImg from "../../../assets/imgs/drawImg.png";
 
 export default function AOI(props) {
   const resetAll = () => {
-    let dummy = `/geoserver/${props.workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${props.workspace}:${props.layer}&outputFormat=json`;
+    let dummy = `/api/geoserver/${props.workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${props.workspace}:${props.layer}&outputFormat=json`;
     props.updateUrl(encodeURI(dummy));
   };
 

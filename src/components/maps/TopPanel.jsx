@@ -1,71 +1,109 @@
-import { useEffect } from "react";
 import { useState } from "react";
-import Charts from "./SidePanel/Charts";
-import Data from "./SidePanel/Data";
-import DataTopo from "./SidePanel/DataTopo";
-import Export from "./SidePanel/Export";
-import Layers from "./SidePanel/Layers";
-import Metadata from "./SidePanel/Metadata";
-import Bar from "./SidePanel/Others/Bar";
-import MyStyler from "./SidePanel/Topo/MyStyler";
-import Styles from "./SidePanel/Topo/Styles";
+import {
+  Box,
+  Paper,
+  Button,
+  ButtonGroup,
+  useTheme,
+} from "@mui/material";
+import {
+  Storage as StorageIcon,
+  Palette as PaletteIcon,
+  Search as SearchIcon,
+} from "@mui/icons-material";
 
 export default function TopPanel(props) {
   const [selected, setSelected] = useState("Add Data");
+  const theme = useTheme();
+
+  const buttons = [
+    {
+      txt: "Add Data",
+      icon: <StorageIcon />,
+      action: () => {
+        props.setDataSelector(true);
+        props.setStyleSelector(null);
+        props.setQuerySelector(null);
+      },
+    },
+    ...(props.category !== "BaseMap"
+      ? [
+          {
+            txt: "Style Data",
+            icon: <PaletteIcon />,
+            action: () => {
+              props.setDataSelector(null);
+              props.setStyleSelector(true);
+              props.setQuerySelector(null);
+            },
+          },
+          {
+            txt: "Query",
+            icon: <SearchIcon />,
+            action: () => {
+              props.setQuerySelector(true);
+              props.setStyleSelector(null);
+              props.setDataSelector(null);
+            },
+          },
+        ]
+      : []),
+  ];
 
   return (
-    <div className="top_panel">
-      <Item
-        txt="Add Data"
-        icon="fa-database"
-        selected={selected}
-        setSelected={setSelected}
-        openPopup={() => {
-          props.setDataSelector(true);
-          props.setStyleSelector(null);
-          props.setQuerySelector(null);
-        }}
-      />
-      {props.category !== "BaseMap" && (
-        <Item
-          txt="Style Data"
-          icon="fa-map"
-          selected={selected}
-          setSelected={setSelected}
-          openPopup={() => {
-            props.setDataSelector(null);
-            props.setStyleSelector(true);
-            props.setQuerySelector(null);
+    <Box
+      sx={{
+        position: "absolute",
+        top: 16,
+        left: 60,
+        zIndex: 1000,
+      }}
+    >
+      <Paper elevation={3}>
+        <ButtonGroup
+          orientation="horizontal"
+          variant="contained"
+          sx={{
+            "& .MuiButton-root": {
+              px: 2,
+              py: 1,
+              minWidth: 120,
+              textTransform: "none",
+              fontWeight: 500,
+            },
           }}
-        />
-      )}
-      {props.category !== "BaseMap" && (
-        <Item
-          txt="Query"
-          icon="fa-search"
-          selected={selected}
-          setSelected={setSelected}
-          openPopup={() => {
-            props.setQuerySelector(true);
-            props.setStyleSelector(null);
-            props.setDataSelector(null);
-          }}
-        />
-      )}
-    </div>
+        >
+          {buttons.map((button) => (
+            <Button
+              key={button.txt}
+              startIcon={button.icon}
+              onClick={() => {
+                button.action();
+                setSelected(button.txt);
+              }}
+              variant={selected === button.txt ? "contained" : "outlined"}
+              sx={{
+                backgroundColor:
+                  selected === button.txt
+                    ? theme.palette.primary.main
+                    : "rgba(255, 255, 255, 0.9)",
+                color:
+                  selected === button.txt
+                    ? "white"
+                    : theme.palette.primary.main,
+                "&:hover": {
+                  backgroundColor:
+                    selected === button.txt
+                      ? theme.palette.primary.dark
+                      : "rgba(255, 255, 255, 1)",
+                },
+              }}
+            >
+              {button.txt}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </Paper>
+    </Box>
   );
 }
-
-const Item = (props) => {
-  return (
-    <p
-      onClick={() => {
-        props.openPopup();
-        props.setSelected(props.txt);
-      }}
-      className={props.txt === props.selected ? "active" : ""}
-    >
-      <i className={"fa " + props.icon}></i> {props.txt}
-    </p>
-  );
-};

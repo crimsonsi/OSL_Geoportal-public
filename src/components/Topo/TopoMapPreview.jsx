@@ -80,11 +80,10 @@ export default function ThematicPreview(props) {
 
     fetch(
       encodeURI(
-        `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+        `/api/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
       ),
       {
-        method: "get",
-        credentials: "include",
+        method: "get"
       }
     )
       .then((res) => {
@@ -345,11 +344,11 @@ export default function ThematicPreview(props) {
 
   function getUrl(url, filters) {
     if (!filters) {
-      return `/geoserver/${
+      return `/api/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
     } else {
-      return `/geoserver/${
+      return `/api/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&${filters}&outputFormat=json`;
     }

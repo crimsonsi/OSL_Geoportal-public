@@ -7,7 +7,31 @@ import Circle from "ol/style/Circle";
 import Style from "ol/style/Style";
 import Fill from "ol/style/Fill";
 import Stroke from "ol/style/Stroke";
+import Text from "ol/style/Text";
 import { asArray } from "ol/color";
+import {
+  Box,
+  Paper,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  Button,
+  IconButton,
+  Divider,
+  Alert,
+} from "@mui/material";
+import {
+  Map as MapIcon,
+  ViewColumn as ViewColumnIcon,
+  Percent as PercentIcon,
+  Search as SearchIcon,
+  Close as CloseIcon,
+  Check as CheckIcon,
+  Clear as ClearIcon,
+} from "@mui/icons-material";
 
 export default function Query(props) {
   const operators = ["=", ">", "<", ">=", "<=", "<>", "ILIKE"];
@@ -223,13 +247,13 @@ export default function Query(props) {
 
   function getUrl(workspace, layer) {
     if (operator === "ILIKE") {
-      return `/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&CQL_FILTER=${lcolumn} ${operator} '%${value}%'&outputFormat=json`;
+      return `/api/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&CQL_FILTER=${lcolumn} ${operator} '%${value}%'&outputFormat=json`;
     } else
-      return `/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&CQL_FILTER=${lcolumn}${operator}'${value}'&outputFormat=json`;
+      return `/api/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&CQL_FILTER=${lcolumn}${operator}'${value}'&outputFormat=json`;
   }
 
   function getResetUrl(workspace, layer) {
-    return `/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&outputFormat=json`;
+    return `/api/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&outputFormat=json`;
   }
 
   function fillStyle(layer, style) {
@@ -374,127 +398,158 @@ export default function Query(props) {
   }
 
   return (
-    <div className="data_popup">
-      <div className="basic_styler">
-        <h3>Query data</h3>
-        <hr />
-        <p>Select Layer</p>
-        <div className="row">
-          <i className="fa fa-map"></i>
-          <select
-            onChange={(e) => {
-              setError("");
-              populateColumns(e.target.value);
-              setTitle(e.target.value);
-            }}
-            name=""
-            id=""
-          >
-            <option value="Select Layer">Select Layer</option>
-            {layrs.length > 0 &&
-              layrs.map((item, i) => {
-                return (
-                  <option key={i} value={item}>
-                    {item}
-                  </option>
-                );
-              })}
-          </select>
-        </div>
+    <Paper
+      sx={{
+        position: "absolute",
+        top: 16,
+        left: 16,
+        width: 320,
+        maxHeight: "calc(100vh - 32px)",
+        overflow: "auto",
+        zIndex: 1000,
+        p: 3,
+      }}
+    >
+      <Box sx={{ position: "relative" }}>
+        <Typography variant="h6" gutterBottom>
+          Query Data
+        </Typography>
 
-        <p>Select Column</p>
-        <div className="row">
-          <i className="fa fa-bars"></i>
-          <select
-            // value={lcolumn}
-            onChange={(e) => {
-              setError("");
-              setLColumn(e.target.value);
-            }}
-            name=""
-            id=""
-          >
-            <option value="Select Column">Select Column</option>
-            {columns.length > 0 &&
-              columns.map((item, i) => {
-                if (item !== "geometry") {
-                  return (
-                    <option key={i} value={item}>
-                      {item}
-                    </option>
-                  );
-                }
-              })}
-          </select>
-        </div>
-        <p>Select Operator</p>
-        <div className="row">
-          <i className="fa fa-percent"></i>
-          <select
-            // value={operator}
-            onChange={(e) => {
-              setError("");
-              setOperator(e.target.value);
-            }}
-            name=""
-            id=""
-          >
-            <option value="Select Column">Select Operator</option>
-            {operators.length > 0 &&
-              operators.map((item, i) => {
-                if (item !== "geometry") {
-                  return (
-                    <option key={i} value={item}>
-                      {item}
-                    </option>
-                  );
-                }
-              })}
-          </select>
-        </div>
-        <p>Your Input</p>
-        <div className="row">
-          <i className="fa fa-search"></i>
-          <input
-            className="query"
+        <IconButton
+          onClick={() => props.setQuerySelector(null)}
+          sx={{
+            position: "absolute",
+            top: -8,
+            right: -8,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+
+        <Divider sx={{ mb: 2 }} />
+
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <FormControl fullWidth size="small">
+            <InputLabel>Select Layer</InputLabel>
+            <Select
+              value={title || ""}
+              onChange={(e) => {
+                setError("");
+                populateColumns(e.target.value);
+                setTitle(e.target.value);
+              }}
+              startAdornment={
+                <MapIcon sx={{ mr: 1, color: "action.active" }} />
+              }
+            >
+              {layrs.length > 0 &&
+                layrs.map((item, i) => (
+                  <MenuItem key={i} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth size="small">
+            <InputLabel>Select Column</InputLabel>
+            <Select
+              value={lcolumn || ""}
+              onChange={(e) => {
+                setError("");
+                setLColumn(e.target.value);
+              }}
+              startAdornment={
+                <ViewColumnIcon sx={{ mr: 1, color: "action.active" }} />
+              }
+            >
+              {columns.length > 0 &&
+                columns.map((item, i) => {
+                  if (item !== "geometry") {
+                    return (
+                      <MenuItem key={i} value={item}>
+                        {item}
+                      </MenuItem>
+                    );
+                  }
+                })}
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth size="small">
+            <InputLabel>Select Operator</InputLabel>
+            <Select
+              value={operator || ""}
+              onChange={(e) => {
+                setError("");
+                setOperator(e.target.value);
+              }}
+              startAdornment={
+                <PercentIcon sx={{ mr: 1, color: "action.active" }} />
+              }
+            >
+              {operators.map((item, i) => (
+                <MenuItem key={i} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <TextField
+            fullWidth
+            size="small"
+            label="Your Input"
+            value={value}
             onChange={(e) => {
               setError("");
               setValue(e.target.value);
             }}
-            type="text"
+            InputProps={{
+              startAdornment: (
+                <SearchIcon sx={{ mr: 1, color: "action.active" }} />
+              ),
+            }}
           />
-        </div>
-        <p>{error}</p>
-        <div className="div2equal">
-          <button
-            style={{ backgroundColor: "orange" }}
-            onClick={() => {
-              setOperator("Select Operator");
-              setValue("");
-              setLColumn("Select Column");
-              resetMap();
-            }}
-          >
-            <i className="fa fa-times "></i>
-          </button>
-          <button
-            onClick={() => {
-              addToMap();
-            }}
-          >
-            <i className="fa fa-check "></i>
-          </button>
-        </div>
 
-        <i
-          onClick={() => {
-            props.setQuerySelector(null);
-          }}
-          className="fa fa-close"
-        >
-          &#xf00d;
-        </i>
-      </div>
-    </div>
+          {error && (
+            <Alert
+              severity={error.includes("returned") ? "info" : "error"}
+              sx={{ mt: 1 }}
+            >
+              {error}
+            </Alert>
+          )}
+
+          <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+            <Button
+              variant="contained"
+              color="warning"
+              fullWidth
+              startIcon={<ClearIcon />}
+              onClick={() => {
+                setOperator("");
+                setValue("");
+                setLColumn("");
+                resetMap();
+              }}
+            >
+              Reset
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              startIcon={<CheckIcon />}
+              onClick={() => {
+                addToMap();
+              }}
+            >
+              Apply
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    </Paper>
   );
 }

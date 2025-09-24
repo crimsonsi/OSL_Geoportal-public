@@ -1,11 +1,29 @@
 import { useEffect, useState } from "react";
-import ButtonMain from "../../Utils/ButtonMain";
+import {
+  Box,
+  Paper,
+  Typography,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+  IconButton,
+  CircularProgress,
+} from "@mui/material";
+import {
+  Close as CloseIcon,
+  Map as MapIcon,
+  ExpandLess,
+  ExpandMore,
+  Folder as FolderIcon,
+} from "@mui/icons-material";
 import $ from "jquery";
-import Select from "../../Utils/SelectMain";
 import GeoJSON from "ol/format/GeoJSON";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import TileWMS from "ol/source/TileWMS";
 import TileLayer from "ol/layer/Tile";
 import Circle from "ol/style/Circle";
 import Style from "ol/style/Style";
@@ -13,19 +31,19 @@ import Fill from "ol/style/Fill";
 import Stroke from "ol/style/Stroke";
 import { get as getProjection } from "ol/proj.js";
 import { getTopLeft, getWidth } from "ol/extent.js";
-import proj4 from "proj4";
 import WMTSCapabilities from "ol/format/WMTSCapabilities.js";
 import { RegularShape } from "ol/style.js";
 import WMTS, { optionsFromCapabilities } from "ol/source/WMTS.js";
+import XMLParser from "react-xml-parser";
 
 export default function Data(props) {
-  var XMLParser = require("react-xml-parser");
   const parser = new WMTSCapabilities();
   const [workspaces, setWorkspaces] = useState([]);
   const [layers, setLayers] = useState([]);
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState(null);
   const [selectedLayer, setSelectedLayer] = useState(null);
+  const [loading, setLoading] = useState(true);
   const projection = getProjection("EPSG:900913");
   const projectionExtent = projection.getExtent();
   const size = getWidth(projectionExtent) / 256;
@@ -41,6 +59,7 @@ export default function Data(props) {
     Authorization: `Basic ${btoa("admin:geoserver")}`,
   };
   useEffect(() => {
+    setLoading(true);
     fetch("/geoserver/rest/workspaces", {
       credentials: "include",
       headers: headers,
@@ -57,14 +76,16 @@ export default function Data(props) {
           setWorkspaces(list);
           setSelected(list[0]);
         }
+        setLoading(false);
       })
-      .catch((e) => {});
+      .catch((e) => {
+        setLoading(false);
+      });
   }, []);
 
   useEffect(() => {
     if (selected) {
-      fetch(`/geoserver/rest/workspaces/${selected}/layers`, {
-        credentials: "include",
+      fetch(`/api/geoserver/rest/workspaces/${selected}/layers`, {
         headers: headers,
       })
         .then((res) => {
@@ -120,9 +141,8 @@ export default function Data(props) {
             });
 
             const xml = await fetch(
-              `/geoserver/rest/workspaces/${workspace}/styles/${style.style.name}.sld`,
+              `/api/geoserver/rest/workspaces/${workspace}/styles/${style.style.name}.sld`,
               {
-                credentials: "include",
                 headers: headers,
               }
             ).then((res) => {
@@ -151,9 +171,8 @@ export default function Data(props) {
               });
 
               const xml = await fetch(
-                `/geoserver/rest/styles/${style.style.name}.sld`,
+                `/api/geoserver/rest/styles/${style.style.name}.sld`,
                 {
-                  credentials: "include",
                   headers: headers,
                 }
               ).then((res) => {
@@ -177,11 +196,10 @@ export default function Data(props) {
 
           fetch(
             encodeURI(
-              `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+              `/api/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
             ),
             {
-              method: "get",
-              credentials: "include",
+              method: "get"
             }
           )
             .then((res) => {
@@ -235,9 +253,8 @@ export default function Data(props) {
 
             try {
               xml = await fetch(
-                `/geoserver/rest/styles/${style.style.name}.sld`,
+                `/api/geoserver/rest/styles/${style.style.name}.sld`,
                 {
-                  credentials: "include",
                   headers: headers,
                 }
               ).then((res) => {
@@ -266,9 +283,8 @@ export default function Data(props) {
             } catch (error) {
               try {
                 xml = await fetch(
-                  `/geoserver/rest/workspaces/${workspace}/styles/${style.style.name}.sld`,
+                  `/api/geoserver/rest/workspaces/${workspace}/styles/${style.style.name}.sld`,
                   {
-                    credentials: "include",
                     headers: headers,
                   }
                 ).then((res) => {
@@ -347,7 +363,7 @@ export default function Data(props) {
   }
 
   function getUrl(workspace, layer) {
-    return `/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&outputFormat=json`;
+    return `/api/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&outputFormat=json`;
   }
 
   const getSelected = (value) => {
@@ -439,68 +455,98 @@ export default function Data(props) {
   }
 
   return (
-    <div className="data_popup">
-      <div className="dcont">
-        <h3>Add Data</h3>
-        <hr />
-        {workspaces.map((item, i) => {
-          return (
-            <WorkspaceItem
-              key={i}
-              workspace={item}
-              getSelected={getSelected}
-              layers={layers}
-              addToMap={addToMap}
-            />
-          );
-        })}
-        <i
+    <Paper
+      sx={{
+        position: "absolute",
+        top: 16,
+        left: 60,
+        width: 320,
+        maxHeight: "calc(100vh - 32px)",
+        overflow: "auto",
+        zIndex: 1000,
+        p: 3,
+      }}
+    >
+      <Box sx={{ position: "relative" }}>
+        <Typography variant="h6" gutterBottom>
+          Add Data
+        </Typography>
+
+        <IconButton
           onClick={() => {
             props.setDataSelector(null);
           }}
-          className="fa fa-close"
+          sx={{
+            position: "absolute",
+            top: -8,
+            right: -8,
+          }}
         >
-          &#xf00d;
-        </i>
-      </div>
-    </div>
+          <CloseIcon />
+        </IconButton>
+
+        <Divider sx={{ mb: 2 }} />
+
+        {loading ? (
+          <Box display="flex" justifyContent="center" py={4}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <List dense>
+            {workspaces.map((item, i) => (
+              <WorkspaceItem
+                key={i}
+                workspace={item}
+                getSelected={getSelected}
+                layers={layers}
+                addToMap={addToMap}
+              />
+            ))}
+          </List>
+        )}
+      </Box>
+    </Paper>
   );
 }
 
 const WorkspaceItem = (props) => {
   const [open, setOpen] = useState(false);
-  const Item = (params) => {
-    return (
-      <div
-        onClick={() => {
-          props.addToMap(params.workspace, params.layer);
-        }}
-        className="item"
-      >
-        <i className="fa fa-map"></i>
-        <p>{params.layer}</p>
-      </div>
-    );
+
+  const handleClick = () => {
+    props.getSelected(props.workspace);
+    setOpen(!open);
   };
 
   return (
-    <div
-      onClick={() => {
-        props.getSelected(props.workspace);
-        setOpen((curr) => !curr);
-      }}
-      className="workspace_item"
-    >
-      <div className="top">
-        <p>{props.workspace}</p> <i className="fa fa-angle-down"></i>
-      </div>
-      <div className="content">
-        {open &&
-          props.layers &&
-          props.layers.map((item, i) => {
-            return <Item key={i} workspace={props.workspace} layer={item} />;
-          })}
-      </div>
-    </div>
+    <>
+      <ListItem disablePadding>
+        <ListItemButton onClick={handleClick}>
+          <ListItemIcon>
+            <FolderIcon />
+          </ListItemIcon>
+          <ListItemText primary={props.workspace} />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding dense>
+          {props.layers &&
+            props.layers.map((layer, i) => (
+              <ListItem key={i} disablePadding sx={{ pl: 4 }}>
+                <ListItemButton
+                  onClick={() => {
+                    props.addToMap(props.workspace, layer);
+                  }}
+                >
+                  <ListItemIcon>
+                    <MapIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={layer} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+        </List>
+      </Collapse>
+    </>
   );
 };

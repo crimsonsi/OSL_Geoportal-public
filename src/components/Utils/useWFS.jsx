@@ -6,7 +6,7 @@ const useWFS = (typename) => {
 
   useEffect(() => {
     var response = $.ajax({
-      url: `/geoserver/${
+      url: `/api/geoserver/${
         typename.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${typename}&outputFormat=json`,
       dataType: "json",

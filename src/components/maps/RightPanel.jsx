@@ -1,133 +1,156 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  Box,
+  Paper,
+  IconButton,
+  Typography,
+  Tabs,
+  Tab,
+  Checkbox,
+  FormControlLabel,
+  Divider,
+  Tooltip,
+  useTheme,
+} from "@mui/material";
+import {
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+  Close as CloseIcon,
+  KeyboardArrowUp as KeyboardArrowUpIcon,
+  KeyboardArrowDown as KeyboardArrowDownIcon,
+  Layers as LayersIcon,
+  Analytics as AnalyticsIcon,
+  FileDownload as FileDownloadIcon,
+  Info as InfoIcon,
+} from "@mui/icons-material";
 import Charts from "./SidePanel/Charts";
 import Export from "./SidePanel/Export";
 import Metadata from "./SidePanel/Metadata";
-// import { useMediaQuery } from "@material-ui/core";
 
 export default function RightPanel(props) {
   const [collapsed, setCollapsed] = useState(false);
-  const [active, setActive] = useState("Layers");
+  const [active, setActive] = useState(0);
+  const theme = useTheme();
 
-  // const isSmallScreen = useMediaQuery("(max-width: 640px)");
-  // const isMediumScreen = useMediaQuery(
-  //   "(min-width: 641px) and (max-width: 1024px)"
-  // );
-  // const isLargeScreen = useMediaQuery("(min-width: 1025px)");
-
-
-  // useEffect(() => {
-  //   isSmallScreen && setCollapsed(true);
-  // }, [isSmallScreen]);
+  const tabs = [
+    { label: "Layers", icon: <LayersIcon />, value: 0 },
+    ...(props.category !== "BaseMap" 
+      ? [{ label: "Analysis", icon: <AnalyticsIcon />, value: 1 }] 
+      : []
+    ),
+    { label: "Export", icon: <FileDownloadIcon />, value: props.category !== "BaseMap" ? 2 : 1 },
+    { label: "Metadata", icon: <InfoIcon />, value: props.category !== "BaseMap" ? 3 : 2 },
+  ];
 
   return (
-    <div className="right_panel">
-      <div className="outer">
-        <i
-          onClick={() => {
-            setCollapsed(!collapsed);
-          }}
-          className={collapsed ? "fa fa-angle-left" : "fa fa-angle-right"}
-        ></i>
+    <Box
+      sx={{
+        position: "absolute",
+        top: 16,
+        right: 16,
+        zIndex: 1000,
+        display: "flex",
+        alignItems: "flex-start",
+      }}
+    >
+      <IconButton
+        onClick={() => setCollapsed(!collapsed)}
+        sx={{
+          backgroundColor: "rgba(255, 255, 255, 0.9)",
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 1)",
+          },
+          mr: collapsed ? 0 : 1,
+          mt: 1,
+        }}
+      >
+        {collapsed ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+      </IconButton>
 
-        <div
-          data-aos={collapsed ? "fade-right" : "fade-right"}
-          className="collapsible"
+      {!collapsed && (
+        <Paper
+          elevation={3}
+          sx={{
+            width: 320,
+            maxHeight: "calc(100vh - 32px)",
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+          }}
         >
-          {!collapsed && (
-            <>
-              <div className={props.category !== "BaseMap" ? "bar4" : "bar3"}>
-                <Item
-                  txt="Layers"
-                  active={active}
-                  setCollapsed={setCollapsed}
-                  collapsed={collapsed}
-                  setActive={setActive}
-                />
-                {props.category !== "BaseMap" && (
-                  <Item
-                    txt="Analysis"
-                    active={active}
-                    setCollapsed={setCollapsed}
-                    collapsed={collapsed}
-                    setActive={setActive}
-                  />
-                )}
-                <Item
-                  txt="Export"
-                  setCollapsed={setCollapsed}
-                  collapsed={collapsed}
-                  active={active}
-                  setActive={setActive}
-                />
-                <Item
-                  txt="Metadata"
-                  setCollapsed={setCollapsed}
-                  collapsed={collapsed}
-                  active={active}
-                  setActive={setActive}
-                />
-              </div>
-              {active === "Layers" && props.map && props.body && (
-                <Layers
-                  map={props.map}
-                  body={props.body}
-                  setBody={props.setBody}
-                />
-              )}
-              {active === "Analysis" && (
-                <Charts
-                  body={props.body?.Data[0]}
-                  updateBody={props.updateBody}
-                  pChartImgUrl={props.pChartImgUrl}
-                  setPChartImgUrl={props.setPChartImgUrl}
-                  bChartImgUrl={props.bChartImgUrl}
-                  setBChartImgUrl={props.setBChartImgUrl}
-                />
-              )}
-              {active === "Export" && props.body && (
-                <Export
-                  body={props.body}
-                  updateBody={props.updateBody}
-                  instanceId={props.instanceId}
-                  instance={props.body}
-                  map={props.map}
-                  setIsLoading={props.setIsLoading}
-                  pChartImgUrl={props.pChartImgUrl}
-                  setPChartImgUrl={props.setPChartImgUrl}
-                  bChartImgUrl={props.bChartImgUrl}
-                  setBChartImgUrl={props.setBChartImgUrl}
-                />
-              )}
-              {active === "Metadata" && (
-                <Metadata body={props.body} updateBody={props.updateBody} />
-              )}
-            </>
-          )}
-        </div>
-      </div>
-    </div>
+          <Tabs
+            value={active}
+            onChange={(e, newValue) => setActive(newValue)}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{
+              borderBottom: 1,
+              borderColor: "divider",
+              minHeight: 48,
+              "& .MuiTab-root": {
+                minHeight: 48,
+                fontSize: "0.75rem",
+                minWidth: "auto",
+                px: 1,
+              },
+            }}
+          >
+            {tabs.map((tab) => (
+              <Tab
+                key={tab.value}
+                label={tab.label}
+                icon={tab.icon}
+                iconPosition="start"
+                value={tab.value}
+              />
+            ))}
+          </Tabs>
+
+          <Box sx={{ flex: 1, overflow: "auto", p: 2 }}>
+            {active === 0 && props.map && props.body && (
+              <Layers
+                map={props.map}
+                body={props.body}
+                setBody={props.setBody}
+              />
+            )}
+            {active === 1 && props.category !== "BaseMap" && (
+              <Charts
+                body={props.body?.Data[0]}
+                updateBody={props.updateBody}
+                pChartImgUrl={props.pChartImgUrl}
+                setPChartImgUrl={props.setPChartImgUrl}
+                bChartImgUrl={props.bChartImgUrl}
+                setBChartImgUrl={props.setBChartImgUrl}
+              />
+            )}
+            {((active === 2 && props.category !== "BaseMap") || (active === 1 && props.category === "BaseMap")) && props.body && (
+              <Export
+                body={props.body}
+                updateBody={props.updateBody}
+                instanceId={props.instanceId}
+                instance={props.body}
+                map={props.map}
+                setIsLoading={props.setIsLoading}
+                pChartImgUrl={props.pChartImgUrl}
+                setPChartImgUrl={props.setPChartImgUrl}
+                bChartImgUrl={props.bChartImgUrl}
+                setBChartImgUrl={props.setBChartImgUrl}
+              />
+            )}
+            {((active === 3 && props.category !== "BaseMap") || (active === 2 && props.category === "BaseMap")) && (
+              <Metadata body={props.body} updateBody={props.updateBody} />
+            )}
+          </Box>
+        </Paper>
+      )}
+    </Box>
   );
 }
 
-const Item = (props) => {
-  return (
-    <p
-      onClick={() => {
-        if (props.txt === props.active) {
-          props.setCollapsed(!props.collapsed);
-        } else props.setCollapsed(false);
-        props.setActive(props.txt);
-      }}
-      className={props.txt === props.active ? "active" : ""}
-    >
-      {props.txt}
-    </p>
-  );
-};
-
 const Layers = (props) => {
   const [layrs, setLayrs] = useState([]);
+  const theme = useTheme();
 
   useEffect(() => {
     if (props.map.getAllLayers().length !== layrs.length) {
@@ -177,7 +200,6 @@ const Layers = (props) => {
   const Layer = (params) => {
     const [checked, setChecked] = useState(params.item.checked);
     const [data, setData] = useState([]);
-    const [column, setColumn] = useState(null);
 
     useEffect(() => {
       if (params.item.title !== "Basemap") {
@@ -197,94 +219,145 @@ const Layers = (props) => {
     }, []);
 
     return (
-      <>
-        <div className="item">
-          <i
-            onClick={() => {
-              props.map.getAllLayers().map((layer) => {
-                if (layer.get("title") === params.item.title) {
-                  setLayrs([]);
-                  props.map.removeLayer(layer);
-                }
-              });
-            }}
-            className="fa fa-close"
-          >
-            &#xf00d;
-          </i>
-          <input
-            onChange={(e) => {
-              setChecked(e.target.checked);
-              params.map
-                .getAllLayers()
-                [params.item.index].setVisible(e.target.checked);
-            }}
-            type="checkbox"
-            name=""
-            id=""
-            checked={checked}
-          />
-          <p>{params.item.title}</p>
-          <i
-            onClick={() => {
-              if (params.item.index !== 0) {
-                params.togglelayer(params.item.index, params.item.index - 1);
+      <Box sx={{ mb: 2 }}>
+        <Paper
+          variant="outlined"
+          sx={{
+            p: 1.5,
+            backgroundColor: theme.palette.grey[50],
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Tooltip title="Remove layer">
+              <IconButton
+                size="small"
+                onClick={() => {
+                  props.map.getAllLayers().map((layer) => {
+                    if (layer.get("title") === params.item.title) {
+                      setLayrs([]);
+                      props.map.removeLayer(layer);
+                    }
+                  });
+                }}
+                sx={{ color: theme.palette.error.main }}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={(e) => {
+                    setChecked(e.target.checked);
+                    params.map
+                      .getAllLayers()
+                      [params.item.index].setVisible(e.target.checked);
+                  }}
+                  size="small"
+                />
               }
-            }}
-            className="fa fa-angle-double-up"
-          ></i>
-          <i
-            onClick={() => {
-              if (params.item.index + 1 < params?.map?.getAllLayers()?.length) {
-                params.togglelayer(params.item.index, params.item.index + 1);
+              label={
+                <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                  {params.item.title}
+                </Typography>
               }
-            }}
-            className="fa fa-angle-double-down"
-          ></i>
-        </div>
-        {data?.length > 0 &&
-          data.map((item, i) => {
-            return <Theme key={i} item={item} body={params.body} />;
-          })}
-      </>
+              sx={{ flex: 1, mr: 0 }}
+            />
+
+            <Box sx={{ display: "flex", gap: 0.5 }}>
+              <Tooltip title="Move up">
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    if (params.item.index !== 0) {
+                      params.togglelayer(params.item.index, params.item.index - 1);
+                    }
+                  }}
+                  disabled={params.item.index === 0}
+                >
+                  <KeyboardArrowUpIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+
+              <Tooltip title="Move down">
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    if (params.item.index + 1 < params?.map?.getAllLayers()?.length) {
+                      params.togglelayer(params.item.index, params.item.index + 1);
+                    }
+                  }}
+                  disabled={params.item.index + 1 >= params?.map?.getAllLayers()?.length}
+                >
+                  <KeyboardArrowDownIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Box>
+
+          {data?.length > 0 && (
+            <Box sx={{ mt: 1, pl: 1 }}>
+              {data.map((item, i) => (
+                <Theme key={i} item={item} body={params.body} />
+              ))}
+            </Box>
+          )}
+        </Paper>
+      </Box>
     );
   };
 
   const Theme = (params) => {
     return (
-      <div className="theme">
-        <input
-          onChange={(e) => {}}
-          value={params.item.color}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          py: 0.5,
+        }}
+      >
+        <Box
+          component="input"
           type="color"
-          name=""
-          id=""
+          value={params.item.color}
+          onChange={() => {}}
+          sx={{
+            width: 24,
+            height: 24,
+            border: "none",
+            borderRadius: 1,
+            cursor: "pointer",
+          }}
         />
-        <p>{params.item.name}</p>
-      </div>
+        <Typography variant="caption" sx={{ color: theme.palette.text.secondary }}>
+          {params.item.name}
+        </Typography>
+      </Box>
     );
   };
 
   return (
-    <div className="r_layers">
-      <div>
-        <h4>Map Layers</h4>
-        <hr />
-      </div>
-      <div className="scr">
+    <Box>
+      <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+        Map Layers
+      </Typography>
+      <Divider sx={{ mb: 2 }} />
+      
+      <Box sx={{ maxHeight: "calc(100vh - 200px)", overflow: "auto" }}>
         {layrs.length > 0 &&
-          layrs.map((item) => {
-            return (
-              <Layer
-                key={item.index}
-                togglelayer={togglelayer}
-                item={item}
-                map={props.map}
-                body={props.body}
-              />
-            );
-          })}
-      </div>
-    </div>
+          layrs.map((item) => (
+            <Layer
+              key={item.index}
+              togglelayer={togglelayer}
+              item={item}
+              map={props.map}
+              body={props.body}
+            />
+          ))}
+      </Box>
+    </Box>
   );
 };

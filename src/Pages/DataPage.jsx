@@ -137,7 +137,7 @@ export default function DataPage(props) {
         setCurrentUser={props.setCurrentUser}
         parent="Browse Data"
       />
-      
+
       <Container maxWidth="xl" sx={{ flex: 1, py: 4 }}>
         <Grid container spacing={3}>
           {/* Sidebar */}
@@ -176,7 +176,7 @@ export default function DataPage(props) {
           </Grid>
 
           {/* Main Content */}
-          <Grid size={{ xs: 12, md: 9 }}>
+          <Grid size={{ xs: 12, md: 9 }} sx={{ minHeight: "60vh" }}>
             {/* Search Controls */}
             <Paper elevation={1} sx={{ p: 3, mb: 3 }}>
               <Grid container spacing={2} alignItems="center">
@@ -242,7 +242,7 @@ export default function DataPage(props) {
                         </Grid>
                       ))}
                     </Grid>
-                    
+
                     {/* Pagination */}
                     <Box display="flex" justifyContent="center" mt={4}>
                       <Pagination
@@ -279,7 +279,7 @@ export default function DataPage(props) {
 
 const MyDocument = ({ item }) => {
   const isCollection = !!item.Collection;
-  
+
   return (
     <Card
       sx={{
@@ -323,26 +323,26 @@ const MyDocument = ({ item }) => {
           sx={{ objectFit: "cover" }}
         />
       </Box>
-      
+
       <CardContent sx={{ flexGrow: 1, p: 2 }}>
         <Typography variant="h6" component="h3" gutterBottom noWrap>
           {isCollection ? `Collection: ${item.Collection}` : item.Title}
         </Typography>
-        
+
         <Typography variant="body2" color="text.secondary" gutterBottom>
           <strong>Owner:</strong> {item.Owner}
         </Typography>
-        
+
         {isCollection && (
           <Typography variant="body2" color="text.secondary" gutterBottom>
             <strong>Collection:</strong> {item.Collection}
           </Typography>
         )}
-        
+
         <Typography variant="body2" color="text.secondary" gutterBottom>
           <strong>Date Published:</strong> {item.updatedAt.split("T")[0]}
         </Typography>
-        
+
         <Typography
           variant="body2"
           color="text.secondary"

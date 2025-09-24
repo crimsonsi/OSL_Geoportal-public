@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import Button from "../Utils/ButtonMain";
+import { jwtDecode } from "jwt-decode";
 
 export default function ReplyComment(props) {
   const [isError, setIsError] = useState("");
@@ -13,10 +14,9 @@ export default function ReplyComment(props) {
 
   const [currentUser, setCurrentUser] = useState();
 
-  var jwt = require("jsonwebtoken");
   useEffect(() => {
     const token = localStorage.getItem("nimda_ksa");
-    setCurrentUser(jwt.decode(token));
+    setCurrentUser(jwtDecode(token));
   }, []);
 
   const sendReply = () => {

@@ -15,9 +15,9 @@ import { RegularShape } from "ol/style.js";
 import WMTS, { optionsFromCapabilities } from "ol/source/WMTS.js";
 import TimeSeriesSlider from "./TimeSeriesSlider";
 import { asArray } from "ol/color";
+import XMLParser from "react-xml-parser";
 
 export default function TimeSeriesData(props) {
-  var XMLParser = require("react-xml-parser");
   const [inputDate, setInputDate] = useState();
 
   const [timeSeriesData, setTimeSeriesData] = useState([]);
@@ -89,9 +89,8 @@ export default function TimeSeriesData(props) {
     props.setIsLoading(false);
     let dataType = "";
     const dt = await fetch(
-      `/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
+      `/api/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
       {
-        credentials: "include",
         headers: headers,
       }
     ).then((res) => {
@@ -101,11 +100,10 @@ export default function TimeSeriesData(props) {
     if (dataType === "RASTER") {
       await fetch(
         encodeURI(
-          `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+          `/api/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
         ),
         {
-          method: "get",
-          credentials: "include",
+          method: "get"
         }
       )
         .then((res) => {
@@ -206,8 +204,7 @@ export default function TimeSeriesData(props) {
 
   useEffect(() => {
     if (selected) {
-      fetch(`/geoserver/rest/workspaces/${selected}/layers`, {
-        credentials: "include",
+      fetch(`/api/geoserver/rest/workspaces/${selected}/layers`, {
         headers: headers,
       })
         .then((res) => {
@@ -266,9 +263,8 @@ export default function TimeSeriesData(props) {
 
             if (style.workspace != null) {
               xml = await fetch(
-                `/geoserver/rest/workspaces/${style.workspace.name}/styles/${style.style.filename}`,
+                `/api/geoserver/rest/workspaces/${style.workspace.name}/styles/${style.style.filename}`,
                 {
-                  credentials: "include",
                   headers: headers,
                 }
               ).then((res) => {
@@ -276,9 +272,8 @@ export default function TimeSeriesData(props) {
               });
             } else {
               xml = await fetch(
-                `/geoserver/rest/styles/${style.style.filename}`,
+                `/api/geoserver/rest/styles/${style.style.filename}`,
                 {
-                  credentials: "include",
                   headers: headers,
                 }
               ).then((res) => {
@@ -319,11 +314,10 @@ export default function TimeSeriesData(props) {
 
           fetch(
             encodeURI(
-              `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+              `/api/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
             ),
             {
-              method: "get",
-              credentials: "include",
+              method: "get"
             }
           )
             .then((res) => {
@@ -395,9 +389,8 @@ export default function TimeSeriesData(props) {
 
             try {
               xml = await fetch(
-                `/geoserver/rest/styles/${style.style.name}.sld`,
+                `/api/geoserver/rest/styles/${style.style.name}.sld`,
                 {
-                  credentials: "include",
                   headers: headers,
                 }
               ).then((res) => {
@@ -429,9 +422,8 @@ export default function TimeSeriesData(props) {
               // console.log(error);
               try {
                 xml = await fetch(
-                  `/geoserver/rest/workspaces/${workspace}/styles/${style.style.name}.sld`,
+                  `/api/geoserver/rest/workspaces/${workspace}/styles/${style.style.name}.sld`,
                   {
-                    credentials: "include",
                     headers: headers,
                   }
                 ).then((res) => {
@@ -540,18 +532,18 @@ export default function TimeSeriesData(props) {
 
   function loadUrl(url, filters) {
     if (!filters) {
-      return `/geoserver/${
+      return `/api/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
     } else {
-      return `/geoserver/${
+      return `/api/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&${filters}&outputFormat=json`;
     }
   }
 
   function getUrl(workspace, layer) {
-    return `/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&outputFormat=json`;
+    return `/api/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&outputFormat=json`;
   }
 
   const getSelected = (value) => {

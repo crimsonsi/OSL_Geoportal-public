@@ -32,9 +32,7 @@ export default function AddData(props) {
           setSelected(list[0]);
         }
       })
-      .catch((e) => {
-       
-      });
+      .catch((e) => {});
   }, []);
 
   useEffect(() => {
@@ -45,8 +43,7 @@ export default function AddData(props) {
           "utf-8"
         ).toString("base64")}`,
       };
-      fetch(`/geoserver/rest/workspaces/${selected}/layers`, {
-        credentials: "include",
+      fetch(`/api/geoserver/rest/workspaces/${selected}/layers`, {
         headers: headers,
       })
         .then((res) => {
@@ -62,9 +59,7 @@ export default function AddData(props) {
             setSelectedLayer(list[0]);
           }
         })
-        .catch((e) => {
-        
-        });
+        .catch((e) => {});
     }
   }, [selected]);
 

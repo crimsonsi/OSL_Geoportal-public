@@ -111,7 +111,7 @@ export default function ThematicPreview(props) {
 
     fetch(
       encodeURI(
-        `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+        `/api/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
       ),
       {
         method: "get",
@@ -205,7 +205,7 @@ export default function ThematicPreview(props) {
     setIsLoading(false);
     let dataType = "";
     const dt = await fetch(
-      `/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
+      `/api/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
       {
         credentials: "include",
         headers: headers,
@@ -217,11 +217,10 @@ export default function ThematicPreview(props) {
     if (dataType === "RASTER") {
       await fetch(
         encodeURI(
-          `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+          `/api/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
         ),
         {
-          method: "get",
-          credentials: "include",
+          method: "get"
         }
       )
         .then((res) => {
@@ -397,11 +396,11 @@ export default function ThematicPreview(props) {
 
   function getUrl(url, filters) {
     if (!filters) {
-      return `/geoserver/${
+      return `/api/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
     } else {
-      return `/geoserver/${
+      return `/api/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&${filters}&outputFormat=json`;
     }

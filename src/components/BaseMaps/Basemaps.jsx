@@ -1,5 +1,16 @@
 import XYZ from "ol/source/XYZ";
 import { useEffect } from "react";
+import {
+  Box,
+  Paper,
+  Typography,
+  IconButton,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+} from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 import osmPic from "../../assets/imgs/osm.png";
 import sat from "../../assets/imgs/satellite.png";
 import streetmap from "../../assets/imgs/street.png";
@@ -10,6 +21,7 @@ import myData from "../../assets/data/data";
 export default function Basemaps(props) {
   // const images = [osmPic, topomap, stadia, streetmap, sat];
   const images = [osmPic, streetmap, topomap];
+  
   const Basemap = (params) => {
     useEffect(() => {
       if (params.selected === params.index) {
@@ -23,48 +35,89 @@ export default function Basemaps(props) {
     }, [params.selected]);
 
     return (
-      <div
+      <Card
         onClick={() => {
           params.setSelected(params.index);
         }}
-        className={params.selected === params.index ? "active" : "item "}
+        sx={{
+          cursor: "pointer",
+          border: params.selected === params.index ? 2 : 1,
+          borderColor: params.selected === params.index ? "primary.main" : "grey.300",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "translateY(-2px)",
+            boxShadow: 2,
+          },
+        }}
       >
-        <img src={params.image} alt="" />
-        <p>{params.label}</p>
-      </div>
+        <CardMedia
+          component="img"
+          height="80"
+          image={params.image}
+          alt={params.label}
+          sx={{ objectFit: "cover" }}
+        />
+        <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
+          <Typography variant="caption" align="center" display="block">
+            {params.label}
+          </Typography>
+        </CardContent>
+      </Card>
     );
   };
 
   return (
-    <div className="layers">
-      <div className="cont">
-        <i
-          onClick={() => {
-            props.setBaseSelector(null);
-          }}
-          className="fa fa-close"
-        >
-          &#xf00d;
-        </i>
-        <div className="basemaps">
+    <Box
+      sx={{
+        position: "absolute",
+        bottom: 170,
+        right: 16,
+        zIndex: 1000,
+        maxWidth: 300,
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{
+          p: 2,
+          backgroundColor: "rgba(255, 255, 255, 0.95)",
+          backdropFilter: "blur(10px)",
+        }}
+      >
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+          <Typography variant="h6" component="h3">
+            Base Maps
+          </Typography>
+          <IconButton
+            onClick={() => {
+              props.setBaseSelector(null);
+            }}
+            size="small"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        
+        <Grid container spacing={1}>
           {myData.map((item, index) => {
             return (
-              <Basemap
-                key={index}
-                index={index}
-                label={item.name}
-                image={images[index]}
-                layer={props.basemap}
-                setLayer={props.setBasemap}
-                url={item.url}
-                selected={props.selected}
-                setSelected={props.setSelected}
-                category={props.category}
-              />
+              <Grid size={{ xs: 4 }} key={index}>
+                <Basemap
+                  index={index}
+                  label={item.name}
+                  image={images[index]}
+                  layer={props.basemap}
+                  setLayer={props.setBasemap}
+                  url={item.url}
+                  selected={props.selected}
+                  setSelected={props.setSelected}
+                  category={props.category}
+                />
+              </Grid>
             );
           })}
-        </div>
-      </div>
-    </div>
+        </Grid>
+      </Paper>
+    </Box>
   );
 }

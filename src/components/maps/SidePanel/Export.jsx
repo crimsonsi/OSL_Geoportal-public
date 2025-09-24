@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import downloadImg from "../../../assets/imgs/download.png";
 import MyError from "../../Utils/MyError";
-import jsPDF from 'jspdf';
+import jsPDF from "jspdf";
 import SearchReport from "../../export/SearchReport";
-import { renderToStaticMarkup } from "react-dom/server"
+import { renderToStaticMarkup } from "react-dom/server";
 
 const Item = (props) => {
   return (
@@ -36,7 +36,7 @@ export default function Export(props) {
 
     // Adding the fonts.
     doc.setFont("Inter-Regular", "normal");
-     const output = document.createElement("p");
+    const output = document.createElement("p");
     const staticElement = renderToStaticMarkup(
       <SearchReport body={props.body} blob={blob} />
     );
@@ -105,14 +105,16 @@ export default function Export(props) {
     props.map.renderSync();
   }, []);
 
-  const downLoadData = (ext) => { 
+  const downLoadData = (ext) => {
     setError("");
     if (Array.isArray(props.body.Data)) {
       props.body.Data.forEach(async (item) => {
-        await fetch(`/geoserver/rest/layers/${item.url.split(":")[1]}.json`, {
-          credentials: "include",
-          headers: headers,
-        })
+        await fetch(
+          `/api/geoserver/rest/layers/${item.url.split(":")[1]}.json`,
+          {
+            headers: headers,
+          }
+        )
           .then((res) => {
             if (res.ok) return res.json();
           })
@@ -140,7 +142,7 @@ export default function Export(props) {
                   d +
                   "=> " +
                   base_url +
-                  `/geoserver/${
+                  `/api/geoserver/${
                     item.url.split(":")[0]
                   }/wms?request=GetMap&layers=${item.url}&format=image/png`;
                 d = d + "=> " + base_url + getUrl(item.url) + "\n";
@@ -159,13 +161,14 @@ export default function Export(props) {
             }
           })
           .catch((e) => {});
-          populateDownload(ext);
+        populateDownload(ext);
       });
     } else {
       fetch(
-        `/geoserver/rest/layers/${props.body.Data[0].url.split(":")[1]}.json`,
+        `/api/geoserver/rest/layers/${
+          props.body.Data[0].url.split(":")[1]
+        }.json`,
         {
-          credentials: "include",
           headers: headers,
         }
       )
@@ -189,7 +192,7 @@ export default function Export(props) {
                   d +
                   "=> " +
                   base_url +
-                  `/geoserver/${
+                  `/api/geoserver/${
                     props.body.Data[0].url.split(":")[0]
                   }/wms?request=GetMap&layers=${
                     props.body.Data[0].url
@@ -245,27 +248,27 @@ export default function Export(props) {
       method: "get",
       credentials: "include",
     })
-    .then((res) => {
-      return res.blob();
-    })
-    .then((blob) => {
-      var url = window.URL.createObjectURL(blob);
-      var a = document.createElement("a");
-      a.href = url;
-      a.download = s_url.split(":")[1];
-      document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-      a.click();
-      a.remove(); //afterwards we remove the element again
-    })
-    .catch((err) => {});
+      .then((res) => {
+        return res.blob();
+      })
+      .then((blob) => {
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = s_url.split(":")[1];
+        document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+        a.click();
+        a.remove(); //afterwards we remove the element again
+      })
+      .catch((err) => {});
   };
 
   function getWms(url, ext) {
-    return `/geoserver/wms/reflect?layers=${url}&format=image/${ext}&width=800`;
+    return `/api/geoserver/wms/reflect?layers=${url}&format=image/${ext}&width=800`;
   }
 
   function getUrl(url) {
-    return `/geoserver/${
+    return `/api/geoserver/${
       url.split(":")[0]
     }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
   }
@@ -289,13 +292,15 @@ export default function Export(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(d),
-    }).then((res) => {
-      if (res.ok) return res.json();
-      else throw Error ("Download not created");
-    }).then((data) => {
-    }).catch((err) => {
-      console.log(err)
-    });
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        else throw Error("Download not created");
+      })
+      .then((data) => {})
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -338,7 +343,6 @@ export default function Export(props) {
             <div>
               <h5>Reports</h5>
               <Item ext="pdf" handleClick={handleGeneratePdf} txt="PDF" />
-                 
             </div>
           </div>
           {service && (
