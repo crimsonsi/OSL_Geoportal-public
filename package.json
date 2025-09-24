@@ -26,7 +26,7 @@
     "react-scripts": "5.0.1",
     "react-xml-parser": "^1.1.8",
     "recharts": "^3.2.1",
-    "sass": "^1.93.1",
+    "sass": "^1.93.2",
     "styled-components": "^6.1.19",
     "swiper": "^12.0.2",
     "vite": "^7.1.7",
