@@ -222,7 +222,7 @@ export default function SingleCollection(props) {
                       bgcolor: "rgba(255,255,255,0.1)",
                       backdropFilter: "blur(10px)",
                       border: "1px solid rgba(255,255,255,0.2)",
-                      color: "white",
+    
                     }}
                   >
                     <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
