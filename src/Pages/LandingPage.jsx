@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Header from "../components/Utils/header";
 import ComprehensiveLanding from "../components/LandingNew/ComprehensiveLanding";
+import Header from "../components/Utils/header";
 import Footer from "../components/Utils/Footer";
 import { Box } from "@mui/material";
 
