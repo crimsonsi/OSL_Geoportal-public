@@ -1,37 +1,31 @@
-# --- Build stage ---
-FROM node:lts-alpine as build
+# Stage 1: Build the Vite App
+FROM node:current-alpine AS build
 
-# Set working directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Ensure no local node_modules are accidentally copied
+# Only copy package.json and package-lock.json to leverage Docker cache
 COPY package*.json ./
 
-# Clean npm cache to avoid cache corruption issues
-RUN npm cache clean --force
+# Install dependencies
+RUN npm install
 
-# Install dependencies using clean install
-RUN npm install --legacy-peer-deps
-RUN npm rebuild node-sass
-
-# Copy remaining source files AFTER install
+# Copy the source code
 COPY . .
 
-# Build your CRA app (output goes into /app/build)
+# Build the project (Vite outputs to "dist")
 RUN npm run build
 
+# Stage 2: Serve the app using Nginx
+FROM nginx:1.21.3-alpine
 
-# --- Production stage ---
-FROM nginx:alpine
+# Copy the Nginx configuration file
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Copy nginx config
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-
-# Copy built CRA app from previous stage
-COPY --from=build /app/build /usr/share/nginx/html
+# Copy the Vite build output from the previous stage
+COPY --from=build /usr/src/app/dist /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
 
-# Start Nginx
+# Run Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
