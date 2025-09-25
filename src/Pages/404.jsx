@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Typography, Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Header from "../Components/Header";
-import Footer from "../Components/Footer";
+import Header from "../components/Utils/header";
+import Footer from "../components/Utils/Footer";
 
 function NotFound() {
 	const navigate = useNavigate();
