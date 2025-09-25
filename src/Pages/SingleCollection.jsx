@@ -161,7 +161,7 @@ export default function SingleCollection(props) {
             "linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%)",
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
             <Grid size={{ xs: 12, md: 8 }}>
               <Typography
@@ -222,7 +222,6 @@ export default function SingleCollection(props) {
                       bgcolor: "rgba(255,255,255,0.1)",
                       backdropFilter: "blur(10px)",
                       border: "1px solid rgba(255,255,255,0.2)",
-    
                     }}
                   >
                     <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
@@ -321,7 +320,7 @@ export default function SingleCollection(props) {
         </Container>
       </Box>
 
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
         {/* Search Controls */}
         <Paper sx={{ p: 3, mb: 4, borderRadius: 2 }}>
           <Grid container spacing={3} alignItems="center">

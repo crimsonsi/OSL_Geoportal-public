@@ -202,7 +202,7 @@ const ComprehensiveLanding = () => {
     <Box>
       {/* Hero Section */}
       <StyledHeroSection>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Box sx={{ position: "relative", zIndex: 1 }}>
             <Grid container spacing={4} alignItems="center">
               <Grid size={{ xs: 12, md: 6 }}>
@@ -315,7 +315,7 @@ const ComprehensiveLanding = () => {
 
       {/* Features Section */}
       <Box sx={{ py: 8, backgroundColor: theme.palette.grey[50] }}>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Box sx={{ textAlign: "center", mb: 6 }}>
             <Typography
               variant="h3"
@@ -379,7 +379,7 @@ const ComprehensiveLanding = () => {
 
       {/* Statistics Section */}
       <Box sx={{ py: 8, backgroundColor: theme.palette.primary.main }}>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Box sx={{ textAlign: "center", mb: 6 }}>
             <Typography
               variant="h3"
@@ -422,7 +422,7 @@ const ComprehensiveLanding = () => {
 
       {/* Data Categories Section */}
       <Box sx={{ py: 8 }}>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Box sx={{ textAlign: "center", mb: 6 }}>
             <Typography
               variant="h3"

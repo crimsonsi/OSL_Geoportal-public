@@ -56,31 +56,35 @@ export default function ApiDocs(props) {
   const features = [
     {
       title: "Standard GET Endpoints",
-      description: "Access basic dataset information and metadata through our standard GET endpoints with built-in pagination and rate limiting.",
-      icon: <CodeIcon sx={{ fontSize: 40, color: "primary.main" }} />
+      description:
+        "Access basic dataset information and metadata through our standard GET endpoints with built-in pagination and rate limiting.",
+      icon: <CodeIcon sx={{ fontSize: 40, color: "primary.main" }} />,
     },
     {
       title: "WFS & WMS Services",
-      description: "For logged-in users, we provide Web Feature Service (WFS) and Web Map Service (WMS) links for direct data access and visualization.",
-      icon: <MapIcon sx={{ fontSize: 40, color: "primary.main" }} />
+      description:
+        "For logged-in users, we provide Web Feature Service (WFS) and Web Map Service (WMS) links for direct data access and visualization.",
+      icon: <MapIcon sx={{ fontSize: 40, color: "primary.main" }} />,
     },
     {
       title: "Usage Tracking",
-      description: "All API usage is monitored and tracked to ensure fair access and maintain service quality for all users.",
-      icon: <SecurityIcon sx={{ fontSize: 40, color: "primary.main" }} />
+      description:
+        "All API usage is monitored and tracked to ensure fair access and maintain service quality for all users.",
+      icon: <SecurityIcon sx={{ fontSize: 40, color: "primary.main" }} />,
     },
     {
       title: "Rate Limited Access",
-      description: "Our API implements rate limiting to ensure stable performance and equitable access to resources for all users.",
-      icon: <SpeedIcon sx={{ fontSize: 40, color: "primary.main" }} />
-    }
+      description:
+        "Our API implements rate limiting to ensure stable performance and equitable access to resources for all users.",
+      icon: <SpeedIcon sx={{ fontSize: 40, color: "primary.main" }} />,
+    },
   ];
 
   const standardEndpoints = [
     "GET /api/datasets - Retrieve paginated list of available datasets",
     "GET /api/datasets/{id} - Get specific dataset information",
     "GET /api/categories - List all data categories",
-    "GET /api/search - Search datasets with pagination"
+    "GET /api/search - Search datasets with pagination",
   ];
 
   return (
@@ -92,7 +96,7 @@ export default function ApiDocs(props) {
         setCurrentUser={props.setCurrentUser}
         parent="API Documentation"
       />
-      
+
       {/* Hero Section */}
       <Box
         sx={{
@@ -106,7 +110,7 @@ export default function ApiDocs(props) {
           color: "white",
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
             <Grid size={{ xs: 12, md: 8 }}>
               <Typography
@@ -138,9 +142,9 @@ export default function ApiDocs(props) {
                   maxWidth: "700px",
                 }}
               >
-                Our API provides controlled access to the GeoPortal's extensive 
-                collection of spatial data. We offer standard GET endpoints with 
-                pagination and rate limiting, as well as WFS/WMS services for 
+                Our API provides controlled access to the GeoPortal's extensive
+                collection of spatial data. We offer standard GET endpoints with
+                pagination and rate limiting, as well as WFS/WMS services for
                 authenticated users.
               </Typography>
             </Grid>
@@ -149,18 +153,18 @@ export default function ApiDocs(props) {
       </Box>
 
       {/* Main Content */}
-      <Container maxWidth="xl" sx={{ py: 6 }}>
+      <Container maxWidth="lg" sx={{ py: 6 }}>
         {/* Important Notice */}
-        <Alert 
-          severity="info" 
+        <Alert
+          severity="info"
           icon={<InfoIcon />}
           sx={{ mb: 4, fontSize: "1rem" }}
         >
           <Typography variant="h6" gutterBottom>
             Custom API Endpoints
           </Typography>
-          For custom API endpoints beyond our standard offerings, please submit 
-          an application to the administrator. Custom endpoints are evaluated 
+          For custom API endpoints beyond our standard offerings, please submit
+          an application to the administrator. Custom endpoints are evaluated
           based on use case, data requirements, and system capacity.
         </Alert>
 
@@ -182,10 +186,10 @@ export default function ApiDocs(props) {
             <Grid size={{ xs: 12, sm: 6, md: 6 }} key={index}>
               <Card sx={{ height: "100%", p: 2 }}>
                 <CardContent>
-                  <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
-                    <Box sx={{ mr: 2, mt: 0.5 }}>
-                      {feature.icon}
-                    </Box>
+                  <Box
+                    sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}
+                  >
+                    <Box sx={{ mr: 2, mt: 0.5 }}>{feature.icon}</Box>
                     <Box>
                       <Typography
                         variant="h6"
@@ -215,8 +219,8 @@ export default function ApiDocs(props) {
             Standard API Endpoints
           </Typography>
           <Typography variant="body1" paragraph sx={{ mb: 3 }}>
-            Our standard API provides basic access to dataset information with 
-            built-in pagination and rate limiting. These endpoints are available 
+            Our standard API provides basic access to dataset information with
+            built-in pagination and rate limiting. These endpoints are available
             to all users without special authorization.
           </Typography>
 
@@ -251,8 +255,8 @@ export default function ApiDocs(props) {
             WFS & WMS Services
           </Typography>
           <Typography variant="body1" paragraph>
-            For authenticated users, we provide Web Feature Service (WFS) and 
-            Web Map Service (WMS) endpoints that allow direct access to spatial 
+            For authenticated users, we provide Web Feature Service (WFS) and
+            Web Map Service (WMS) endpoints that allow direct access to spatial
             data and map visualization capabilities.
           </Typography>
 
@@ -262,8 +266,9 @@ export default function ApiDocs(props) {
                 Web Feature Service (WFS)
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Access vector data directly for analysis and processing. 
-                Supports GetFeature, DescribeFeatureType, and GetCapabilities operations.
+                Access vector data directly for analysis and processing.
+                Supports GetFeature, DescribeFeatureType, and GetCapabilities
+                operations.
               </Typography>
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -271,7 +276,7 @@ export default function ApiDocs(props) {
                 Web Map Service (WMS)
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Retrieve map images for visualization. Supports GetMap, 
+                Retrieve map images for visualization. Supports GetMap,
                 GetCapabilities, and GetFeatureInfo operations.
               </Typography>
             </Grid>
@@ -279,8 +284,9 @@ export default function ApiDocs(props) {
 
           <Alert severity="warning" sx={{ mt: 3 }}>
             <Typography variant="body2">
-              <strong>Authentication Required:</strong> WFS and WMS services 
-              require user authentication. Please log in to access these services.
+              <strong>Authentication Required:</strong> WFS and WMS services
+              require user authentication. Please log in to access these
+              services.
             </Typography>
           </Alert>
         </Paper>
@@ -295,8 +301,8 @@ export default function ApiDocs(props) {
             Usage Tracking & Rate Limiting
           </Typography>
           <Typography variant="body1" paragraph>
-            To ensure fair access and maintain service quality, all API usage 
-            is monitored and controlled through our tracking system.
+            To ensure fair access and maintain service quality, all API usage is
+            monitored and controlled through our tracking system.
           </Typography>
 
           <List>
@@ -343,25 +349,33 @@ export default function ApiDocs(props) {
           <List>
             <ListItem sx={{ pl: 0 }}>
               <ListItemIcon>
-                <Typography variant="h6" color="primary.main">1.</Typography>
+                <Typography variant="h6" color="primary.main">
+                  1.
+                </Typography>
               </ListItemIcon>
               <ListItemText primary="Create an account or log in to access authenticated services" />
             </ListItem>
             <ListItem sx={{ pl: 0 }}>
               <ListItemIcon>
-                <Typography variant="h6" color="primary.main">2.</Typography>
+                <Typography variant="h6" color="primary.main">
+                  2.
+                </Typography>
               </ListItemIcon>
               <ListItemText primary="Use standard GET endpoints for basic data access" />
             </ListItem>
             <ListItem sx={{ pl: 0 }}>
               <ListItemIcon>
-                <Typography variant="h6" color="primary.main">3.</Typography>
+                <Typography variant="h6" color="primary.main">
+                  3.
+                </Typography>
               </ListItemIcon>
               <ListItemText primary="Access WFS/WMS services when logged in" />
             </ListItem>
             <ListItem sx={{ pl: 0 }}>
               <ListItemIcon>
-                <Typography variant="h6" color="primary.main">4.</Typography>
+                <Typography variant="h6" color="primary.main">
+                  4.
+                </Typography>
               </ListItemIcon>
               <ListItemText primary="Contact administrator for custom endpoint requirements" />
             </ListItem>
@@ -373,9 +387,14 @@ export default function ApiDocs(props) {
           <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
             Need Custom API Access?
           </Typography>
-          <Typography variant="body1" paragraph sx={{ mb: 4, maxWidth: 600, mx: "auto" }}>
-            If you require custom API endpoints or have specific data access needs 
-            beyond our standard offerings, please contact our administrator team.
+          <Typography
+            variant="body1"
+            paragraph
+            sx={{ mb: 4, maxWidth: 600, mx: "auto" }}
+          >
+            If you require custom API endpoints or have specific data access
+            needs beyond our standard offerings, please contact our
+            administrator team.
           </Typography>
           <Button
             variant="contained"

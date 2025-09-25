@@ -51,18 +51,18 @@ export default function Category(props) {
         parent={instanceId}
       />
 
-      <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Typography 
-          variant="h4" 
-          component="h1" 
-          gutterBottom 
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
           sx={{ mb: 4, fontWeight: 600 }}
         >
           {instanceId}
         </Typography>
 
         {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+          <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
             <CircularProgress size={60} />
           </Box>
         ) : error ? (
@@ -70,7 +70,7 @@ export default function Category(props) {
             Failed to load category data. Please try again later.
           </Alert>
         ) : (
-          <Paper elevation={1} sx={{ p: 0, overflow: 'hidden' }}>
+          <Paper elevation={1} sx={{ p: 0, overflow: "hidden" }}>
             <MapCategory category={instanceId} data={data} />
           </Paper>
         )}

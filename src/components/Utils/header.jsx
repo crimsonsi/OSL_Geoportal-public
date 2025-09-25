@@ -490,7 +490,7 @@ export default function Header(props) {
       )}
 
       <StyledAppBar ref={headerRef}>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <StyledToolbar>
             <LogoSection
               onClick={() => {

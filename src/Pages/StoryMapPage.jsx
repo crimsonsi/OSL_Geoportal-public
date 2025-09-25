@@ -88,7 +88,7 @@ export default function StoryMapPage(props) {
             "linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%)",
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
             <Grid size={{ xs: 12, md: 8 }}>
               {loading ? (
@@ -180,7 +180,7 @@ export default function StoryMapPage(props) {
       </Box>
 
       {/* Main Content */}
-      <Container maxWidth="xl" sx={{ py: 6 }}>
+      <Container maxWidth="lg" sx={{ py: 6 }}>
         {error ? (
           <Alert severity="error" sx={{ mb: 4 }}>
             Failed to load story map. Please try again later.
@@ -189,7 +189,12 @@ export default function StoryMapPage(props) {
           <Paper sx={{ p: 4, borderRadius: 2 }}>
             <Skeleton variant="text" width="100%" height={60} />
             <Skeleton variant="text" width="80%" height={40} sx={{ mt: 2 }} />
-            <Skeleton variant="rectangular" width="100%" height={400} sx={{ mt: 3 }} />
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height={400}
+              sx={{ mt: 3 }}
+            />
           </Paper>
         ) : data ? (
           <Paper
@@ -265,8 +270,8 @@ export default function StoryMapPage(props) {
                   mb: 3,
                 },
               }}
-              dangerouslySetInnerHTML={{ 
-                __html: data.Content?.slice(1, -1) || "" 
+              dangerouslySetInnerHTML={{
+                __html: data.Content?.slice(1, -1) || "",
               }}
             />
           </Paper>

@@ -446,7 +446,7 @@ export default function SingleInstancePage(props) {
         parent="singleinstance"
       />
 
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box sx={{ my: 2 }}>
           <MapPreview />
         </Box>

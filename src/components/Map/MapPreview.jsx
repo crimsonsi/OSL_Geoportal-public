@@ -44,6 +44,7 @@ import WMTS, { optionsFromCapabilities } from "ol/source/WMTS.js";
 import WMTSCapabilities from "ol/format/WMTSCapabilities.js";
 import TitlePanel from "../maps/TitlePanel";
 import Popup from "./Popup";
+import PreviewData from "../maps/PreviewData";
 
 export default function MapPreview(props) {
   const parser = new WMTSCapabilities();

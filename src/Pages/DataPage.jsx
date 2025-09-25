@@ -138,7 +138,7 @@ export default function DataPage(props) {
         parent="Browse Data"
       />
 
-      <Container maxWidth="xl" sx={{ flex: 1, py: 4 }}>
+      <Container maxWidth="lg" sx={{ flex: 1, py: 4 }}>
         <Grid container spacing={3}>
           {/* Sidebar */}
           <Grid size={{ xs: 12, md: 3 }}>

@@ -62,11 +62,11 @@ export default function ContactUsPage(props) {
 
   const showLoading = () => {
     Swal.fire({
-      title: 'Sending Message...',
+      title: "Sending Message...",
       allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
-      }
+      },
     });
   };
 
@@ -76,19 +76,19 @@ export default function ContactUsPage(props) {
 
   const showSuccess = (message) => {
     Swal.fire({
-      icon: 'success',
-      title: 'Success!',
+      icon: "success",
+      title: "Success!",
       text: message,
-      confirmButtonColor: '#1976d2'
+      confirmButtonColor: "#1976d2",
     });
   };
 
   const showError = (message) => {
     Swal.fire({
-      icon: 'error',
-      title: 'Error!',
+      icon: "error",
+      title: "Error!",
       text: message,
-      confirmButtonColor: '#1976d2'
+      confirmButtonColor: "#1976d2",
     });
   };
 
@@ -143,7 +143,7 @@ export default function ContactUsPage(props) {
     }
 
     showLoading();
-    
+
     let d = body;
     if (currentUser) {
       d.To = currentUser.Email;
@@ -175,7 +175,9 @@ export default function ContactUsPage(props) {
       .then((data) => {
         closeLoading();
         if (data.success) {
-          showSuccess("Your message has been sent successfully! We'll get back to you soon.");
+          showSuccess(
+            "Your message has been sent successfully! We'll get back to you soon."
+          );
           // Clear form
           rfName.current.value = "";
           rfEmail.current.value = "";
@@ -189,7 +191,9 @@ export default function ContactUsPage(props) {
       })
       .catch((err) => {
         closeLoading();
-        showError("Failed to send message. Please check your internet connection and try again.");
+        showError(
+          "Failed to send message. Please check your internet connection and try again."
+        );
       });
   };
 
@@ -214,7 +218,7 @@ export default function ContactUsPage(props) {
         setCurrentUser={props.setCurrentUser}
         parent="Contact Us"
       />
-      
+
       {/* Hero Section */}
       <Box
         sx={{
@@ -228,7 +232,7 @@ export default function ContactUsPage(props) {
           color: "white",
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography
@@ -261,9 +265,9 @@ export default function ContactUsPage(props) {
                   maxWidth: "600px",
                 }}
               >
-                Thank you for visiting our Geoportal. Need assistance or have questions? 
-                We're here to help! Send us a message and our customer service team will 
-                respond as soon as possible.
+                Thank you for visiting our Geoportal. Need assistance or have
+                questions? We're here to help! Send us a message and our
+                customer service team will respond as soon as possible.
               </Typography>
             </Grid>
           </Grid>
@@ -287,15 +291,15 @@ export default function ContactUsPage(props) {
               <Typography variant="h4" sx={{ fontWeight: 600, mb: 3 }}>
                 How can we help you?
               </Typography>
-              
+
               {props?.isAuthenticated ? (
-                <Alert 
-                  severity="success" 
-                  sx={{ 
+                <Alert
+                  severity="success"
+                  sx={{
                     mb: 3,
                     bgcolor: "rgba(255,255,255,0.1)",
                     color: "white",
-                    "& .MuiAlert-icon": { color: "white" }
+                    "& .MuiAlert-icon": { color: "white" },
                   }}
                 >
                   <Typography variant="body2">
@@ -303,26 +307,27 @@ export default function ContactUsPage(props) {
                   </Typography>
                 </Alert>
               ) : (
-                <Alert 
-                  severity="info" 
-                  sx={{ 
+                <Alert
+                  severity="info"
+                  sx={{
                     mb: 3,
                     bgcolor: "rgba(255,255,255,0.1)",
                     color: "white",
-                    "& .MuiAlert-icon": { color: "white" }
+                    "& .MuiAlert-icon": { color: "white" },
                   }}
                 >
                   <Typography variant="body2">
-                    You can send us a message even without an account. 
-                    We look forward to hearing from you!
+                    You can send us a message even without an account. We look
+                    forward to hearing from you!
                   </Typography>
                 </Alert>
               )}
 
               <Typography variant="body1" sx={{ lineHeight: 1.7 }}>
-                Our team is dedicated to providing you with the best support possible. 
-                Whether you have technical questions, need help navigating the platform, 
-                or want to provide feedback, we're here to assist you.
+                Our team is dedicated to providing you with the best support
+                possible. Whether you have technical questions, need help
+                navigating the platform, or want to provide feedback, we're here
+                to assist you.
               </Typography>
             </Paper>
           </Grid>
@@ -344,11 +349,13 @@ export default function ContactUsPage(props) {
                       inputRef={rfName}
                       required
                       InputProps={{
-                        startAdornment: <PersonIcon sx={{ mr: 1, color: "text.secondary" }} />,
+                        startAdornment: (
+                          <PersonIcon sx={{ mr: 1, color: "text.secondary" }} />
+                        ),
                       }}
                     />
                   </Grid>
-                  
+
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
@@ -358,7 +365,9 @@ export default function ContactUsPage(props) {
                       inputRef={rfEmail}
                       required
                       InputProps={{
-                        startAdornment: <EmailIcon sx={{ mr: 1, color: "text.secondary" }} />,
+                        startAdornment: (
+                          <EmailIcon sx={{ mr: 1, color: "text.secondary" }} />
+                        ),
                       }}
                     />
                   </Grid>
@@ -371,7 +380,11 @@ export default function ContactUsPage(props) {
                       inputRef={rfSubject}
                       required
                       InputProps={{
-                        startAdornment: <SubjectIcon sx={{ mr: 1, color: "text.secondary" }} />,
+                        startAdornment: (
+                          <SubjectIcon
+                            sx={{ mr: 1, color: "text.secondary" }}
+                          />
+                        ),
                       }}
                     />
                   </Grid>
@@ -387,13 +400,13 @@ export default function ContactUsPage(props) {
                       required
                       InputProps={{
                         startAdornment: (
-                          <MessageIcon 
-                            sx={{ 
-                              mr: 1, 
+                          <MessageIcon
+                            sx={{
+                              mr: 1,
                               color: "text.secondary",
                               alignSelf: "flex-start",
-                              mt: 1
-                            }} 
+                              mt: 1,
+                            }}
                           />
                         ),
                       }}

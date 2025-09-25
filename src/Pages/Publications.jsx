@@ -40,13 +40,13 @@ export default function PublicationsPage(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const srch = useRef();
-  
+
   const categories = [
     "Publications",
     "Story Maps",
     "Reports",
     "Learning Materials",
-    "Other"
+    "Other",
   ];
 
   const handlePageChange = (pageNumber) => {
@@ -152,9 +152,14 @@ export default function PublicationsPage(props) {
         setCurrentUser={props.setCurrentUser}
         parent="Knowledge Hub"
       />
-      
-      <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom sx={{ mb: 4, fontWeight: 600 }}>
+
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          sx={{ mb: 4, fontWeight: 600 }}
+        >
           Knowledge Hub
         </Typography>
 
@@ -170,7 +175,7 @@ export default function PublicationsPage(props) {
                   value={searchValue}
                   onChange={handleSearchChange}
                   onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
+                    if (e.key === "Enter") {
                       handleSearch();
                     }
                   }}
@@ -192,8 +197,8 @@ export default function PublicationsPage(props) {
                 variant="scrollable"
                 scrollButtons="auto"
                 sx={{
-                  '& .MuiTab-root': {
-                    textTransform: 'none',
+                  "& .MuiTab-root": {
+                    textTransform: "none",
                     fontWeight: 500,
                   },
                 }}
@@ -208,7 +213,7 @@ export default function PublicationsPage(props) {
           {/* Content */}
           <Grid size={{ xs: 12 }}>
             {loading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+              <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
                 <CircularProgress size={60} />
               </Box>
             ) : (
@@ -228,15 +233,17 @@ export default function PublicationsPage(props) {
                         ))}
                   </Grid>
                 ) : (
-                  <Paper elevation={1} sx={{ p: 4, textAlign: 'center' }}>
+                  <Paper elevation={1} sx={{ p: 4, textAlign: "center" }}>
                     <Typography variant="h6" color="text.secondary">
                       No publications found
                     </Typography>
                   </Paper>
                 )}
 
-                {publications  && (
-                  <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+                {publications && (
+                  <Box
+                    sx={{ mt: 4, display: "flex", justifyContent: "center" }}
+                  >
                     <Pagination
                       count={Math.ceil(publications.total / 10)}
                       page={currentPage}
@@ -303,81 +310,88 @@ const MyDocument = (props) => {
   }, []);
 
   return (
-    <Card 
-      elevation={2} 
-      sx={{ 
-        height: '100%', 
-        display: 'flex', 
-        flexDirection: 'column',
-        transition: 'transform 0.2s, box-shadow 0.2s',
-        '&:hover': {
-          transform: 'translateY(-4px)',
+    <Card
+      elevation={2}
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        transition: "transform 0.2s, box-shadow 0.2s",
+        "&:hover": {
+          transform: "translateY(-4px)",
           boxShadow: 4,
-        }
+        },
       }}
     >
       <CardMedia
-        sx={{ 
-          height: 200, 
-          backgroundColor: '#f5f5f5',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
+        sx={{
+          height: 200,
+          backgroundColor: "#f5f5f5",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         {firstPageBlob ? (
-          <img 
-            src={firstPageBlob} 
+          <img
+            src={firstPageBlob}
             alt={props.item.Title}
-            style={{ 
-              width: '100%', 
-              height: '100%', 
-              objectFit: 'cover' 
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
             }}
           />
         ) : (
-          <img 
-            src={placeholder} 
+          <img
+            src={placeholder}
             alt="Placeholder"
-            style={{ 
-              width: '100%', 
-              height: '100%', 
-              objectFit: 'cover' 
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
             }}
           />
         )}
       </CardMedia>
-      
-      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-        <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 600 }}>
+
+      <CardContent
+        sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
+      >
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          sx={{ fontWeight: 600 }}
+        >
           {props.item.Title}
         </Typography>
-        
-        <Typography 
-          variant="body2" 
-          color="text.secondary" 
-          sx={{ 
-            mb: 2, 
+
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{
+            mb: 2,
             flexGrow: 1,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
             WebkitLineClamp: 3,
-            WebkitBoxOrient: 'vertical',
+            WebkitBoxOrient: "vertical",
           }}
         >
           {props.item.Description}
         </Typography>
-        
+
         <Box sx={{ mb: 2 }}>
-          <Chip 
-            label={props.item.Type} 
-            size="small" 
-            color="primary" 
+          <Chip
+            label={props.item.Type}
+            size="small"
+            color="primary"
             variant="outlined"
           />
         </Box>
-        
+
         {blob && (
           <Button
             variant="contained"
@@ -386,7 +400,7 @@ const MyDocument = (props) => {
             href={blob}
             target="_blank"
             fullWidth
-            sx={{ mt: 'auto' }}
+            sx={{ mt: "auto" }}
           >
             View/Download
           </Button>
@@ -398,74 +412,81 @@ const MyDocument = (props) => {
 
 const StoryMap = (props) => {
   return (
-    <Card 
-      elevation={2} 
-      sx={{ 
-        height: '100%', 
-        display: 'flex', 
-        flexDirection: 'column',
-        cursor: 'pointer',
-        transition: 'transform 0.2s, box-shadow 0.2s',
-        '&:hover': {
-          transform: 'translateY(-4px)',
+    <Card
+      elevation={2}
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        cursor: "pointer",
+        transition: "transform 0.2s, box-shadow 0.2s",
+        "&:hover": {
+          transform: "translateY(-4px)",
           boxShadow: 4,
-        }
+        },
       }}
       onClick={() => {
         // window.location.href = "/portal/knowledgehub/preview/" + props.item.StoryMapID
       }}
     >
       <CardMedia
-        sx={{ 
-          height: 200, 
-          backgroundColor: '#f5f5f5',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
+        sx={{
+          height: 200,
+          backgroundColor: "#f5f5f5",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         {props.item?.Images?.length > 0 ? (
-          <img 
-            src={"/api/uploads/" + props.item.Images[0]} 
+          <img
+            src={"/api/uploads/" + props.item.Images[0]}
             alt={props.item.Title}
-            style={{ 
-              width: '100%', 
-              height: '100%', 
-              objectFit: 'cover' 
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
             }}
           />
         ) : (
-          <img 
-            src={placeholder} 
+          <img
+            src={placeholder}
             alt="Placeholder"
-            style={{ 
-              width: '100%', 
-              height: '100%', 
-              objectFit: 'cover' 
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
             }}
           />
         )}
       </CardMedia>
-      
-      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-        <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 600 }}>
+
+      <CardContent
+        sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
+      >
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          sx={{ fontWeight: 600 }}
+        >
           {props.item.Title}
         </Typography>
-        
+
         <Box sx={{ mb: 2 }}>
-          <Chip 
-            label={props.item.Category} 
-            size="small" 
-            color="secondary" 
+          <Chip
+            label={props.item.Category}
+            size="small"
+            color="secondary"
             variant="outlined"
           />
         </Box>
-        
+
         <Button
           variant="outlined"
           href={`/knowledgehub/storymap/${props.item.StoryMapID}`}
           fullWidth
-          sx={{ mt: 'auto' }}
+          sx={{ mt: "auto" }}
         >
           View Story Map
         </Button>

@@ -81,7 +81,7 @@ export default function MapCategory(props) {
 
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <Container maxWidth="xl" sx={{ flex: 1, py: 4 }}>
+      <Container maxWidth="lg" sx={{ flex: 1, py: 4 }}>
         <Grid container spacing={3}>
           {/* Sidebar */}
           <Grid size={{ xs: 12, md: 3 }}>
@@ -184,7 +184,7 @@ export default function MapCategory(props) {
                     ))}
                   </Grid>
                 ) : (
-                  <Paper elevation={1} sx={{ p: 4, textAlign: 'center' }}>
+                  <Paper elevation={1} sx={{ p: 4, textAlign: "center" }}>
                     <Typography variant="h6" color="text.secondary">
                       No maps found
                     </Typography>
@@ -193,7 +193,9 @@ export default function MapCategory(props) {
 
                 {/* Pagination */}
                 {data && data.total > 12 && (
-                  <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+                  <Box
+                    sx={{ mt: 4, display: "flex", justifyContent: "center" }}
+                  >
                     <Pagination
                       count={Math.ceil(data.total / 12)}
                       page={currentPage}
@@ -218,13 +220,13 @@ const MyDocument = ({ item }) => {
   return (
     <Card
       sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        cursor: 'pointer',
-        transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-        '&:hover': {
-          transform: 'translateY(-4px)',
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        cursor: "pointer",
+        transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
+        "&:hover": {
+          transform: "translateY(-4px)",
           boxShadow: 4,
         },
       }}
@@ -237,7 +239,7 @@ const MyDocument = ({ item }) => {
         height="200"
         image={`/api/${item.Thumbnail}`}
         alt={item.Title}
-        sx={{ objectFit: 'cover' }}
+        sx={{ objectFit: "cover" }}
       />
       <CardContent sx={{ flexGrow: 1, p: 2 }}>
         <Typography variant="h6" component="h3" gutterBottom noWrap>
@@ -253,11 +255,11 @@ const MyDocument = ({ item }) => {
           variant="body2"
           color="text.secondary"
           sx={{
-            display: '-webkit-box',
+            display: "-webkit-box",
             WebkitLineClamp: 3,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         >
           {item.Description}
