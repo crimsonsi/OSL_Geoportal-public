@@ -43,7 +43,7 @@ export default function AddData(props) {
           "utf-8"
         ).toString("base64")}`,
       };
-      fetch(`/api/geoserver/rest/workspaces/${selected}/layers`, {
+      fetch(`/geoserver/rest/workspaces/${selected}/layers`, {
         headers: headers,
       })
         .then((res) => {

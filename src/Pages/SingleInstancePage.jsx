@@ -451,9 +451,9 @@ export default function SingleInstancePage(props) {
           <MapPreview />
         </Box>
 
-        <Box sx={{ my: 4 }}>
+        {/* <Box sx={{ my: 4 }}>
           <PreviewData body={body} />
-        </Box>
+        </Box> */}
 
         {/* Comments Section */}
         <Grid container spacing={4}>

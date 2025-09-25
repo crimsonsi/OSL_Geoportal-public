@@ -85,7 +85,7 @@ export default function Data(props) {
 
   useEffect(() => {
     if (selected) {
-      fetch(`/api/geoserver/rest/workspaces/${selected}/layers`, {
+      fetch(`/geoserver/rest/workspaces/${selected}/layers`, {
         headers: headers,
       })
         .then((res) => {
@@ -141,7 +141,7 @@ export default function Data(props) {
             });
 
             const xml = await fetch(
-              `/api/geoserver/rest/workspaces/${workspace}/styles/${style.style.name}.sld`,
+              `/geoserver/rest/workspaces/${workspace}/styles/${style.style.name}.sld`,
               {
                 headers: headers,
               }
@@ -171,7 +171,7 @@ export default function Data(props) {
               });
 
               const xml = await fetch(
-                `/api/geoserver/rest/styles/${style.style.name}.sld`,
+                `/geoserver/rest/styles/${style.style.name}.sld`,
                 {
                   headers: headers,
                 }
@@ -196,10 +196,10 @@ export default function Data(props) {
 
           fetch(
             encodeURI(
-              `/api/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+              `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
             ),
             {
-              method: "get"
+              method: "get",
             }
           )
             .then((res) => {
@@ -253,7 +253,7 @@ export default function Data(props) {
 
             try {
               xml = await fetch(
-                `/api/geoserver/rest/styles/${style.style.name}.sld`,
+                `/geoserver/rest/styles/${style.style.name}.sld`,
                 {
                   headers: headers,
                 }
@@ -283,7 +283,7 @@ export default function Data(props) {
             } catch (error) {
               try {
                 xml = await fetch(
-                  `/api/geoserver/rest/workspaces/${workspace}/styles/${style.style.name}.sld`,
+                  `/geoserver/rest/workspaces/${workspace}/styles/${style.style.name}.sld`,
                   {
                     headers: headers,
                   }
@@ -363,7 +363,7 @@ export default function Data(props) {
   }
 
   function getUrl(workspace, layer) {
-    return `/api/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&outputFormat=json`;
+    return `/geoserver/${workspace}/wfs?request=GetFeature&version=1.0.0&typeName=${workspace}:${layer}&outputFormat=json`;
   }
 
   const getSelected = (value) => {

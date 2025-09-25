@@ -76,7 +76,7 @@ export default function LoadLayer(props) {
   }, [isRaster]);
 
   function getRasterUrl(url) {
-    return `/api/geoserver/${
+    return `/geoserver/${
       url.split(":")[0]
     }/wms?service=wms&version=1.1.1&request=GetCapabilities&layers=${url}`;
   }
@@ -113,11 +113,11 @@ export default function LoadLayer(props) {
 
   function getUrl(url, filters) {
     if (!filters) {
-      return `/api/geoserver/${
+      return `/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
     } else {
-      return `/api/geoserver/${
+      return `/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&${filters}&outputFormat=json`;
     }
@@ -153,7 +153,7 @@ export default function LoadLayer(props) {
             format="image/png"
             layers={`layers=${raster}`}
             transparent="true"
-            url={`/api/geoserver/${raster.split(":")[0]}/wms?`}
+            url={`/geoserver/${raster.split(":")[0]}/wms?`}
           />
         </Overlay>
       )}

@@ -117,10 +117,10 @@ export default function MapPreview(props) {
 
     fetch(
       encodeURI(
-        `/api/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+        `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
       ),
       {
-        method: "get"
+        method: "get",
       }
     )
       .then((res) => {
@@ -224,7 +224,7 @@ export default function MapPreview(props) {
 
     try {
       const dt = await fetch(
-        `/api/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
+        `/geoserver/rest/layers/${item?.url.split(":")[1]}.json`,
         {
           headers: headers,
         }
@@ -243,10 +243,10 @@ export default function MapPreview(props) {
       if (dataType === "RASTER") {
         await fetch(
           encodeURI(
-            `/api/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
+            `/geoserver/gwc/service/wmts?REQUEST=GetCapabilities&format=xml`
           ),
           {
-            method: "get"
+            method: "get",
           }
         )
           .then((res) => {
@@ -520,11 +520,11 @@ export default function MapPreview(props) {
 
   function getUrl(url, filters) {
     if (!filters) {
-      return `/api/geoserver/${
+      return `/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
     } else {
-      return `/api/geoserver/${
+      return `/geoserver/${
         url.split(":")[0]
       }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&${filters}&outputFormat=json`;
     }
@@ -619,7 +619,7 @@ export default function MapPreview(props) {
   };
 
   return (
-    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Box sx={{ position: "relative", flex: 1 }}>
         <Box
           ref={mapElement}
@@ -741,6 +741,9 @@ export default function MapPreview(props) {
             setBody={setBody}
           />
         )}
+      </Box>
+      <Box sx={{ my: 4 }}>
+        <PreviewData body={body} />
       </Box>
     </Box>
   );

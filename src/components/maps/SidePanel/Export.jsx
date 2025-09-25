@@ -109,12 +109,9 @@ export default function Export(props) {
     setError("");
     if (Array.isArray(props.body.Data)) {
       props.body.Data.forEach(async (item) => {
-        await fetch(
-          `/api/geoserver/rest/layers/${item.url.split(":")[1]}.json`,
-          {
-            headers: headers,
-          }
-        )
+        await fetch(`/geoserver/rest/layers/${item.url.split(":")[1]}.json`, {
+          headers: headers,
+        })
           .then((res) => {
             if (res.ok) return res.json();
           })
@@ -142,7 +139,7 @@ export default function Export(props) {
                   d +
                   "=> " +
                   base_url +
-                  `/api/geoserver/${
+                  `/geoserver/${
                     item.url.split(":")[0]
                   }/wms?request=GetMap&layers=${item.url}&format=image/png`;
                 d = d + "=> " + base_url + getUrl(item.url) + "\n";
@@ -165,9 +162,7 @@ export default function Export(props) {
       });
     } else {
       fetch(
-        `/api/geoserver/rest/layers/${
-          props.body.Data[0].url.split(":")[1]
-        }.json`,
+        `/geoserver/rest/layers/${props.body.Data[0].url.split(":")[1]}.json`,
         {
           headers: headers,
         }
@@ -192,7 +187,7 @@ export default function Export(props) {
                   d +
                   "=> " +
                   base_url +
-                  `/api/geoserver/${
+                  `/geoserver/${
                     props.body.Data[0].url.split(":")[0]
                   }/wms?request=GetMap&layers=${
                     props.body.Data[0].url
@@ -264,11 +259,11 @@ export default function Export(props) {
   };
 
   function getWms(url, ext) {
-    return `/api/geoserver/wms/reflect?layers=${url}&format=image/${ext}&width=800`;
+    return `/geoserver/wms/reflect?layers=${url}&format=image/${ext}&width=800`;
   }
 
   function getUrl(url) {
-    return `/api/geoserver/${
+    return `/geoserver/${
       url.split(":")[0]
     }/wfs?request=GetFeature&version=1.0.0&typeName=${url}&outputFormat=json`;
   }
